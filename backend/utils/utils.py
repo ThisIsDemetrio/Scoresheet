@@ -1,3 +1,6 @@
+import hashlib
+
+
 def first(iterable, default=None):
     """
     Given a list of objects, iterable, returns the first element that matches the condition
@@ -5,3 +8,10 @@ def first(iterable, default=None):
     for item in iterable:
         return item
     return default
+
+
+def hash(string: str) -> str:
+    """
+    Hash a string
+    """
+    return hashlib.md5(string)

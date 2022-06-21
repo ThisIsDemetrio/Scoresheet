@@ -5,6 +5,7 @@ class Player(BaseModel):
     id: str
     name: str
     avatarUrl: str | None = None
+    groups: list[str]
 
     class Config:
         schema_extra = {
@@ -12,5 +13,6 @@ class Player(BaseModel):
                 "id": "",
                 "name": "Erica",
                 "avatar": "cat",
+                "groups": []
             }
         }
