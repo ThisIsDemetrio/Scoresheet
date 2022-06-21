@@ -3,9 +3,12 @@ from backend.models.player import Player
 from backend.utils.utils import first
 
 # TODO: Create DB connection
-
-players: list[Player] = [{"id": "1", "name": "Erica"}, {"id": "2", "name": "Sabrina"}, {
-    "id": "3", "name": "Chiara"}, {"id": "4", "name": "Gabriella"}]
+players: list[Player] = [
+    {"id": "1", "name": "Erica"},
+    {"id": "2", "name": "Sabrina"},
+    {"id": "3", "name": "Chiara"},
+    {"id": "4", "name": "Gabriella"}
+]
 
 
 def get_all() -> list[Player]:
@@ -26,10 +29,11 @@ def add_player(player: Player) -> None:
         update_player(player.id, player)
         return
     player.id = uuid.uuid4()
-    players.push(player)
+    players.append(player)
 
 
 def update_player(playerId: str, player: Player) -> None:
+    # TODO: Handle ValueError?
     index = players.index(
         player for player in players if player.id == playerId)
     players[index] = player

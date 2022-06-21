@@ -10,7 +10,7 @@ def first(iterable, default=None):
     return default
 
 
-def hash(string: str) -> str:
+def hashString(string: str) -> str:
     """
     Hash a string
     """

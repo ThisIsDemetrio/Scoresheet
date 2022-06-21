@@ -9,7 +9,7 @@ class Player(BaseModel):
 
     class Config:
         schema_extra = {
-            "example": {
+            "Creation example": {
                 "id": "",
                 "name": "Erica",
                 "avatar": "cat",
