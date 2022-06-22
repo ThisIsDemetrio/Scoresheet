@@ -1,6 +1,8 @@
 from lib2to3.pytree import Base
 from pydantic import BaseModel
 
+from bson import ObjectId
+
 
 class GroupParticipant(BaseModel):
     playerId: str
@@ -8,6 +10,7 @@ class GroupParticipant(BaseModel):
 
 
 class Group(BaseModel):
+    _id: ObjectId
     id: str
     name: str
     creatorId: str
