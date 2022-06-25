@@ -1,6 +1,6 @@
 from typing import Dict
 from pydantic import BaseModel
-from bson import ObjectId
+from bson.objectid import ObjectId
 
 
 class Game(BaseModel):

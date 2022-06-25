@@ -1,6 +1,6 @@
-import uuid
 from backend.models.player import Player
-from backend.utils.utils import first
+from backend.database import players_collection
+from bson.objectid import ObjectId
 
 # TODO: Create DB connection
 players: list[Player] = [
@@ -11,33 +11,35 @@ players: list[Player] = [
 ]
 
 
-def get_all() -> list[Player]:
-    return players
+async def get_all() -> list[Player]:
+    result = []
+    async for player in players_collection.find():
+        result.append(player)
+    return result
 
 
-def get_player_by_id(id: str) -> Player:
-    return first(player for player in players if player.id == id)
+async def get_player_by_id(id: str) -> Player:
+    return await players_collection.find_one({"_id": ObjectId(id)})
 
 
-def get_players_by_name(name: str) -> list[Player]:
-    return [player for player in players if str.strip().lower() in player.name.lower()]
+async def get_players_by_name(name: str) -> list[Player]:
+    return await players_collection.find({name: name})
 
 
-def add_player(player: Player) -> None:
+async def add_player(player: Player) -> None:
     # safety check: if player has an Id, then update the existing resource
     if (player.id is not None):
         update_player(player.id, player)
         return
-    player.id = uuid.uuid4()
-    players.append(player)
+    await players_collection.insert_one(player)
 
 
-def update_player(playerId: str, player: Player) -> None:
+async def update_player(playerId: str, player: Player) -> None:
     # TODO: Handle ValueError?
-    index = players.index(
-        player for player in players if player.id == playerId)
-    players[index] = player
+    await players_collection.update_one({"_id": ObjectId(id)}, {"$set": player})
 
 
-def delete_player(playerId: str) -> None:
-    players = [player for player in players if player.id != playerId]
+async def delete_player(playerId: str) -> None:
+    player = await players_collection.find_one({"_id": ObjectId(playerId)})
+    if player:
+        await players_collection.delete_one({"_id": ObjectId(playerId)})

@@ -1,7 +1,5 @@
-from lib2to3.pytree import Base
 from pydantic import BaseModel
-
-from bson import ObjectId
+from bson.objectid import ObjectId
 
 
 class GroupParticipant(BaseModel):

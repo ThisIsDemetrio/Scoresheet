@@ -1,6 +1,6 @@
 from pydantic import BaseModel
+from bson.objectid import ObjectId
 
-from bson import ObjectId
 
 class Player(BaseModel):
     _id: ObjectId
