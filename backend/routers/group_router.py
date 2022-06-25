@@ -5,7 +5,7 @@ from backend.models.group import Group
 from backend.models.player import Player
 import backend.BL.group_logic as GroupLogic
 
-router = APIRouter(prefix="/group")
+router = APIRouter(prefix="/Group")
 
 
 @router.post("/Add")

@@ -2,7 +2,7 @@ from fastapi import APIRouter
 import backend.BL.player_logic as PlayerLogic
 from backend.models.player import Player
 
-router = APIRouter(prefix="/players")
+router = APIRouter(prefix="/Players")
 
 
 @router.get("/GetAll", tags=["players"])

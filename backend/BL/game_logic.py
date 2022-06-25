@@ -7,7 +7,7 @@ games: list[Game] = [
     {
         "id": "game01",
         "finished": False,
-        "groupId": "group01"
+        "groupId": "group01",
         "participantIds": ["1", "2", "3", "4"],
         "results": [
             {"2": 21},

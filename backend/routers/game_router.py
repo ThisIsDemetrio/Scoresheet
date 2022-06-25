@@ -1,10 +1,8 @@
 from fastapi import APIRouter
-from backend.models.delete_group_response import DeleteGroupResponse
 from backend.models.game import Game
-from backend.models.player import Player
 import backend.BL.game_logic as GameLogic
 
-router = APIRouter(prefix="/game")
+router = APIRouter(prefix="/Game")
 
 
 @router.get("/Get/{id}")
