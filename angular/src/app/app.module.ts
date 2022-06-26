@@ -9,18 +9,13 @@ import { HomeComponent } from "./components/home/home.component";
 import { ENDPOINT_URL, MOCK_MODE } from "./providers/tokens";
 
 @NgModule({
-    bootstrap: [AppComponent],
-    imports: [NativeScriptModule, AppRoutingModule],
-    declarations: [
-        AppComponent,
-        ItemsComponent,
-        ItemDetailComponent,
-        HomeComponent,
-    ],
-    providers: [
-        { provide: ENDPOINT_URL, useValue: "./" },
-        { provide: MOCK_MODE, useValue: true },
-    ],
-    schemas: [NO_ERRORS_SCHEMA],
+	bootstrap: [AppComponent],
+	imports: [NativeScriptModule, AppRoutingModule],
+	declarations: [AppComponent, ItemsComponent, ItemDetailComponent, HomeComponent],
+	providers: [
+		{ provide: ENDPOINT_URL, useValue: "./" },
+		{ provide: MOCK_MODE, useValue: true },
+	],
+	schemas: [NO_ERRORS_SCHEMA],
 })
 export class AppModule {}

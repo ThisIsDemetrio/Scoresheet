@@ -1,4 +1,4 @@
 export interface IdPasswordModel {
-    id: string;
-    password: string;
+	id: string;
+	password: string;
 }
