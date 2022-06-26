@@ -1,7 +1,9 @@
 import uuid
 from backend.models.delete_group_response import DeleteGroupReasonCode, DeleteGroupResponse
 from backend.models.group import Group, GroupParticipant
-from backend.BL.player_logic import players
+from backend.BL import player_logic
+from backend.database import groups_collection
+from bson.objectid import ObjectId
 import pydash
 
 from backend.models.player import Player
@@ -23,69 +25,81 @@ groups: list[Group] = [
 ]
 
 
-def create_group(group: Group, password: str) -> None:
+async def get_group_by_id(id: str) -> Player:
+    return await groups_collection.find_one({"_id": ObjectId(id)})
+
+
+async def create_group(group: Group, password: str) -> None:
     if (group.id is not None):
-        update_group(group)
+        await update_group(group)
 
-    group.id = uuid.uuid4()
     group.password = hashString(password)
-    groups.append(group)
+    await groups_collection.insert_one(group)
 
 
-def update_group(id: str, group: Group, password: str) -> None:
-    # TODO: Handle ValueError
-    index = groups.index(group for group in groups if group.id == id)
-    if (groups[index].password != hashString(password)):
+async def update_group(id: str, groupToUpdate: Group, password: str) -> None:
+    if (len(groupToUpdate) < 1):
+        raise Exception("Data not valid")
+
+    group = await get_group_by_id(id)
+    if (group.password != hashString(password)):
         raise Exception("Password not valid")
 
-    if (group.password == ""):
-        group.password = groups[index].password
-    groups[index] = group
+    if (groupToUpdate.password == ""):
+        groupToUpdate.password = group.password
+    await groups_collection.update_one({"_id": ObjectId(id)}, {"$set": group})
 
 
-def get_players_in_group(id: str) -> list[Player]:
-    group: Group = pydash.find(groups, lambda group: group.id == id)
-    playerIds: list[str] = pydash.map_(group.participants, "id")
-    return [player for player in players if player.id in playerIds]
+async def get_players_in_group(id: str) -> list[Player]:
+    group: Group = groups_collection.find_one({"_id": ObjectId(id)})
+    playerIds: list[str] = []
+    for participant in group.participants:
+        playerIds.append(participant.playerId)
+    return await player_logic.get_players_by_name(playerIds)
 
 
-def join_group(playerId: str, groupId: str, password: str) -> None:
-    index = groups.index(group for group in groups if group.id == id)
-    if (groups[index].password != hashString(password)):
+async def join_group(playerId: str, groupId: str, password: str) -> None:
+    # index = groups.index(group for group in groups if group.id == id)
+    groupToJoin = await get_group_by_id(groupId)
+    if (groupToJoin.password != hashString(password)):
         raise Exception("Password not valid")
 
     playerInGroup = pydash.find(
-        groups[index].participants, lambda player: player.id == playerId)
+        groupToJoin.participants, lambda player: player.id == playerId)
     if (playerInGroup is None):
         participant = GroupParticipant()
         participant.playerId = playerId
         participant.isActive = True
-        groups[index].participants.append(participant)
+        groupToJoin.participants.append(participant)
     else:
         playerInGroup.isActive = True
 
+    await groups_collection.update_one({"_id": groupToJoin._id}, {"$set": groupToJoin})
 
-def leave_group(playerId: str, groupId: str) -> None:
-    index = groups.index(group for group in groups if group.id == id)
-    if (groups[index].creatorId == playerId):
+
+async def leave_group(playerId: str, groupId: str) -> None:
+    groupToLeave = await get_group_by_id(groupId)
+    if (groupToLeave.creatorId == playerId):
         raise Exception("You can leave the group you created")
 
     playerInGroup = pydash.find(
-        groups[index].participants, lambda player: player.id == playerId)
+        groupToLeave.participants, lambda player: player.id == playerId)
     playerInGroup.isActive = False
+    await groups_collection.update_one({"_id": groupToLeave._id}, {"$set": groupToLeave})
 
 
-def delete_group(playerId: str, groupId: str) -> DeleteGroupResponse:
-    index = groups.index(group for group in groups if group.id == id)
+async def delete_group(playerId: str, groupId: str) -> DeleteGroupResponse:
+    groupToRemove = await get_group_by_id(groupId)
 
     result = DeleteGroupResponse()
     canDelete = len(
-        groups[index].participants) == 1 and groups[index].creatorId == playerId
+        groupToRemove.participants) == 1 and groupToRemove.creatorId == playerId
 
     if (not canDelete):
         result.success = False
         result.reasonCode = DeleteGroupReasonCode.GroupNotEmpty
     else:
+        groups_collection.delete_one({"_id": ObjectId(groupId)})
         result.success = True
         result.reasonCode = DeleteGroupReasonCode.Success
 

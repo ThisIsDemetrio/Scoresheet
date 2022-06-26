@@ -1,5 +1,6 @@
-import uuid
 from backend.models.game import Game
+from backend.database import games_collection
+from bson.objectid import ObjectId
 
 
 # TODO: Create DB connection
@@ -23,29 +24,30 @@ games: list[Game] = [
 ]
 
 
-def get_games_by_groupId(groupId) -> list[Game]:
-    return [game for game in games if game.groupId == groupId]
+async def get_games_by_groupId(groupId) -> list[Game]:
+    return await games_collection.find({"groupId": groupId})
 
 
-def get_game_by_id(id: str) -> list[Game]:
-    return [game for game in games if game.id == id]
+async def get_game_by_id(id: str) -> list[Game]:
+    return await games_collection.find({"_id": ObjectId(id)})
 
 
-def create_game(game: Game) -> None:
+async def create_game(game: Game) -> None:
     # safety check: if player has an Id, then update the existing resource
     if (game.id is not None):
-        update_game(game.id, game)
+        await update_game(game.id, game)
         return
-    game.id = uuid.uuid4()
-    games.append(game)
+    await games_collection.insert_one(game)
 
 
-def update_game(gameId: str, game: Game) -> None:
-    # TODO: Handle ValueError?
-    index = games.index(
-        game for game in games if game.id == gameId)
-    games[index] = game
+async def update_game(id: str, game: Game) -> None:
+    if (len(game) < 1):
+        return
+
+    await games_collection.update_one({"_id": ObjectId(id)}, {"$set": game})
 
 
-def delete_game(gameId: str) -> None:
-    games = [game for game in games if game.id != gameId]
+async def delete_game(gameId: str) -> None:
+    game = await get_game_by_id(gameId)
+    if (game):
+        await games_collection.delete_one({"_id": ObjectId(gameId)})
