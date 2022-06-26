@@ -5,7 +5,6 @@ from bson.objectid import ObjectId
 
 class Game(BaseModel):
     _id: ObjectId
-    id: str
     finished: bool
     groupId: str
     participantIds: list[str]

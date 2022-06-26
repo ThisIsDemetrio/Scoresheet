@@ -9,7 +9,6 @@ class GroupParticipant(BaseModel):
 
 class Group(BaseModel):
     _id: ObjectId
-    id: str
     name: str
     creatorId: str
     password: str
@@ -19,7 +18,7 @@ class Group(BaseModel):
     class Config:
         schema_extra = {
             "Creation example": {
-                "id": "",
+                "_id": 'ObjectId("55880c251df42d0466919268")',
                 "name": "Scrabble lovers",
                 "creatorId": "1",
                 "password": "",
