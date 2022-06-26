@@ -2,8 +2,16 @@ from pydantic import BaseModel
 
 
 class AuthenticationModel(BaseModel):
-    id: str
+    username: str
     password: str
+
+
+class UserModel(AuthenticationModel):
+    playerId: str
+
+
+class AccessTokenModel(BaseModel):
+    access_token: str
 
 
 class Settings(BaseModel):

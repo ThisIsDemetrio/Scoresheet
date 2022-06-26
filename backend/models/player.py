@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 
 class Player(BaseModel):
     _id: ObjectId
+    id: str
     name: str
     avatarUrl: str | None = None
     groups: list[str]
@@ -12,8 +13,9 @@ class Player(BaseModel):
         schema_extra = {
             "Creation example": {
                 "_id": 'ObjectId("55880c251df42d0466919268")',
+                "id": "uuid4Id",
                 "name": "Erica",
                 "avatar": "cat",
-                "groups": []
+                "groups": ["scrabbleGroupId"]
             }
         }
