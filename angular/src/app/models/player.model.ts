@@ -1,4 +1,4 @@
-export class PlayerWithPassword {
+export interface PlayerWithPassword {
 	id: string;
 	password: string;
 	name: string;

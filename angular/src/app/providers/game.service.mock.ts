@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { Game } from "../models/game.model";
-import { MOCK_GROUPS } from "./group.service.mock";
 
 export const MOCK_GAMES: Game[] = [
 	{

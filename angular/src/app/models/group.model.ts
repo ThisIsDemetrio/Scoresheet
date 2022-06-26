@@ -7,7 +7,7 @@ export interface Group {
 	participants: GroupParticipant[];
 }
 
-export class GroupParticipant {
+export interface GroupParticipant {
 	playerId: string;
 	isActive: boolean;
 }
