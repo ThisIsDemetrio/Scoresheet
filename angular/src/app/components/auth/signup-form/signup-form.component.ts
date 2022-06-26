@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit } from "@angular/core";
-import { AuthService } from "src/app/providers/auth.service";
+import { Component, EventEmitter } from "@angular/core";
+import { AuthService } from "../../../providers/auth.service";
 
 @Component({
 	selector: "app-signup-form",
@@ -24,6 +24,14 @@ export class SignupFormComponent {
 	}
 
 	signup(): void {
-		// TODO: login
+		this.authService
+			.signup({
+				id: this.username,
+				password: this.password,
+			})
+			.subscribe
+			// TODO: Route to home in case of success
+			// TODO: Handle error
+			();
 	}
 }

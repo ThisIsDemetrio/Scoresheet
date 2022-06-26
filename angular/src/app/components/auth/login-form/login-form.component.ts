@@ -1,5 +1,5 @@
 import { Component, EventEmitter } from "@angular/core";
-import { AuthService } from "src/app/providers/auth.service";
+import { AuthService } from "../../../providers/auth.service";
 
 @Component({
 	selector: "app-login-form",
@@ -23,6 +23,14 @@ export class LoginFormComponent {
 	}
 
 	login(): void {
-		// TODO: login
+		this.authService
+			.login({
+				id: this.username,
+				password: this.password,
+			})
+			.subscribe
+			// TODO: Route to home in case of success
+			// TODO: Handle error
+			();
 	}
 }
