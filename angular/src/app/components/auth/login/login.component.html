@@ -1,2 +1,2 @@
-<login-form *ngIf="formShown === 'login'" (signupPageRequested)="onSignupPageRequested()"></login-form>
-<signup-form *ngIf="formShown === 'signup'" (loginPageRequested)="onLoginPageRequested()"></signup-form>
+<app-login-form *ngIf="formShown === 'login'" (signupPageRequested)="onSignupPageRequested()"></app-login-form>
+<app-signup-form *ngIf="formShown === 'signup'" (loginPageRequested)="onLoginPageRequested()"></app-signup-form>
