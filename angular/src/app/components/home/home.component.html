@@ -1,0 +1,17 @@
+
+<ActionBar title="ScoreSheet"> </ActionBar>
+
+<GridLayout row="*, *, *, *" columns="*">
+	<StackLayout [nsRouterLink]="['/game']">
+		<Label text="Gioca una partita"></Label>
+	</StackLayout>
+	<StackLayout [nsRouterLink]="['/history']">
+		<Label text="Le mie ultime partite"></Label>
+	</StackLayout>
+	<StackLayout [nsRouterLink]="['/groups']">
+		<Label text="I miei gruppi"></Label>
+	</StackLayout>
+	<StackLayout [nsRouterLink]="['/options']">
+		<Label text="Opzioni utente"></Label>
+	</StackLayout>
+  </GridLayout>
