@@ -8,12 +8,12 @@ from backend.models.auth import AuthenticationModel
 router = APIRouter(prefix="/Auth")
 
 
-@router.get("/")
+@router.get("/", tags=["Authentication"])
 def read_root():
     return {"Hello": "World Rasyue"}
 
 
-@router.post('/login')
+@router.post('/login', tags=["Authentication"])
 def login(loginData: AuthenticationModel, Authorize: AuthJWT = Depends()):
     # user.username
     # user.password
@@ -24,7 +24,7 @@ def login(loginData: AuthenticationModel, Authorize: AuthJWT = Depends()):
     return {"access_token": access_token}
 
 
-@router.get('/test-jwt')
+@router.get('/test-jwt', tags=["Authentication"])
 def user(Authorize: AuthJWT = Depends()):
 
     Authorize.jwt_required()
