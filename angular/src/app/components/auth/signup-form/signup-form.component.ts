@@ -15,7 +15,7 @@ export class SignupFormComponent {
 
 	constructor(private readonly authService: AuthService) {}
 
-	changeToSignupPage(): void {
+	changeToLoginPage(): void {
 		this.loginPageRequested.emit();
 	}
 
