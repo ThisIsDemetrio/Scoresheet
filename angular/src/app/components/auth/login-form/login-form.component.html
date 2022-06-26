@@ -1,0 +1,13 @@
+<div class="wrapper">
+	<div class="title">Log In</div>
+	<mat-form-field>
+		<mat-label>Username</mat-label>
+		<input matInput type="text" required class="username" [(ngModel)]="username" />
+	</mat-form-field>
+	<mat-form-field>
+		<mat-label>Password</mat-label>
+		<input matInput type="password" required class="password" [(ngModel)]="password" />
+	</mat-form-field>
+	<p class="signup-note" (click)="changeToSignupPage()">Non sei iscritto? Clicca qui per registrarti!</p>
+	<button mat-button class="login-btn" [disabled]="canLogin()" (click)="login()">Entra</button>
+</div>
