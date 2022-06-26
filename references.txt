@@ -1,0 +1,4 @@
+FastAPI - Mongo
+
+https://testdriven.io/blog/fastapi-mongo
+https://www.mongodb.com/developer/languages/python/python-quickstart-fastapi/
