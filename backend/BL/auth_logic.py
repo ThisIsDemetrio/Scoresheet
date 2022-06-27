@@ -1,4 +1,3 @@
-from xmlrpc.client import boolean
 from backend.models.auth_models import AuthenticatedUserModel, UserModel, LoginModel, SignupModel
 from fastapi import Depends, HTTPException
 from fastapi_jwt_auth import AuthJWT
@@ -6,9 +5,9 @@ from backend.utils.utils import generateUuid4, hashString
 from database import auth_collection, players_collection
 
 
-async def isUsernameTaken(username: str) -> boolean:
+async def isUsernameAvailable(username: str) -> bool:
     user = await auth_collection.find({"username": username})
-    return user is not None
+    return user is None
 
 
 async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
@@ -29,7 +28,7 @@ async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> Authen
 
 
 async def signup(signupData: SignupModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
-    if (await isUsernameTaken(signupData.loginData.username)):
+    if (await isUsernameAvailable(signupData.loginData.username) == False):
         raise HTTPException(400, "Username taken")
 
     player = signupData.player

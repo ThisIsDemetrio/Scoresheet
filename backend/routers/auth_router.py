@@ -9,6 +9,11 @@ from backend.models.auth_models import AuthenticatedUserModel, LoginModel, Signu
 router = APIRouter(prefix="/Auth")
 
 
+@router.get('/IsUsernameAvailable/{username}')
+async def isUsernameAvailable(username: str) -> bool:
+    return await auth_logic.isUsernameAvailable(username)
+
+
 @router.post('/Login', tags=["Authentication"])
 async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
     return await auth_logic.login(loginData)
