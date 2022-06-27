@@ -1,0 +1,36 @@
+:host {
+	.wrapper {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: 100%;
+		width: 100%;
+
+		.title {
+			color: black;
+			font-size: 400%;
+			font-weight: 500;
+			margin-bottom: 4rem;
+			text-align: center;
+		}
+
+		.username-field,
+		.password-field,
+		.repeat-password-field {
+			width: 75%;
+			margin-bottom: 1rem;
+		}
+
+		.signup-note {
+			color: blueviolet;
+			cursor: pointer;
+			text-decoration: underline;
+		}
+		.login-btn {
+			margin-top: 0.5rem;
+			width: 75%;
+			padding: 0.25rem;
+		}
+	}
+}

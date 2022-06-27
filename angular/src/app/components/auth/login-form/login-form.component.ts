@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { AuthService } from "../../../providers/auth.service";
 
 @Component({
@@ -10,7 +10,7 @@ export class LoginFormComponent {
 	username: string = "";
 	password: string = "";
 
-	signupPageRequested = new EventEmitter<void>();
+	@Output() signupPageRequested = new EventEmitter<void>();
 
 	constructor(private readonly authService: AuthService) {}
 

@@ -1,17 +1,17 @@
 <div class="wrapper">
 	<div class="title">Registrati</div>
-	<mat-form-field>
+	<mat-form-field class="username-field">
 		<mat-label>Username</mat-label>
 		<input matInput type="text" required class="username" [(ngModel)]="username" />
 	</mat-form-field>
-	<mat-form-field>
+	<mat-form-field class="password-field">
 		<mat-label>Password</mat-label>
 		<input matInput type="password" required class="password" [(ngModel)]="password" />
 	</mat-form-field>
-	<mat-form-field>
+	<mat-form-field class="repeat-password-field">
 		<mat-label>Ripeti la password</mat-label>
 		<input matInput type="password" required class="password" [(ngModel)]="repeatedPassword" />
 	</mat-form-field>
 	<p class="signup-note" (click)="changeToLoginPage()">Sei già iscritto? Clicca qui per collegarti!</p>
-	<button mat-button class="signup-btn" [disabled]="canSignup()" (click)="signup()">Registrati</button>
+	<button mat-button class="signup-btn" [disabled]="!canSignup()" (click)="signup()">Registrati</button>
 </div>
