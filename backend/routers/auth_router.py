@@ -2,32 +2,21 @@
 
 from fastapi import APIRouter, Depends
 from fastapi_jwt_auth import AuthJWT
-from backend.models.auth import AuthenticationModel
+from backend.BL import auth_logic
+from backend.models.auth_models import AuthenticatedUserModel, LoginModel, SignupModel
 
 
 router = APIRouter(prefix="/Auth")
 
 
 @router.post('/Login', tags=["Authentication"])
-async def login(loginData: AuthenticationModel, Authorize: AuthJWT = Depends()):
-    # user.username
-    # user.password
-    # this is the part where we will check the user credentials with our database record
-    # but since we are not going to use any db, straight away we will just create the token and send it back
-    # subject identifier for who this token is for example id or username from database
-    access_token = Authorize.create_access_token(subject=loginData.username)
-    return {"access_token": access_token}
+async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
+    return await auth_logic.login(loginData)
 
 
 @router.post('/Signup', tags=["Authentication"])
-async def signup(loginData: AuthenticationModel, Authorize: AuthJWT = Depends()):
-    # user.username
-    # user.password
-    # this is the part where we will check the user credentials with our database record
-    # but since we are not going to use any db, straight away we will just create the token and send it back
-    # subject identifier for who this token is for example id or username from database
-    access_token = Authorize.create_access_token(subject=loginData.username)
-    return {"access_token": access_token}
+async def signup(signupData: SignupModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
+    return await auth_logic.signup(signupData)
 
 
 @router.get('/test-jwt', tags=["Authentication"])
