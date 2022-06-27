@@ -2,7 +2,7 @@ from backend.models.auth_models import AuthenticatedUserModel, UserModel, LoginM
 from fastapi import Depends, HTTPException
 from fastapi_jwt_auth import AuthJWT
 from backend.utils.utils import generateUuid4, hashString
-from database import auth_collection, players_collection
+from backend.database import auth_collection, players_collection
 
 
 async def isUsernameAvailable(username: str) -> bool:
