@@ -2,9 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, tap } from "rxjs";
-import { AuthenticatedUserModel } from "../models/auth.model";
+import { AuthenticatedUserModel, LoginModel, SignupModel } from "../models/auth.model";
 import { Player } from "../models/player.model";
-import { AuthenticationModel } from "../models/shared.model";
 import { ENDPOINT_URL } from "./tokens";
 
 const CURRENT_USER = "ScoreSheetCurrentUser";
@@ -40,7 +39,7 @@ export class AuthService {
 	}
 
 	private get endpoint(): string {
-		return `${this.baseUrl}/Auth/`;
+		return `${this.baseUrl}/Auth`;
 	}
 	constructor(
 		@Inject(ENDPOINT_URL) private readonly baseUrl: string,
@@ -48,15 +47,25 @@ export class AuthService {
 		private readonly router: Router
 	) {}
 
-	login(loginData: AuthenticationModel): Observable<AuthenticatedUserModel> {
+	login(loginData: LoginModel): Observable<AuthenticatedUserModel> {
 		return this.httpClient
-			.post<AuthenticatedUserModel>(`${this.endpoint}/Login`, { loginData })
+			.post<AuthenticatedUserModel>(`${this.endpoint}/Login`, loginData)
 			.pipe(tap(res => (this.accessToken = res.accessToken)));
 	}
 
-	signup(signupData: AuthenticationModel): Observable<AuthenticatedUserModel> {
+	signup(loginData: LoginModel): Observable<AuthenticatedUserModel> {
+		// TODO: Maybe I should receive here more info (like something about the player...)
+		const signupData: SignupModel = {
+			loginData,
+			player: {
+				id: null,
+				name: loginData.username,
+				groups: [],
+			},
+		};
+
 		return this.httpClient
-			.post<AuthenticatedUserModel>(`${this.endpoint}/Signup`, { signupData })
+			.post<AuthenticatedUserModel>(`${this.endpoint}/Signup`, signupData)
 			.pipe(tap(res => (this.accessToken = res.accessToken)));
 	}
 

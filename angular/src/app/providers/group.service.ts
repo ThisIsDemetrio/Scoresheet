@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ENDPOINT_URL } from "./tokens";
 import { CreateGroupData, Group } from "../models/group.model";
-import { AuthenticationModel } from "../models/shared.model";
+import { LoginModel } from "../models/shared.model";
 import { Player } from "../models/player.model";
 
 @Injectable()
@@ -27,7 +27,7 @@ export class GroupService {
 	}
 
 	joinGroup(groupId: string, username: string, password: string): Observable<boolean> {
-		const body: AuthenticationModel = { username, password };
+		const body: LoginModel = { username, password };
 		return this.httpClient.post<boolean>(`${this.baseUrl}/Join/${groupId}`, body);
 	}
 

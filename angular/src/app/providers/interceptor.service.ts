@@ -15,11 +15,14 @@ export class InterceptorService implements HttpInterceptor {
 		if (!request.headers.has("Content-Type")) {
 			request = request.clone({ headers: request.headers.set("Content-Type", "application/json") });
 		}
-		request = request.clone({ headers: request.headers.set("Accept", "application/json") }).clone({
-			setHeaders: {
-				Authorization: `Bearer ${this._auth.accessToken}`,
-			},
-		});
+
+		const accessToken = this._auth.accessToken;
+		if (accessToken?.length > 0)
+			request = request.clone({ headers: request.headers.set("Accept", "application/json") }).clone({
+				setHeaders: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			});
 
 		return next.handle(request);
 	}

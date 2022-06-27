@@ -1,5 +1,5 @@
 export interface Player {
-	id: string;
+	id: string | null;
 	name: string;
 	avatarUrl?: string;
 	groups: string[];
