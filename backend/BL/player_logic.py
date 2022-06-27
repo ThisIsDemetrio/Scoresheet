@@ -1,4 +1,4 @@
-from backend.models.player import Player
+from backend.models.player_models import Player
 from backend.database import players_collection
 from bson.objectid import ObjectId
 
@@ -31,14 +31,6 @@ async def get_players_by_id(ids: list[str]) -> list[Player]:
 
 async def get_players_by_name(name: str) -> list[Player]:
     return await players_collection.find({"name": name})
-
-
-async def add_player(player: Player) -> None:
-    # safety check: if player has an Id, then update the existing resource
-    if (player.id is not None):
-        await update_player(player.id, player)
-        return
-    await players_collection.insert_one(player)
 
 
 async def update_player(playerId: str, player: Player) -> None:

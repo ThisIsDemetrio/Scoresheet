@@ -1,8 +1,8 @@
 from tokenize import group
 from fastapi import APIRouter
 from backend.models.delete_group_response import DeleteGroupResponse
-from backend.models.group import Group
-from backend.models.player import Player
+from backend.models.group_models import Group
+from backend.models.player_models import Player
 import backend.BL.group_logic as GroupLogic
 
 router = APIRouter(prefix="/Group")

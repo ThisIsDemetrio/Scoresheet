@@ -1,4 +1,4 @@
-from backend.models.auth import Settings
+from backend.models.auth_models import Settings
 from backend.routers import auth_router, game_router, group_router, player_router
 from decouple import config
 from fastapi import FastAPI, Request

@@ -1,12 +1,12 @@
 import uuid
 from backend.models.delete_group_response import DeleteGroupReasonCode, DeleteGroupResponse
-from backend.models.group import Group, GroupParticipant
+from backend.models.group_models import Group, GroupParticipant
 from backend.BL import player_logic
 from backend.database import groups_collection
 from bson.objectid import ObjectId
 import pydash
 
-from backend.models.player import Player
+from backend.models.player_models import Player
 from backend.utils.utils import hashString
 
 # TODO: Create DB connection
