@@ -2,8 +2,7 @@ import { Inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ENDPOINT_URL } from "./tokens";
-import { Player, PlayerWithPassword } from "../models/player.model";
-import { IdPasswordModel } from "../models/shared.model";
+import { Player } from "../models/player.model";
 
 @Injectable()
 export class PlayerService {
@@ -16,19 +15,8 @@ export class PlayerService {
 		return this.httpClient.get<Player>(`${this.endpoint}Get/${id}`);
 	}
 
-	loginPlayer(id: string, password: string): Observable<Player> {
-		const body: IdPasswordModel = { id, password };
-		return this.httpClient.post<Player>(`${this.endpoint}/Login`, body);
-	}
-
 	getPlayersByName(name: string): Observable<Player[]> {
 		return this.httpClient.get<Player[]>(`${this.endpoint}/FilterPlayers/${name}`);
-	}
-
-	createPlayer(player: PlayerWithPassword): Observable<boolean> {
-		return this.httpClient.post<boolean>(`${this.endpoint}/Create`, {
-			player,
-		});
 	}
 
 	updatePlayer(player: Player): Observable<boolean> {

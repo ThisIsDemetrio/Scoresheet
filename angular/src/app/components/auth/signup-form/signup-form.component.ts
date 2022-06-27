@@ -26,7 +26,7 @@ export class SignupFormComponent {
 	signup(): void {
 		this.authService
 			.signup({
-				id: this.username,
+				username: this.username,
 				password: this.password,
 			})
 			.subscribe

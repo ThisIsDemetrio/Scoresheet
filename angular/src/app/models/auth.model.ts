@@ -1,6 +1,6 @@
 import { Player } from "./player.model";
 
-export interface AuthData {
+export interface AuthenticatedUserModel {
 	accessToken: string;
 	userData: Player;
 }

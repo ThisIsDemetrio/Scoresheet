@@ -25,7 +25,7 @@ export class LoginFormComponent {
 	login(): void {
 		this.authService
 			.login({
-				id: this.username,
+				username: this.username,
 				password: this.password,
 			})
 			.subscribe
