@@ -6,7 +6,7 @@ from backend.database import auth_collection, players_collection
 
 
 async def isUsernameAvailable(username: str) -> bool:
-    user = await auth_collection.find({"username": username})
+    user = auth_collection.find_one({"username": username})
     return user is None
 
 
@@ -27,23 +27,23 @@ async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> Authen
     return AuthenticatedUserModel(accessToken=accessToken, player=player)
 
 
-async def signup(signupData: SignupModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
-    if (await isUsernameAvailable(signupData.loginData.username) == False):
+async def signup(data: SignupModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
+    if (await isUsernameAvailable(data.signupData.username) == False):
         raise HTTPException(400, "Username taken")
 
-    player = signupData.player
+    player = data.player
     player.id = generateUuid4()
     await players_collection.insert_one(player)
 
     user = UserModel(
-        username=signupData.loginData.username,
-        password=hashString(signupData.loginData.password),
+        username=data.signupData.username,
+        password=hashString(data.signupData.password),
         playerId=player.id
     )
 
     auth_collection.insert_one(user)
 
-    accessToken = Authorize.create_access_token(subject=signupData.username)
+    accessToken = Authorize.create_access_token(subject=data.username)
     return AuthenticatedUserModel(accessToken=accessToken, player=player)
 
 
