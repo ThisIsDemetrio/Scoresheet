@@ -6,7 +6,7 @@ from backend.database import groups_collection
 from bson.objectid import ObjectId
 import pydash
 
-from backend.models.player_models import Player
+from backend.models.player_models import PlayerModel
 from backend.utils.utils import hashString
 
 # TODO: Create DB connection
@@ -25,7 +25,7 @@ groups: list[Group] = [
 ]
 
 
-async def get_group_by_id(id: str) -> Player:
+async def get_group_by_id(id: str) -> PlayerModel:
     return await groups_collection.find_one({"_id": ObjectId(id)})
 
 
@@ -50,7 +50,7 @@ async def update_group(id: str, groupToUpdate: Group, password: str) -> None:
     await groups_collection.update_one({"_id": ObjectId(id)}, {"$set": group})
 
 
-async def get_players_in_group(id: str) -> list[Player]:
+async def get_players_in_group(id: str) -> list[PlayerModel]:
     group: Group = groups_collection.find_one({"_id": ObjectId(id)})
     playerIds: list[str] = []
     for participant in group.participants:

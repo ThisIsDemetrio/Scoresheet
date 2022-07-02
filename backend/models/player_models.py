@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from bson.objectid import ObjectId
 
 
-class Player(BaseModel):
+class PlayerModel(BaseModel):
     _id: ObjectId
     id: str
     name: str

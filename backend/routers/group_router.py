@@ -2,7 +2,7 @@ from tokenize import group
 from fastapi import APIRouter
 from backend.models.delete_group_response import DeleteGroupResponse
 from backend.models.group_models import Group
-from backend.models.player_models import Player
+from backend.models.player_models import PlayerModel
 import backend.BL.group_logic as GroupLogic
 
 router = APIRouter(prefix="/Group")
@@ -19,7 +19,7 @@ async def update_group(id: str, group: Group, password: str) -> None:
 
 
 @router.get("/GetPlayers/{id}", tags=["Group management"])
-async def get_players_in_group(id: str) -> list[Player]:
+async def get_players_in_group(id: str) -> list[PlayerModel]:
     return GroupLogic.get_players_in_group(id)
 
 
