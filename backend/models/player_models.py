@@ -3,7 +3,6 @@ from bson.objectid import ObjectId
 
 
 class PlayerModel(BaseModel):
-    _id: ObjectId
     id: str
     name: str
     avatarUrl: str | None = None
