@@ -53,17 +53,7 @@ export class AuthService {
 			.pipe(tap(res => (this.accessToken = res.accessToken)));
 	}
 
-	signup(loginData: LoginModel): Observable<AuthenticatedUserModel> {
-		// TODO: Maybe I should receive here more info (like something about the player...)
-		const signupData: SignupModel = {
-			loginData,
-			player: {
-				id: null,
-				name: loginData.username,
-				groups: [],
-			},
-		};
-
+	signup(signupData: SignupModel): Observable<AuthenticatedUserModel> {
 		return this.httpClient
 			.post<AuthenticatedUserModel>(`${this.endpoint}/Signup`, signupData)
 			.pipe(tap(res => (this.accessToken = res.accessToken)));

@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from "@angular/core";
+import { LoginModel } from "src/app/models/auth.model";
+import { Player } from "src/app/models/player.model";
 import { AuthService } from "../../../providers/auth.service";
 
 @Component({
@@ -24,10 +26,22 @@ export class SignupFormComponent {
 	}
 
 	signup(): void {
+		const signupData: LoginModel = {
+			username: this.username,
+			password: this.password,
+		};
+
+		const player: Player = {
+			id: "",
+			groups: [],
+			// TODO: Allow user to select the name and the avatar
+			name: this.username,
+		};
+
 		this.authService
 			.signup({
-				username: this.username,
-				password: this.password,
+				signupData,
+				player,
 			})
 			.subscribe
 			// TODO: Route to home in case of success
