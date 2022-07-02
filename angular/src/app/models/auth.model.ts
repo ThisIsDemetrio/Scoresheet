@@ -11,6 +11,6 @@ export interface LoginModel {
 }
 
 export interface SignupModel {
-	loginData: LoginModel;
+	signupData: LoginModel;
 	player: Player;
 }

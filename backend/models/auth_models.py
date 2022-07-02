@@ -13,7 +13,7 @@ class UserModel(LoginModel):
 
 
 class SignupModel(BaseModel):
-    loginData: LoginModel
+    signupData: LoginModel
     player: Player
 
 
