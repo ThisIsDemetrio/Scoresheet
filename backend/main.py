@@ -1,3 +1,4 @@
+import uvicorn
 from backend.models.auth_models import Settings
 from backend.routers import auth_router, game_router, group_router, player_router
 from decouple import config
@@ -36,3 +37,6 @@ app.include_router(group_router.router)
 app.include_router(player_router.router)
 app.include_router(game_router.router)
 app.include_router(auth_router.router)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
