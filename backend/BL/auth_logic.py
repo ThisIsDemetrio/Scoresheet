@@ -46,7 +46,8 @@ async def signup(data: SignupModel, Authorize: AuthJWT = Depends()) -> Authentic
 
     auth_collection.insert_one(map_from_UserModel(user))
 
-    accessToken = Authorize.create_access_token(subject=data.username)
+    accessToken = Authorize.create_access_token(
+        subject=data.signupData.username)
     return AuthenticatedUserModel(accessToken=accessToken, player=player)
 
 

@@ -16,12 +16,12 @@ async def isUsernameAvailable(username: str) -> bool:
 
 @router.post('/Login')
 async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
-    return await auth_logic.login(loginData)
+    return await auth_logic.login(loginData, Authorize)
 
 
 @router.post('/Signup')
 async def signup(signupData: SignupModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
-    return await auth_logic.signup(signupData)
+    return await auth_logic.signup(signupData, Authorize)
 
 
 @router.get('/test-jwt')
