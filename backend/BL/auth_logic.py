@@ -6,7 +6,7 @@ from backend.database import auth_collection, players_collection
 
 
 async def isUsernameAvailable(username: str) -> bool:
-    user = auth_collection.find_one({"username": username})
+    user = await auth_collection.find_one({"username": username})
     return user is None
 
 
