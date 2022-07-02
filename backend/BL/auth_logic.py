@@ -1,3 +1,5 @@
+from backend.mapping.auth_mapping import map_from_UserModel
+from backend.mapping.player_mapping import map_from_PlayerModel
 from backend.models.auth_models import AuthenticatedUserModel, UserModel, LoginModel, SignupModel
 from fastapi import Depends, HTTPException
 from fastapi_jwt_auth import AuthJWT
@@ -32,8 +34,9 @@ async def signup(data: SignupModel, Authorize: AuthJWT = Depends()) -> Authentic
         raise HTTPException(400, "Username taken")
 
     player = data.player
-    player.id = generateUuid4()
-    await players_collection.insert_one(player)
+    player.id = str(generateUuid4())
+
+    await players_collection.insert_one(map_from_PlayerModel(player))
 
     user = UserModel(
         username=data.signupData.username,
@@ -41,7 +44,7 @@ async def signup(data: SignupModel, Authorize: AuthJWT = Depends()) -> Authentic
         playerId=player.id
     )
 
-    auth_collection.insert_one(user)
+    auth_collection.insert_one(map_from_UserModel(user))
 
     accessToken = Authorize.create_access_token(subject=data.username)
     return AuthenticatedUserModel(accessToken=accessToken, player=player)
