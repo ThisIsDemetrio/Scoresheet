@@ -15,7 +15,7 @@ def hashString(string: str) -> str:
     """
     Hash a string
     """
-    return hashlib.md5(string)
+    return hashlib.md5(string.encode("utf-8")).hexdigest()
 
 
 def generateUuid4() -> str:
