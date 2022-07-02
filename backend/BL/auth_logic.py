@@ -1,5 +1,5 @@
-from backend.mapping.auth_mapping import map_from_UserModel
-from backend.mapping.player_mapping import map_from_PlayerModel
+from backend.mapping.auth_mapping import map_To_UserModel, map_from_UserModel
+from backend.mapping.player_mapping import map_To_PlayerModel, map_from_PlayerModel
 from backend.models.auth_models import AuthenticatedUserModel, UserModel, LoginModel, SignupModel
 from fastapi import Depends, HTTPException
 from fastapi_jwt_auth import AuthJWT
@@ -13,7 +13,9 @@ async def isUsernameAvailable(username: str) -> bool:
 
 
 async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
-    user = await auth_collection.find_one({"username": loginData.username})
+    userDB = await auth_collection.find_one({"username": loginData.username})
+    user = map_To_UserModel(userDB)
+
     if (user is None):
         raise HTTPException(404, "User not found")
 
@@ -21,7 +23,8 @@ async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> Authen
     if (user.password != hashedPassword):
         raise HTTPException(401, "Password not valid")
 
-    player = await players_collection.find_one({"id": user.playerId})
+    playerDB = await players_collection.find_one({"id": user.playerId})
+    player = map_To_PlayerModel(playerDB)
     if (player is None):
         raise HTTPException(404, "Player not found")
 
