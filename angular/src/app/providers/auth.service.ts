@@ -23,6 +23,10 @@ export class AuthService {
 		return (this._accessToken || localStorage.getItem(ACCESS_TOKEN)) ?? "";
 	}
 
+	get isLoggedIn(): boolean {
+		return !!this._accessToken;
+	}
+
 	private _currentUser: Player | null = null;
 	set currentUser(value: Player | null) {
 		localStorage.setItem(CURRENT_USER, JSON.stringify(value ?? {}));

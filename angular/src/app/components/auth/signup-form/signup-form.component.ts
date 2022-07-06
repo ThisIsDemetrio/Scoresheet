@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 import { LoginModel } from "src/app/models/auth.model";
 import { Player } from "src/app/models/player.model";
 import { AuthService } from "../../../providers/auth.service";
@@ -13,9 +15,15 @@ export class SignupFormComponent {
 	password: string = "";
 	repeatedPassword: string = "";
 
+	onPendingRequest = false;
+
 	@Output() loginPageRequested = new EventEmitter<void>();
 
-	constructor(private readonly authService: AuthService) {}
+	constructor(
+		private readonly authService: AuthService,
+		private readonly router: Router,
+		private readonly snackBar: MatSnackBar
+	) {}
 
 	changeToLoginPage(): void {
 		this.loginPageRequested.emit();
@@ -43,9 +51,12 @@ export class SignupFormComponent {
 				signupData,
 				player,
 			})
-			.subscribe
-			// TODO: Route to home in case of success
-			// TODO: Handle error
-			();
+			.subscribe({
+				next: () => this.router.navigate(["/home"]),
+				error: () => {
+					this.onPendingRequest = false;
+					this.snackBar.open("Creazione utente fallita");
+				},
+			});
 	}
 }

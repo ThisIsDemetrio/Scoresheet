@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthService } from "src/app/providers/auth.service";
 
 @Component({
 	selector: "app-login",
@@ -8,8 +10,12 @@ import { Component, OnInit } from "@angular/core";
 export class LoginComponent implements OnInit {
 	formShown: "login" | "signup" = "login";
 
+	constructor(private readonly authService: AuthService, private readonly router: Router) {}
+
 	ngOnInit(): void {
-		// TODO: In case I'm already logged, route me to /home
+		if (this.authService.isLoggedIn) {
+			this.router.navigate(["./home"]);
+		}
 	}
 
 	onSignupPageRequested(): void {

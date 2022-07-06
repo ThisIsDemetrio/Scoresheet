@@ -13,6 +13,7 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InterceptorService } from "./providers/interceptor.service";
 import { environment } from "src/environments/environment";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
 	bootstrap: [AppComponent],
@@ -23,6 +24,7 @@ import { environment } from "src/environments/environment";
 		HttpClientModule,
 		MatButtonModule,
 		MatInputModule,
+		MatSnackBarModule,
 	],
 	declarations: [AppComponent, HomeComponent, LoginComponent, LoginFormComponent, SignupFormComponent],
 	providers: [
