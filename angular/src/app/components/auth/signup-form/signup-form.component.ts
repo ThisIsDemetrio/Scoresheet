@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { LoginModel } from "src/app/models/auth.model";
-import { Player } from "src/app/models/player.model";
+import { PlayerModel } from "src/app/models/player.model";
 import { AuthService } from "../../../providers/auth.service";
 
 @Component({
@@ -39,7 +39,7 @@ export class SignupFormComponent {
 			password: this.password,
 		};
 
-		const player: Player = {
+		const player: PlayerModel = {
 			id: "",
 			groups: [],
 			// TODO: Allow user to select the name and the avatar

@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { Player, PlayerWithPassword } from "../models/player.model";
+import { PlayerModel, PlayerWithPassword } from "../models/player.model";
 
-export const MOCK_PLAYERS: Player[] = [
+export const MOCK_PLAYERS: PlayerModel[] = [
 	{ id: "1", name: "Erica", groups: ["group01"] },
 	{ id: "2", name: "Sabrina", groups: ["group01"] },
 	{ id: "3", name: "Chiara", groups: ["group01"] },
@@ -11,17 +11,17 @@ export const MOCK_PLAYERS: Player[] = [
 
 @Injectable()
 export class PlayerMockService {
-	getPlayer(id: string): Observable<Player | undefined> {
+	getPlayer(id: string): Observable<PlayerModel | undefined> {
 		const result = MOCK_PLAYERS.find(player => player.id === id);
 		return of(result);
 	}
 
-	loginPlayer(id: string, password: string): Observable<Player | undefined> {
+	loginPlayer(id: string, password: string): Observable<PlayerModel | undefined> {
 		const result = MOCK_PLAYERS.find(player => player.id === id);
 		return of(result);
 	}
 
-	getPlayersByName(name: string): Observable<Player[]> {
+	getPlayersByName(name: string): Observable<PlayerModel[]> {
 		const result = MOCK_PLAYERS.filter(player => player.name === name);
 		return of(result);
 	}
@@ -31,7 +31,7 @@ export class PlayerMockService {
 		return of(true);
 	}
 
-	updatePlayer(player: Player): Observable<boolean> {
+	updatePlayer(player: PlayerModel): Observable<boolean> {
 		const index = MOCK_PLAYERS.findIndex(p => p.id === player.id);
 		if (index < 0) return of(false);
 

@@ -3,7 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, tap } from "rxjs";
 import { AuthenticatedUserModel, LoginModel, SignupModel } from "../models/auth.model";
-import { Player } from "../models/player.model";
+import { PlayerModel } from "../models/player.model";
 import { ENDPOINT_URL } from "./tokens";
 
 const CURRENT_USER = "ScoreSheetCurrentUser";
@@ -27,13 +27,13 @@ export class AuthService {
 		return !!this._accessToken;
 	}
 
-	private _currentUser: Player | null = null;
-	set currentUser(value: Player | null) {
+	private _currentUser: PlayerModel | null = null;
+	set currentUser(value: PlayerModel | null) {
 		localStorage.setItem(CURRENT_USER, JSON.stringify(value ?? {}));
 		this._currentUser = !!value ? { ...value } : null;
 	}
 
-	get currentUser(): Player | null {
+	get currentUser(): PlayerModel | null {
 		if (this._currentUser) return this._currentUser;
 
 		const storedCurrentUserData = localStorage.getItem(CURRENT_USER);

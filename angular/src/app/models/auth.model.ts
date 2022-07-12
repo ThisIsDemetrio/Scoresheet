@@ -1,8 +1,8 @@
-import { Player } from "./player.model";
+import { PlayerModel } from "./player.model";
 
 export interface AuthenticatedUserModel {
 	accessToken: string;
-	userData: Player;
+	userData: PlayerModel;
 }
 
 export interface LoginModel {
@@ -12,5 +12,5 @@ export interface LoginModel {
 
 export interface SignupModel {
 	signupData: LoginModel;
-	player: Player;
+	player: PlayerModel;
 }

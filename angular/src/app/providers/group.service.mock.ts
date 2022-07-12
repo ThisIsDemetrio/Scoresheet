@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { Group } from "../models/group.model";
-import { Player } from "../models/player.model";
+import { PlayerModel } from "../models/player.model";
 import { MOCK_PLAYERS } from "./player.service.mock";
 
 export const MOCK_GROUPS: Group[] = [
@@ -30,7 +30,7 @@ export class GroupMockService {
 		return of(result);
 	}
 
-	getPlayersInGroup(groupId: string): Observable<Player[]> {
+	getPlayersInGroup(groupId: string): Observable<PlayerModel[]> {
 		const group = MOCK_GROUPS.find(group => group.id === groupId);
 		if (!group) return of([]);
 
