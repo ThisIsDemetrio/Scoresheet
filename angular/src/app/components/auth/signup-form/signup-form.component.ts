@@ -1,4 +1,8 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
+import { LoginModel } from "src/app/models/auth.model";
+import { Player } from "src/app/models/player.model";
 import { AuthService } from "../../../providers/auth.service";
 
 @Component({
@@ -11,9 +15,15 @@ export class SignupFormComponent {
 	password: string = "";
 	repeatedPassword: string = "";
 
-	loginPageRequested = new EventEmitter<void>();
+	onPendingRequest = false;
 
-	constructor(private readonly authService: AuthService) {}
+	@Output() loginPageRequested = new EventEmitter<void>();
+
+	constructor(
+		private readonly authService: AuthService,
+		private readonly router: Router,
+		private readonly snackBar: MatSnackBar
+	) {}
 
 	changeToLoginPage(): void {
 		this.loginPageRequested.emit();
@@ -24,14 +34,29 @@ export class SignupFormComponent {
 	}
 
 	signup(): void {
+		const signupData: LoginModel = {
+			username: this.username,
+			password: this.password,
+		};
+
+		const player: Player = {
+			id: "",
+			groups: [],
+			// TODO: Allow user to select the name and the avatar
+			name: this.username,
+		};
+
 		this.authService
 			.signup({
-				id: this.username,
-				password: this.password,
+				signupData,
+				player,
 			})
-			.subscribe
-			// TODO: Route to home in case of success
-			// TODO: Handle error
-			();
+			.subscribe({
+				next: () => this.router.navigate(["/home"]),
+				error: () => {
+					this.onPendingRequest = false;
+					this.snackBar.open("Creazione utente fallita");
+				},
+			});
 	}
 }

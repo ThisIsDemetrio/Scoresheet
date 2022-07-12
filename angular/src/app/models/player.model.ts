@@ -1,9 +1,6 @@
-export interface PlayerWithPassword {
-	id: string;
-	password: string;
+export interface Player {
+	id: string | null;
 	name: string;
 	avatarUrl?: string;
 	groups: string[];
 }
-
-export type Player = Omit<PlayerWithPassword, "password">;

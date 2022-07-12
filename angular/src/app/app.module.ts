@@ -12,6 +12,8 @@ import { SignupFormComponent } from "./components/auth/signup-form/signup-form.c
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InterceptorService } from "./providers/interceptor.service";
+import { environment } from "src/environments/environment";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
 	bootstrap: [AppComponent],
@@ -22,11 +24,12 @@ import { InterceptorService } from "./providers/interceptor.service";
 		HttpClientModule,
 		MatButtonModule,
 		MatInputModule,
+		MatSnackBarModule,
 	],
 	declarations: [AppComponent, HomeComponent, LoginComponent, LoginFormComponent, SignupFormComponent],
 	providers: [
 		// TODO: This value must be moved to environment.prod.ts and applied only while deploying
-		{ provide: ENDPOINT_URL, useValue: "http://localhost:8000" },
+		{ provide: ENDPOINT_URL, useValue: environment.endpoint },
 		{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
 		{ provide: MOCK_MODE, useValue: false },
 	],

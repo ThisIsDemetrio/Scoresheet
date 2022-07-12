@@ -1,13 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable, tap } from "rxjs";
-import { AuthData } from "../models/auth.model";
+import { AuthenticatedUserModel, LoginModel, SignupModel } from "../models/auth.model";
 import { Player } from "../models/player.model";
-import { IdPasswordModel } from "../models/shared.model";
 import { ENDPOINT_URL } from "./tokens";
 
 const CURRENT_USER = "ScoreSheetCurrentUser";
 const ACCESS_TOKEN = "ScoreSheetAccessToken";
+
 @Injectable({
 	providedIn: "root",
 })
@@ -20,6 +21,10 @@ export class AuthService {
 
 	get accessToken(): string {
 		return (this._accessToken || localStorage.getItem(ACCESS_TOKEN)) ?? "";
+	}
+
+	get isLoggedIn(): boolean {
+		return !!this._accessToken;
 	}
 
 	private _currentUser: Player | null = null;
@@ -38,20 +43,33 @@ export class AuthService {
 	}
 
 	private get endpoint(): string {
-		return `${this.baseUrl}/Auth/`;
+		return `${this.baseUrl}/Auth`;
 	}
-	constructor(@Inject(ENDPOINT_URL) private readonly baseUrl: string, private readonly httpClient: HttpClient) {}
+	constructor(
+		@Inject(ENDPOINT_URL) private readonly baseUrl: string,
+		private readonly httpClient: HttpClient,
+		private readonly router: Router
+	) {}
 
-	login(loginData: IdPasswordModel): Observable<AuthData> {
+	login(loginData: LoginModel): Observable<AuthenticatedUserModel> {
 		return this.httpClient
-			.post<AuthData>(`${this.endpoint}/Login`, { loginData })
+			.post<AuthenticatedUserModel>(`${this.endpoint}/Login`, loginData)
 			.pipe(tap(res => (this.accessToken = res.accessToken)));
 	}
 
-	signup(signupData: IdPasswordModel): Observable<AuthData> {
+	signup(signupData: SignupModel): Observable<AuthenticatedUserModel> {
 		return this.httpClient
-			.post<AuthData>(`${this.endpoint}/Signup`, { signupData })
+			.post<AuthenticatedUserModel>(`${this.endpoint}/Signup`, signupData)
 			.pipe(tap(res => (this.accessToken = res.accessToken)));
+	}
+
+	isUsernameAvailable(username: string): Observable<boolean> {
+		return this.httpClient.get<boolean>(`${this.endpoint}/IsUsernameAvailable/${username}`);
+	}
+
+	logout(): void {
+		this.accessToken = "";
+		this.router.navigate(["./login"]);
 	}
 
 	// TODO: Logout?

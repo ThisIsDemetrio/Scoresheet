@@ -1,4 +1,6 @@
-import { Component, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 import { AuthService } from "../../../providers/auth.service";
 
 @Component({
@@ -10,9 +12,15 @@ export class LoginFormComponent {
 	username: string = "";
 	password: string = "";
 
-	signupPageRequested = new EventEmitter<void>();
+	onPendingRequest = false;
 
-	constructor(private readonly authService: AuthService) {}
+	@Output() signupPageRequested = new EventEmitter<void>();
+
+	constructor(
+		private readonly authService: AuthService,
+		private readonly snackBar: MatSnackBar,
+		private readonly router: Router
+	) {}
 
 	changeToSignupPage(): void {
 		this.signupPageRequested.emit();
@@ -23,14 +31,19 @@ export class LoginFormComponent {
 	}
 
 	login(): void {
+		this.onPendingRequest = true;
+
 		this.authService
 			.login({
-				id: this.username,
+				username: this.username,
 				password: this.password,
 			})
-			.subscribe
-			// TODO: Route to home in case of success
-			// TODO: Handle error
-			();
+			.subscribe({
+				next: () => this.router.navigate(["/home"]),
+				error: () => {
+					this.onPendingRequest = false;
+					this.snackBar.open("Creazione utente fallita");
+				},
+			});
 	}
 }
