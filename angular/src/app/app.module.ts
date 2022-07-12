@@ -15,6 +15,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InterceptorService } from "./providers/interceptor.service";
 import { environment } from "src/environments/environment";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { UserOptionsComponent } from "./components/user/user-options/user-options.component";
 
 @NgModule({
 	bootstrap: [AppComponent],
@@ -28,7 +29,14 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 		MatInputModule,
 		MatSnackBarModule,
 	],
-	declarations: [AppComponent, HomeComponent, LoginComponent, LoginFormComponent, SignupFormComponent],
+	declarations: [
+		AppComponent,
+		HomeComponent,
+		LoginComponent,
+		LoginFormComponent,
+		SignupFormComponent,
+		UserOptionsComponent,
+	],
 	providers: [
 		// TODO: This value must be moved to environment.prod.ts and applied only while deploying
 		{ provide: ENDPOINT_URL, useValue: environment.endpoint },
