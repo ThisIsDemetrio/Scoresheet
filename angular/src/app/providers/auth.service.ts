@@ -33,11 +33,12 @@ export class AuthService {
 		this._currentUser = !!value ? { ...value } : null;
 	}
 
-	get currentUser(): PlayerModel | null {
+	get currentUser(): PlayerModel {
 		if (this._currentUser) return this._currentUser;
 
 		const storedCurrentUserData = localStorage.getItem(CURRENT_USER);
-		if (!storedCurrentUserData) return null;
+		if (!storedCurrentUserData)
+			throw new Error("It should not be possible to request the user Info without being logged first");
 
 		return JSON.parse(storedCurrentUserData);
 	}
@@ -45,6 +46,7 @@ export class AuthService {
 	private get endpoint(): string {
 		return `${this.baseUrl}/Auth`;
 	}
+
 	constructor(
 		@Inject(ENDPOINT_URL) private readonly baseUrl: string,
 		private readonly httpClient: HttpClient,
@@ -52,15 +54,17 @@ export class AuthService {
 	) {}
 
 	login(loginData: LoginModel): Observable<AuthenticatedUserModel> {
-		return this.httpClient
-			.post<AuthenticatedUserModel>(`${this.endpoint}/Login`, loginData)
-			.pipe(tap(res => (this.accessToken = res.accessToken)));
+		return this.httpClient.post<AuthenticatedUserModel>(`${this.endpoint}/Login`, loginData).pipe(
+			tap(res => (this.accessToken = res.accessToken)),
+			tap(res => (this.currentUser = res.userData))
+		);
 	}
 
 	signup(signupData: SignupModel): Observable<AuthenticatedUserModel> {
-		return this.httpClient
-			.post<AuthenticatedUserModel>(`${this.endpoint}/Signup`, signupData)
-			.pipe(tap(res => (this.accessToken = res.accessToken)));
+		return this.httpClient.post<AuthenticatedUserModel>(`${this.endpoint}/Signup`, signupData).pipe(
+			tap(res => (this.accessToken = res.accessToken)),
+			tap(res => (this.currentUser = res.userData))
+		);
 	}
 
 	isUsernameAvailable(username: string): Observable<boolean> {
@@ -73,6 +77,18 @@ export class AuthService {
 	}
 
 	// TODO: Logout?
+
+	changePassword(oldPassword: string, newPassword: string): Observable<boolean> {
+		// TODO: Create backend
+		return this.httpClient.post<boolean>(`${this.endpoint}/ChangePassword`, { oldPassword, newPassword });
+	}
+
+	update(player: PlayerModel): Observable<boolean> {
+		// TODO: Create backend
+		return this.httpClient
+			.post<boolean>(`${this.endpoint}/Update`, player)
+			.pipe(tap(res => (this.currentUser = player)));
+	}
 
 	clearStorage() {
 		localStorage.clear();
