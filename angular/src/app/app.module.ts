@@ -14,6 +14,7 @@ import { environment } from "src/environments/environment";
 import { UserOptionsComponent } from "./components/user/user-options/user-options.component";
 import { ANGULAR_MATERIAL_IMPORTS } from "./imports";
 import { AvatarComponent } from "./components/shared/avatar/avatar.component";
+import { FromAssetsPipe } from "./components/pipes/from-assets.pipe";
 
 @NgModule({
 	bootstrap: [AppComponent],
@@ -26,6 +27,8 @@ import { AvatarComponent } from "./components/shared/avatar/avatar.component";
 		LoginFormComponent,
 		SignupFormComponent,
 		UserOptionsComponent,
+		// Pipes
+		FromAssetsPipe,
 	],
 	providers: [
 		// TODO: This value must be moved to environment.prod.ts and applied only while deploying

@@ -5,43 +5,23 @@ import { Observable, tap } from "rxjs";
 import { AuthenticatedUserModel, LoginModel, SignupModel } from "../models/auth.model";
 import { OperationResponseModel } from "../models/operation-response.model";
 import { PlayerModel } from "../models/player.model";
+import { BrowserStorageService } from "./browser-storage.service";
 import { ENDPOINT_URL } from "./tokens";
-
-const CURRENT_USER = "ScoreSheetCurrentUser";
-const ACCESS_TOKEN = "ScoreSheetAccessToken";
 
 @Injectable({
 	providedIn: "root",
 })
 export class AuthService {
-	private _accessToken: string = "";
-	set accessToken(value: string) {
-		localStorage.setItem(ACCESS_TOKEN, value ?? "");
-		this._accessToken = value;
-	}
-
-	get accessToken(): string {
-		return (this._accessToken || localStorage.getItem(ACCESS_TOKEN)) ?? "";
+	get accessToken(): string | undefined {
+		return this.browserStorage.getFromStorage()?.accessToken;
 	}
 
 	get isLoggedIn(): boolean {
-		return !!this._accessToken;
+		return !!this.browserStorage.getFromStorage()?.accessToken;
 	}
 
-	private _currentUser: PlayerModel | null = null;
-	set currentUser(value: PlayerModel | null) {
-		localStorage.setItem(CURRENT_USER, JSON.stringify(value ?? {}));
-		this._currentUser = !!value ? { ...value } : null;
-	}
-
-	get currentUser(): PlayerModel {
-		if (this._currentUser) return this._currentUser;
-
-		const storedCurrentUserData = localStorage.getItem(CURRENT_USER);
-		if (!storedCurrentUserData)
-			throw new Error("It should not be possible to request the user Info without being logged first");
-
-		return JSON.parse(storedCurrentUserData);
+	get currentUser(): PlayerModel | undefined {
+		return this.browserStorage.getFromStorage()?.userData;
 	}
 
 	private get endpoint(): string {
@@ -50,22 +30,21 @@ export class AuthService {
 
 	constructor(
 		@Inject(ENDPOINT_URL) private readonly baseUrl: string,
+		private readonly browserStorage: BrowserStorageService,
 		private readonly httpClient: HttpClient,
 		private readonly router: Router
 	) {}
 
 	login(loginData: LoginModel): Observable<AuthenticatedUserModel> {
-		return this.httpClient.post<AuthenticatedUserModel>(`${this.endpoint}/Login`, loginData).pipe(
-			tap(res => (this.accessToken = res.accessToken)),
-			tap(res => (this.currentUser = res.userData))
-		);
+		return this.httpClient
+			.post<AuthenticatedUserModel>(`${this.endpoint}/Login`, loginData)
+			.pipe(tap(result => this.browserStorage.setToStorage(result)));
 	}
 
 	signup(signupData: SignupModel): Observable<AuthenticatedUserModel> {
-		return this.httpClient.post<AuthenticatedUserModel>(`${this.endpoint}/Signup`, signupData).pipe(
-			tap(res => (this.accessToken = res.accessToken)),
-			tap(res => (this.currentUser = res.userData))
-		);
+		return this.httpClient
+			.post<AuthenticatedUserModel>(`${this.endpoint}/Signup`, signupData)
+			.pipe(tap(result => this.browserStorage.setToStorage(result)));
 	}
 
 	isUsernameAvailable(username: string): Observable<boolean> {
@@ -73,11 +52,10 @@ export class AuthService {
 	}
 
 	logout(): void {
-		this.accessToken = "";
+		// TODO: BE Logout implementation missing
+		this.browserStorage.clearStorage();
 		this.router.navigate(["./login"]);
 	}
-
-	// TODO: Logout?
 
 	changePassword(playerId: string, oldPassword: string, newPassword: string): Observable<OperationResponseModel> {
 		return this.httpClient.post<OperationResponseModel>(`${this.endpoint}/ChangePassword/${playerId}`, {
@@ -89,10 +67,6 @@ export class AuthService {
 	update(player: PlayerModel): Observable<boolean> {
 		return this.httpClient
 			.post<boolean>(`${this.endpoint}/Update/${player.id}`, player)
-			.pipe(tap(res => (this.currentUser = player)));
-	}
-
-	clearStorage() {
-		localStorage.clear();
+			.pipe(tap(() => this.browserStorage.updateUserData(player)));
 	}
 }
