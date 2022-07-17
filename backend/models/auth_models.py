@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from backend.models.player_models import PlayerModel
+from models.player_models import PlayerModel
 
 
 class LoginModel(BaseModel):

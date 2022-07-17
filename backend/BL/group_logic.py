@@ -1,13 +1,13 @@
 import uuid
-from backend.models.operation_response import OperationReasonCode, OperationResponseModel
-from backend.models.group_models import Group, GroupParticipant
-from backend.BL import player_logic
-from backend.database import groups_collection
+from models.operation_response import OperationReasonCode, OperationResponseModel
+from models.group_models import Group, GroupParticipant
+from BL import player_logic
+from database import groups_collection
 from bson.objectid import ObjectId
 import pydash
 
-from backend.models.player_models import PlayerModel
-from backend.utils.utils import hashString
+from models.player_models import PlayerModel
+from utils.utils import hashString
 
 # TODO: Create DB connection
 groups: list[Group] = [

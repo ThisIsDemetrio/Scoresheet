@@ -1,4 +1,4 @@
-from ..models.auth_models import UserModel
+from models.auth_models import UserModel
 
 
 def map_from_UserModel(player: UserModel) -> dict:

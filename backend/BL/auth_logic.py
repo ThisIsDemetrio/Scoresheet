@@ -1,12 +1,12 @@
-from backend.mapping.auth_mapping import map_To_UserModel, map_from_UserModel
-from backend.mapping.player_mapping import map_To_PlayerModel, map_from_PlayerModel
-from backend.models.auth_models import AuthenticatedUserModel, ChangePasswordModel, UserModel, LoginModel, SignupModel
+from mapping.auth_mapping import map_To_UserModel, map_from_UserModel
+from mapping.player_mapping import map_To_PlayerModel, map_from_PlayerModel
+from models.auth_models import AuthenticatedUserModel, ChangePasswordModel, UserModel, LoginModel, SignupModel
 from fastapi import Depends, HTTPException
 from fastapi_jwt_auth import AuthJWT
-from backend.models.operation_response import OperationReasonCode, OperationResponseModel
-from backend.models.player_models import PlayerModel
-from backend.utils.utils import generateUuid4, hashString
-from backend.database import auth_collection, players_collection
+from models.operation_response import OperationReasonCode, OperationResponseModel
+from models.player_models import PlayerModel
+from utils.utils import generateUuid4, hashString
+from database import auth_collection, players_collection
 
 
 async def isUsernameAvailable(username: str) -> bool:

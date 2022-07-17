@@ -1,5 +1,5 @@
-from backend.models.player_models import PlayerModel
-from backend.database import players_collection
+from models.player_models import PlayerModel
+from database import players_collection
 from bson.objectid import ObjectId
 
 # TODO: Create DB connection

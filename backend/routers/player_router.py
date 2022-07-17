@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-import backend.BL.player_logic as PlayerLogic
-from backend.models.player_models import PlayerModel
+import BL.player_logic as PlayerLogic
+from models.player_models import PlayerModel
 
 router = APIRouter(prefix="/Players")
 

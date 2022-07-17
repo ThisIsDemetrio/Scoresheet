@@ -2,10 +2,10 @@
 
 from fastapi import APIRouter, Depends
 from fastapi_jwt_auth import AuthJWT
-from backend.BL import auth_logic
-from backend.models.auth_models import AuthenticatedUserModel, ChangePasswordModel, LoginModel, SignupModel
-from backend.models.operation_response import OperationResponseModel
-from backend.models.player_models import PlayerModel
+from BL import auth_logic
+from models.auth_models import AuthenticatedUserModel, ChangePasswordModel, LoginModel, SignupModel
+from models.operation_response import OperationResponseModel
+from models.player_models import PlayerModel
 
 
 router = APIRouter(prefix="/Auth", tags=["Authentication"])

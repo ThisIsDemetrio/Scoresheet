@@ -1,4 +1,4 @@
-from ..models.player_models import PlayerModel
+from models.player_models import PlayerModel
 
 
 def map_from_PlayerModel(player: PlayerModel) -> dict:
@@ -14,6 +14,6 @@ def map_To_PlayerModel(player: dict) -> PlayerModel:
     return PlayerModel(
         id=player["id"],
         name=player["name"],
-        avatar=player["avatarUrl"],
+        avatar=player["avatar"],
         groups=player["groups"],
     )

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from backend.models.game_models import Game
-import backend.BL.game_logic as GameLogic
+from models.game_models import Game
+import BL.game_logic as GameLogic
 
 router = APIRouter(prefix="/Game")
 
