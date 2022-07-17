@@ -11,7 +11,7 @@
 			<mat-label>Username</mat-label>
 			<input matInput type="text" required class="username" [(ngModel)]="currentUser.name" />
 		</mat-form-field>
-		<app-avatar [(ngModel)]="currentUser.avatarUrl"></app-avatar>
+		<app-avatar [(ngModel)]="currentUser.avatar"></app-avatar>
 		<button mat-button class="full-width-btn" [disabled]="!canChangeUserInfo()" (click)="updateUserInfo()">
 			Salva
 		</button>

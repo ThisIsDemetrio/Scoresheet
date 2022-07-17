@@ -10,7 +10,7 @@ export const MOCK_GROUPS: Group[] = [
 		name: "Scrabble Group",
 		creatorId: "1",
 		password: "password",
-		avatarUrl: "scrabble",
+		avatar: "scrabble",
 		participants: [
 			{ playerId: "1", isActive: true },
 			{ playerId: "2", isActive: true },

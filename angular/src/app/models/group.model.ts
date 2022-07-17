@@ -3,7 +3,7 @@ export interface Group {
 	name: string;
 	creatorId: string;
 	password: string;
-	avatarUrl: string;
+	avatar: string;
 	participants: GroupParticipant[];
 }
 

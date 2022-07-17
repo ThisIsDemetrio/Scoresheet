@@ -29,7 +29,7 @@ export class UserOptionsComponent implements OnInit {
 	}
 
 	canChangeUserInfo(): boolean {
-		return !!this.currentUser.name && !!this.currentUser.avatarUrl;
+		return !!this.currentUser.name && !!this.currentUser.avatar;
 	}
 
 	canChangePassword(): boolean {

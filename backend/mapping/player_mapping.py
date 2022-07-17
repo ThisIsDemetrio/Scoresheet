@@ -5,7 +5,7 @@ def map_from_PlayerModel(player: PlayerModel) -> dict:
     return {
         "id": player.id,
         "name": player.name,
-        "avatarUrl": player.avatarUrl,
+        "avatarUrl": player.avatar,
         "groups": player.groups,
     }
 
@@ -14,6 +14,6 @@ def map_To_PlayerModel(player: dict) -> PlayerModel:
     return PlayerModel(
         id=player["id"],
         name=player["name"],
-        avatarUrl=player["avatarUrl"],
+        avatar=player["avatarUrl"],
         groups=player["groups"],
     )
