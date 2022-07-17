@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, tap } from "rxjs";
 import { AuthenticatedUserModel, LoginModel, SignupModel } from "../models/auth.model";
+import { OperationResponseModel } from "../models/operation-response.model";
 import { PlayerModel } from "../models/player.model";
 import { ENDPOINT_URL } from "./tokens";
 
@@ -78,10 +79,11 @@ export class AuthService {
 
 	// TODO: Logout?
 
-	changePassword(oldPassword: string, newPassword: string): Observable<boolean> {
-		// TODO options-section: Add the playerId in queryString
-		// TODO options-section: This returns a OperationResponseModel
-		return this.httpClient.post<boolean>(`${this.endpoint}/ChangePassword`, { oldPassword, newPassword });
+	changePassword(playerId: string, oldPassword: string, newPassword: string): Observable<OperationResponseModel> {
+		return this.httpClient.post<OperationResponseModel>(`${this.endpoint}/ChangePassword/${playerId}`, {
+			oldPassword,
+			newPassword,
+		});
 	}
 
 	update(player: PlayerModel): Observable<boolean> {

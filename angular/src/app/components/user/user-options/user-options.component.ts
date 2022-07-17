@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { OperationReasonCode } from "src/app/models/operation-response.model";
 import { PlayerModel } from "src/app/models/player.model";
 import { AuthService } from "src/app/providers/auth.service";
 
@@ -48,8 +49,17 @@ export class UserOptionsComponent implements OnInit {
 	changePassword(): void {
 		if (!this.canChangePassword) return;
 
-		this.authService.changePassword(this.oldPassword, this.password).subscribe({
-			next: () => this.matSnackBar.open("Password aggiornata", "", { panelClass: "mat-primary" }),
+		this.authService.changePassword(this.currentUser.id, this.oldPassword, this.password).subscribe({
+			next: result => {
+				switch (result.reasonCode) {
+					case OperationReasonCode.Success:
+						this.matSnackBar.open("Password aggiornata", "", { panelClass: "mat-primary" });
+						break;
+					default:
+						this.matSnackBar.open("Password precedente non valida", "", { panelClass: "mat-warn" });
+						break;
+				}
+			},
 			error: () => this.matSnackBar.open("Impossibile cambiare la password", "", { panelClass: "mat-warn" }),
 		});
 	}
