@@ -17,6 +17,9 @@ const getEmptyPlayer = (): PlayerModel => {
 	styleUrls: ["./user-options.component.scss"],
 })
 export class UserOptionsComponent implements OnInit {
+	// TODO: Just for fun, transform it in two Reactive Forms
+
+	originalUser: PlayerModel = getEmptyPlayer();
 	currentUser: PlayerModel = getEmptyPlayer();
 
 	oldPassword = "";
@@ -26,15 +29,28 @@ export class UserOptionsComponent implements OnInit {
 	constructor(private readonly authService: AuthService, private readonly matSnackBar: MatSnackBar) {}
 
 	ngOnInit(): void {
-		if (!!this.authService.currentUser) this.currentUser = { ...this.authService.currentUser };
+		if (!!this.authService.currentUser) {
+			this.currentUser = { ...this.authService.currentUser };
+			this.originalUser = { ...this.currentUser };
+		}
 	}
 
 	canChangeUserInfo(): boolean {
-		return !!this.currentUser.name && !!this.currentUser.avatar;
+		return (
+			!!this.currentUser.name &&
+			this.currentUser.name !== this.originalUser.name &&
+			!!this.currentUser.avatar &&
+			this.currentUser.avatar !== this.originalUser.avatar
+		);
 	}
 
 	canChangePassword(): boolean {
-		return this.oldPassword.length > 6 && this.password.length > 6 && this.password === this.repeatedPassword;
+		return (
+			this.oldPassword.length > 6 &&
+			this.password.length > 6 &&
+			this.password === this.repeatedPassword &&
+			this.oldPassword !== this.password
+		);
 	}
 
 	updateUserInfo(): void {

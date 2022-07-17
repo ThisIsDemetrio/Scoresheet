@@ -11,6 +11,7 @@ import { AuthService } from "../../../providers/auth.service";
 	styleUrls: ["./signup-form.component.scss"],
 })
 export class SignupFormComponent {
+	// TODO: Just for fun, transform it in a Reactive Form
 	username: string = "";
 	password: string = "";
 	repeatedPassword: string = "";
