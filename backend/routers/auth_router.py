@@ -26,7 +26,7 @@ async def signup(signupData: SignupModel, Authorize: AuthJWT = Depends()) -> Aut
     return await auth_logic.signup(signupData, Authorize)
 
 
-@router.get('/Update/{playerId}')
+@router.post('/Update/{playerId}')
 async def update(playerId: str, playerData: PlayerModel) -> bool:
     return await auth_logic.update(playerId, playerModel=playerData)
 

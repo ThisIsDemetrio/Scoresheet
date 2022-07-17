@@ -61,11 +61,11 @@ async def update(playerId: str, playerModel: PlayerModel) -> bool:
     if (playerDB is None):
         raise HTTPException(400, "Player with this Id not found")
 
-    player = map_To_UserModel(playerDB)
+    player = map_To_PlayerModel(playerDB)
     player.avatar = playerModel.avatar
     player.name = playerModel.name
 
-    await players_collection.update_one({"id": playerId}, map_from_PlayerModel(player))
+    await players_collection.update_one({"id": playerId}, {"$set": map_from_PlayerModel(player)})
     return True
 
 
@@ -84,7 +84,7 @@ async def changePassword(playerId: str, passwordModel: ChangePasswordModel) -> O
         return result
 
     user.password = hashString(passwordModel.newPassword)
-    await auth_collection.update_one({"playerId": playerId}, user)
+    await auth_collection.update_one({"playerId": playerId}, {"$set": map_from_UserModel(user)})
 
     result.success = True
     result.reasonCode = OperationReasonCode.Success
