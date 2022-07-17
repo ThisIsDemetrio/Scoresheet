@@ -1,7 +1,4 @@
 import { NgModule } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./components/home/home.component";
@@ -14,21 +11,12 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InterceptorService } from "./providers/interceptor.service";
 import { environment } from "src/environments/environment";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { UserOptionsComponent } from "./components/user/user-options/user-options.component";
+import { ANGULAR_MATERIAL_IMPORTS } from "./imports";
 
 @NgModule({
 	bootstrap: [AppComponent],
-	imports: [
-		AppRoutingModule,
-		BrowserAnimationsModule,
-		FormsModule,
-		HttpClientModule,
-		MatButtonModule,
-		MatIconModule,
-		MatInputModule,
-		MatSnackBarModule,
-	],
+	imports: [AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ...ANGULAR_MATERIAL_IMPORTS],
 	declarations: [
 		AppComponent,
 		HomeComponent,
