@@ -16,6 +16,7 @@ import { ANGULAR_MATERIAL_IMPORTS } from "./imports";
 import { AvatarComponent } from "./components/shared/avatar/avatar.component";
 import { FromAssetsPipe } from "./components/pipes/from-assets.pipe";
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
+import { SideDrawerComponent } from "./components/shared/sidedrawer/sidedrawer.component";
 
 @NgModule({
 	bootstrap: [AppComponent],
@@ -26,6 +27,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 		HomeComponent,
 		LoginComponent,
 		LoginFormComponent,
+		SideDrawerComponent,
 		SignupFormComponent,
 		UserOptionsComponent,
 		// Pipes
