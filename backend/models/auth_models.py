@@ -19,7 +19,7 @@ class SignupModel(BaseModel):
 
 class AuthenticatedUserModel(BaseModel):
     accessToken: str
-    player: PlayerModel
+    userData: PlayerModel
 
 
 class ChangePasswordModel(BaseModel):

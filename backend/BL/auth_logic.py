@@ -31,7 +31,7 @@ async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> Authen
         raise HTTPException(404, "Player not found")
 
     accessToken = Authorize.create_access_token(subject=loginData.username)
-    return AuthenticatedUserModel(accessToken=accessToken, player=player)
+    return AuthenticatedUserModel(accessToken=accessToken, userData=player)
 
 
 async def signup(data: SignupModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
@@ -53,7 +53,7 @@ async def signup(data: SignupModel, Authorize: AuthJWT = Depends()) -> Authentic
 
     accessToken = Authorize.create_access_token(
         subject=data.signupData.username)
-    return AuthenticatedUserModel(accessToken=accessToken, player=player)
+    return AuthenticatedUserModel(accessToken=accessToken, userData=player)
 
 
 async def update(playerId: str, playerModel: PlayerModel) -> bool:
