@@ -1,6 +1,6 @@
 from tokenize import group
 from fastapi import APIRouter
-from backend.models.delete_group_response import DeleteGroupResponse
+from backend.models.operation_response import OperationResponseModel
 from backend.models.group_models import Group
 from backend.models.player_models import PlayerModel
 import backend.BL.group_logic as GroupLogic
@@ -34,5 +34,5 @@ async def leave_group(groupId: str, playerId: str) -> None:
 
 
 @router.delete("/delete/{groupId}", tags=["Group management"])
-async def delete_group(groupId: str, playerId: str) -> DeleteGroupResponse:
+async def delete_group(groupId: str, playerId: str) -> OperationResponseModel:
     return GroupLogic.delete_group(playerId, groupId)

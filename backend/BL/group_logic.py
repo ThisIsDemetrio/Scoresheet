@@ -1,5 +1,5 @@
 import uuid
-from backend.models.delete_group_response import DeleteGroupReasonCode, DeleteGroupResponse
+from backend.models.operation_response import OperationReasonCode, OperationResponseModel
 from backend.models.group_models import Group, GroupParticipant
 from backend.BL import player_logic
 from backend.database import groups_collection
@@ -88,19 +88,19 @@ async def leave_group(playerId: str, groupId: str) -> None:
     await groups_collection.update_one({"_id": groupToLeave._id}, {"$set": groupToLeave})
 
 
-async def delete_group(playerId: str, groupId: str) -> DeleteGroupResponse:
+async def delete_group(playerId: str, groupId: str) -> OperationResponseModel:
     groupToRemove = await get_group_by_id(groupId)
 
-    result = DeleteGroupResponse()
+    result = OperationResponseModel()
     canDelete = len(
         groupToRemove.participants) == 1 and groupToRemove.creatorId == playerId
 
     if (not canDelete):
         result.success = False
-        result.reasonCode = DeleteGroupReasonCode.GroupNotEmpty
+        result.reasonCode = OperationReasonCode.GroupNotEmpty
     else:
         groups_collection.delete_one({"_id": ObjectId(groupId)})
         result.success = True
-        result.reasonCode = DeleteGroupReasonCode.Success
+        result.reasonCode = OperationReasonCode.Success
 
     return result
