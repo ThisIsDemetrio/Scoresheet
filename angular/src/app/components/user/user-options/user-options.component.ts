@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlayerModel } from "src/app/models/player.model";
 import { AuthService } from "src/app/providers/auth.service";
 
@@ -21,21 +22,35 @@ export class UserOptionsComponent implements OnInit {
 	password = "";
 	repeatedPassword = "";
 
-	constructor(private readonly authService: AuthService) {}
+	constructor(private readonly authService: AuthService, private readonly matSnackBar: MatSnackBar) {}
 
 	ngOnInit(): void {
-		this.currentUser = this.authService.currentUser;
+		if (!!this.authService.currentUser) this.currentUser = { ...this.authService.currentUser };
 	}
 
-	openAvatarSelector(): void {
-		// TODO: Create a modal to select a new avatar (modal should execute the server request)
+	canChangeUserInfo(): boolean {
+		return !!this.currentUser.name && !!this.currentUser.avatarUrl;
 	}
 
 	canChangePassword(): boolean {
 		return this.oldPassword.length > 6 && this.password.length > 6 && this.password === this.repeatedPassword;
 	}
 
+	updateUserInfo(): void {
+		if (!this.canChangeUserInfo) return;
+
+		this.authService.update(this.currentUser).subscribe({
+			next: () => this.matSnackBar.open("Utente aggiornato", "", { panelClass: "mat-primary" }),
+			error: () => this.matSnackBar.open("Impossibile aggiornare l'utente", "", { panelClass: "mat-warn" }),
+		});
+	}
+
 	changePassword(): void {
-		// TODO: Create service to support the update of a password
+		if (!this.canChangePassword) return;
+
+		this.authService.changePassword(this.oldPassword, this.password).subscribe({
+			next: () => this.matSnackBar.open("Password aggiornata", "", { panelClass: "mat-primary" }),
+			error: () => this.matSnackBar.open("Impossibile cambiare la password", "", { panelClass: "mat-warn" }),
+		});
 	}
 }

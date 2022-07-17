@@ -1,7 +1,7 @@
 import { Component, forwardRef, ViewChild } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { Avatar } from "./utils";
+import { Avatar, AVATAR_LIST } from "./utils";
 
 @Component({
 	selector: "app-avatar",
@@ -12,6 +12,7 @@ import { Avatar } from "./utils";
 export class AvatarComponent implements ControlValueAccessor {
 	@ViewChild("avatarSelector") avatarSelector: any;
 	matDialogRef: MatDialogRef<unknown, never> | null = null;
+	avatarList = AVATAR_LIST;
 
 	private innerValue: Avatar | null = null;
 

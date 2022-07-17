@@ -1,4 +1,11 @@
-<img [src]="value" class="current-avatar" (click)="openAvatarDialog()" />
+<ng-container *ngIf="value as avatar; else noAvatarTemplate">
+	<img [src]="avatar" class="current-avatar" />
+</ng-container>
+<button mat-button type="button" (click)="openAvatarDialog()">Cambia</button>
+
+<ng-template #noAvatarTemplate>
+	<div class="no-avatar"></div>
+</ng-template>
 
 <ng-template #avatarSelector>
 	<div class="title">Seleziona un avatar</div>

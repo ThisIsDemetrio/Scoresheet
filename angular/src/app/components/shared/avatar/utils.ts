@@ -7,6 +7,7 @@ export const AVATAR_LIST = [
 	"crab",
 	"dog",
 	"jellyfish",
+	"lamb",
 	"owl",
 	"pig",
 	"pigeon",

@@ -5,9 +5,22 @@ $avatarSize: 48px;
 :host {
 	display: block;
 
-	.current-avatar {
+	.current-avatar,
+	.no-avatar {
 		width: $avatarSize;
 		height: $avatarSize;
+	}
+
+	.no-avatar {
+		border: 1px solid $gray;
+		border-radius: 10px;
+		font-size: 32px;
+		margin: 4px;
+		color: $grey;
+
+		&:after {
+			content: "?";
+		}
 	}
 }
 
