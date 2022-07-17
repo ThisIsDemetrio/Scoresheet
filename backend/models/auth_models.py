@@ -22,5 +22,10 @@ class AuthenticatedUserModel(BaseModel):
     player: PlayerModel
 
 
+class ChangePasswordModel(BaseModel):
+    oldPassword: str
+    newPassword: str
+
+
 class Settings(BaseModel):
     authjwt_secret_key: str = "my_jwt_secret"

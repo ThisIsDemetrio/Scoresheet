@@ -79,12 +79,12 @@ export class AuthService {
 	// TODO: Logout?
 
 	changePassword(oldPassword: string, newPassword: string): Observable<boolean> {
-		// TODO options-section: Create backend
+		// TODO options-section: Add the playerId in queryString
+		// TODO options-section: This returns a OperationResponseModel
 		return this.httpClient.post<boolean>(`${this.endpoint}/ChangePassword`, { oldPassword, newPassword });
 	}
 
 	update(player: PlayerModel): Observable<boolean> {
-		// TODO options-section: Create backend
 		return this.httpClient
 			.post<boolean>(`${this.endpoint}/Update/${player.id}`, player)
 			.pipe(tap(res => (this.currentUser = player)));

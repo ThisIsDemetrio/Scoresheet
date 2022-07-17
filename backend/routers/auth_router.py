@@ -3,7 +3,9 @@
 from fastapi import APIRouter, Depends
 from fastapi_jwt_auth import AuthJWT
 from backend.BL import auth_logic
-from backend.models.auth_models import AuthenticatedUserModel, LoginModel, SignupModel
+from backend.models.auth_models import AuthenticatedUserModel, ChangePasswordModel, LoginModel, SignupModel
+from backend.models.operation_response import OperationResponseModel
+from backend.models.player_models import PlayerModel
 
 
 router = APIRouter(prefix="/Auth", tags=["Authentication"])
@@ -24,6 +26,17 @@ async def signup(signupData: SignupModel, Authorize: AuthJWT = Depends()) -> Aut
     return await auth_logic.signup(signupData, Authorize)
 
 
+@router.get('/Update/{playerId}')
+async def update(playerId: str, playerData: PlayerModel) -> bool:
+    return await auth_logic.update(playerId, playerModel=playerData)
+
+
+@router.post('/ChangePassword/{playerId}')
+async def changePassword(playerId: str, passwordModel: ChangePasswordModel) -> OperationResponseModel:
+    return await auth_logic.changePassword(playerId, passwordModel)
+
+
+# TODO: Is this needed?
 @router.get('/test-jwt')
 async def user(Authorize: AuthJWT = Depends()):
 
