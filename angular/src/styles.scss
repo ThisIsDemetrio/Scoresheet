@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 $white: #fbfbfb;
+$black: black;
 $blue: #3e989b;
 $green: #6db465;
 $yellow: #f2c14e;
@@ -16,4 +17,24 @@ body {
 body {
 	margin: 0;
 	font-family: "Capriola", sans-serif;
+}
+
+.snack {
+	background-color: $blue;
+	color: $black;
+
+	&-success {
+		background-color: $green;
+		color: $black;
+	}
+
+	&-error {
+		background-color: $red;
+		color: $white;
+	}
+
+	&-warning {
+		background-color: $yellow;
+		color: $black;
+	}
 }

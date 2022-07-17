@@ -56,7 +56,7 @@ export class SignupFormComponent {
 				next: () => this.router.navigate(["/home"]),
 				error: () => {
 					this.onPendingRequest = false;
-					this.snackBar.open("Creazione utente fallita");
+					this.snackBar.open("Creazione utente fallita", "", { panelClass: "snack-error" });
 				},
 			});
 	}

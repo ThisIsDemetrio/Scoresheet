@@ -15,6 +15,7 @@ import { UserOptionsComponent } from "./components/user/user-options/user-option
 import { ANGULAR_MATERIAL_IMPORTS } from "./imports";
 import { AvatarComponent } from "./components/shared/avatar/avatar.component";
 import { FromAssetsPipe } from "./components/pipes/from-assets.pipe";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 
 @NgModule({
 	bootstrap: [AppComponent],
@@ -35,6 +36,7 @@ import { FromAssetsPipe } from "./components/pipes/from-assets.pipe";
 		{ provide: ENDPOINT_URL, useValue: environment.endpoint },
 		{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
 		{ provide: MOCK_MODE, useValue: false },
+		{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
 	],
 })
 export class AppModule {}

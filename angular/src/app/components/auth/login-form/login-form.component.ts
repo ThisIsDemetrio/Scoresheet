@@ -43,7 +43,7 @@ export class LoginFormComponent {
 				next: () => this.router.navigate(["/home"]),
 				error: () => {
 					this.onPendingRequest = false;
-					this.snackBar.open("Autenticazione utente fallita", "", { panelClass: "mat-warn" });
+					this.snackBar.open("Autenticazione utente fallita", "", { panelClass: "snack-error" });
 				},
 			});
 	}

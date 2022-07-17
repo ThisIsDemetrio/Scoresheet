@@ -38,9 +38,8 @@ export class UserOptionsComponent implements OnInit {
 	canChangeUserInfo(): boolean {
 		return (
 			!!this.currentUser.name &&
-			this.currentUser.name !== this.originalUser.name &&
 			!!this.currentUser.avatar &&
-			this.currentUser.avatar !== this.originalUser.avatar
+			(this.currentUser.name !== this.originalUser.name || this.currentUser.avatar !== this.originalUser.avatar)
 		);
 	}
 
@@ -57,8 +56,8 @@ export class UserOptionsComponent implements OnInit {
 		if (!this.canChangeUserInfo) return;
 
 		this.authService.update(this.currentUser).subscribe({
-			next: () => this.matSnackBar.open("Utente aggiornato", "", { panelClass: "mat-primary" }),
-			error: () => this.matSnackBar.open("Impossibile aggiornare l'utente", "", { panelClass: "mat-warn" }),
+			next: () => this.matSnackBar.open("Utente aggiornato", "", { panelClass: "snack-success" }),
+			error: () => this.matSnackBar.open("Impossibile aggiornare l'utente", "", { panelClass: "snack-error" }),
 		});
 	}
 
@@ -69,14 +68,14 @@ export class UserOptionsComponent implements OnInit {
 			next: result => {
 				switch (result.reasonCode) {
 					case OperationReasonCode.Success:
-						this.matSnackBar.open("Password aggiornata", "", { panelClass: "mat-primary" });
+						this.matSnackBar.open("Password aggiornata", "", { panelClass: "snack-success" });
 						break;
 					default:
-						this.matSnackBar.open("Password precedente non valida", "", { panelClass: "mat-warn" });
+						this.matSnackBar.open("Password precedente non valida", "", { panelClass: "snack-error" });
 						break;
 				}
 			},
-			error: () => this.matSnackBar.open("Impossibile cambiare la password", "", { panelClass: "mat-warn" }),
+			error: () => this.matSnackBar.open("Impossibile cambiare la password", "", { panelClass: "snack-error" }),
 		});
 	}
 }
