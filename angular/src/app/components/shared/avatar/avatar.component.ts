@@ -17,11 +17,11 @@ export class AvatarComponent implements ControlValueAccessor {
 	private innerValue: Avatar | null = null;
 
 	set value(value: Avatar | null) {
-		this.onTouch();
+		this.onTouch(value);
 		if (value === this.innerValue) return;
 
 		this.innerValue = value;
-		this.onChange();
+		this.onChange(value);
 	}
 
 	get value() {
@@ -48,13 +48,13 @@ export class AvatarComponent implements ControlValueAccessor {
 		this.matDialogRef?.close();
 	}
 
-	onChange = () => {};
-	onTouch = () => {};
+	onChange: (arg: Avatar | null) => void = (arg: Avatar | null) => {};
+	onTouch: (arg: Avatar | null) => void = (arg: Avatar | null) => {};
 
-	registerOnChange(fn: any): void {
+	registerOnChange(fn: (newValue: Avatar | null) => void): void {
 		this.onChange = fn;
 	}
-	registerOnTouched(fn: any): void {
+	registerOnTouched(fn: (newValue: Avatar | null) => void): void {
 		this.onTouch = fn;
 	}
 }

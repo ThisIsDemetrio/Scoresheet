@@ -1,9 +1,11 @@
 @import "../../../../styles.scss";
 
 $avatarSize: 48px;
+$marginSize: 4px;
 
 :host {
-	display: block;
+	display: flex;
+	min-height: 64px;
 
 	.current-avatar,
 	.no-avatar {
@@ -20,11 +22,17 @@ $avatarSize: 48px;
 
 		&:after {
 			content: "?";
+			line-height: $avatarSize;
+			margin: 16px;
 		}
 	}
 }
 
 .avatar-dialog {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	.title {
 		font-size: 22px;
 	}
@@ -33,8 +41,9 @@ $avatarSize: 48px;
 		display: inline-block;
 
 		.avatar {
-			width: $avatarSize;
-			height: $avatarSize;
+			width: calc($avatarSize + 2 * $marginSize);
+			height: calc($avatarSize + 2 * $marginSize);
+			padding: $marginSize;
 
 			&:hover {
 				background-color: lighter($blue, 0.5);

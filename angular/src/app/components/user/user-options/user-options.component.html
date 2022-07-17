@@ -9,9 +9,9 @@
 	<div class="card-content">
 		<mat-form-field class="username-field">
 			<mat-label>Username</mat-label>
-			<input matInput type="text" required class="username" [(ngModel)]="currentUser.name" />
+			<input matInput type="text" required class="name" name="name" [(ngModel)]="currentUser.name" />
 		</mat-form-field>
-		<app-avatar [(ngModel)]="currentUser.avatar"></app-avatar>
+		<app-avatar name="avatar" [(ngModel)]="currentUser.avatar"></app-avatar>
 		<button mat-button class="full-width-btn" [disabled]="!canChangeUserInfo()" (click)="updateUserInfo()">
 			Salva
 		</button>
@@ -23,15 +23,21 @@
 	<div class="card-content">
 		<mat-form-field class="old-password-field">
 			<mat-label>Ripeti la password</mat-label>
-			<input matInput type="password" required class="password" [(ngModel)]="oldPassword" />
+			<input matInput type="password" required name="old_password" class="password" [(ngModel)]="oldPassword" />
 		</mat-form-field>
 		<mat-form-field class="password-field">
 			<mat-label>Password</mat-label>
-			<input matInput type="password" required class="password" [(ngModel)]="password" />
+			<input matInput type="password" required name="password" class="password" [(ngModel)]="password" />
 		</mat-form-field>
 		<mat-form-field class="repeat-password-field">
 			<mat-label>Ripeti la password</mat-label>
-			<input matInput type="password" required class="password" [(ngModel)]="repeatedPassword" />
+			<input
+				matInput
+				type="password"
+				required
+				name="repeated_password"
+				class="password"
+				[(ngModel)]="repeatedPassword" />
 		</mat-form-field>
 		<button mat-button class="full-width-btn" [disabled]="!canChangePassword()" (click)="changePassword()">
 			Cambia password
