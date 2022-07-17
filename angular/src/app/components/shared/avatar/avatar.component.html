@@ -1,0 +1,8 @@
+<img [src]="value" class="current-avatar" (click)="openAvatarDialog()" />
+
+<ng-template #avatarSelector>
+	<div class="title">Seleziona un avatar</div>
+	<div class="avatars">
+		<img *ngFor="let avatar of avatarList" [src]="avatar" class="avatar" [class.selected]="avatar === value" />
+	</div>
+</ng-template>

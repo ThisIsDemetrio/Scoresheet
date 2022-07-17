@@ -13,12 +13,14 @@ import { InterceptorService } from "./providers/interceptor.service";
 import { environment } from "src/environments/environment";
 import { UserOptionsComponent } from "./components/user/user-options/user-options.component";
 import { ANGULAR_MATERIAL_IMPORTS } from "./imports";
+import { AvatarComponent } from "./components/shared/avatar/avatar.component";
 
 @NgModule({
 	bootstrap: [AppComponent],
 	imports: [AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ...ANGULAR_MATERIAL_IMPORTS],
 	declarations: [
 		AppComponent,
+		AvatarComponent,
 		HomeComponent,
 		LoginComponent,
 		LoginFormComponent,

@@ -1,9 +1,4 @@
-$white: #fbfbfb;
-$blue: #3e989b;
-$green: #6db465;
-$yellow: #f2c14e;
-$red: #f78154;
-$shadowColor: rgba(0, 0, 0, 0.5);
+@import "../../../styles.scss";
 
 :host {
 	height: 100%;
