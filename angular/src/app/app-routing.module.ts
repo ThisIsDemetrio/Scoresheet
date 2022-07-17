@@ -10,11 +10,11 @@ const routes: Routes = [
 	{ path: "", redirectTo: "/home", pathMatch: "full" },
 	{ path: "login", component: LoginComponent },
 	{ path: "home", component: HomeComponent, canActivate: [AuthGuard] },
-	{ path: "options", component: UserOptionsComponent },
+	{ path: "options", component: UserOptionsComponent, canActivate: [AuthGuard] },
 	// TODO: The following :D
-	{ path: "game", component: HomeComponent },
-	{ path: "history", component: HomeComponent },
-	{ path: "groups", component: HomeComponent },
+	{ path: "game", component: HomeComponent, canActivate: [AuthGuard] },
+	{ path: "history", component: HomeComponent, canActivate: [AuthGuard] },
+	{ path: "groups", component: HomeComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

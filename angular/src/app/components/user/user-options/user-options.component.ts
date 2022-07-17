@@ -49,7 +49,7 @@ export class UserOptionsComponent implements OnInit {
 	changePassword(): void {
 		if (!this.canChangePassword) return;
 
-		this.authService.changePassword(this.currentUser.id, this.oldPassword, this.password).subscribe({
+		this.authService.changePassword(this.currentUser.id!, this.oldPassword, this.password).subscribe({
 			next: result => {
 				switch (result.reasonCode) {
 					case OperationReasonCode.Success:
