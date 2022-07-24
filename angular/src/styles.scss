@@ -19,6 +19,11 @@ body {
 	font-family: "Capriola", sans-serif;
 }
 
+.no-padding,
+.no-padding .mat-dialog-container {
+	padding: 0 !important;
+}
+
 .snack {
 	background-color: $blue;
 	color: $black;

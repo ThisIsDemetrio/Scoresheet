@@ -17,6 +17,7 @@ import { AvatarComponent } from "./components/shared/avatar/avatar.component";
 import { FromAssetsPipe } from "./components/pipes/from-assets.pipe";
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 import { SideDrawerComponent } from "./components/shared/sidedrawer/sidedrawer.component";
+import { MatDialogRef } from "@angular/material/dialog";
 
 @NgModule({
 	bootstrap: [AppComponent],
@@ -38,6 +39,7 @@ import { SideDrawerComponent } from "./components/shared/sidedrawer/sidedrawer.c
 		{ provide: ENDPOINT_URL, useValue: environment.endpoint },
 		{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
 		{ provide: MOCK_MODE, useValue: false },
+		{ provide: MatDialogRef, useValue: {} },
 		{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
 	],
 })

@@ -1,4 +1,3 @@
-import { ComponentType } from "@angular/cdk/portal";
 import { Injectable } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { SideDrawerComponent } from "../components/shared/sidedrawer/sidedrawer.component";
@@ -12,9 +11,10 @@ export class SideDrawerService {
 	openSidedrawer(): void {
 		this.sideDrawerRef = this.matDialog.open(SideDrawerComponent, {
 			hasBackdrop: true,
+			panelClass: "no-padding",
 			position: { left: "0", top: "0" },
-			height: "100vh",
-			width: "50vw",
+			height: "45vh",
+			width: "80vw",
 			data: null,
 		});
 
