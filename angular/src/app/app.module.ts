@@ -18,19 +18,31 @@ import { FromAssetsPipe } from "./components/pipes/from-assets.pipe";
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 import { SideDrawerComponent } from "./components/shared/sidedrawer/sidedrawer.component";
 import { MatDialogRef } from "@angular/material/dialog";
+import { GroupListComponent } from "./components/groups/group-list.component";
+import { JoinGroupComponent } from "./components/groups/join-group/join-group.component";
+import { GroupInfoComponent } from "./components/groups/group-info/group-info.component";
+import { CreateGroupComponent } from "./components/groups/create-group/create-group.component";
 
 @NgModule({
 	bootstrap: [AppComponent],
 	imports: [AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ...ANGULAR_MATERIAL_IMPORTS],
 	declarations: [
 		AppComponent,
-		AvatarComponent,
 		HomeComponent,
+		// Group section
+		GroupListComponent,
+		JoinGroupComponent,
+		GroupInfoComponent,
+		CreateGroupComponent,
+		// Login section
 		LoginComponent,
 		LoginFormComponent,
-		SideDrawerComponent,
 		SignupFormComponent,
+		// Options section
 		UserOptionsComponent,
+		// Shared
+		AvatarComponent,
+		SideDrawerComponent,
 		// Pipes
 		FromAssetsPipe,
 	],
