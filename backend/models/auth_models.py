@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from backend.models.player_models import PlayerModel
+from models.player_models import PlayerModel
 
 
 class LoginModel(BaseModel):
@@ -19,7 +19,12 @@ class SignupModel(BaseModel):
 
 class AuthenticatedUserModel(BaseModel):
     accessToken: str
-    player: PlayerModel
+    userData: PlayerModel
+
+
+class ChangePasswordModel(BaseModel):
+    oldPassword: str
+    newPassword: str
 
 
 class Settings(BaseModel):

@@ -1,6 +1,6 @@
-export interface Player {
+export interface PlayerModel {
 	id: string | null;
 	name: string;
-	avatarUrl?: string;
+	avatar?: string;
 	groups: string[];
 }

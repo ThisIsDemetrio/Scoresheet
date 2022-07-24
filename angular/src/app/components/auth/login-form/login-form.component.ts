@@ -9,6 +9,7 @@ import { AuthService } from "../../../providers/auth.service";
 	styleUrls: ["./login-form.component.scss"],
 })
 export class LoginFormComponent {
+	// TODO: Just for fun, transform it in a Reactive Form
 	username: string = "";
 	password: string = "";
 
@@ -42,7 +43,7 @@ export class LoginFormComponent {
 				next: () => this.router.navigate(["/home"]),
 				error: () => {
 					this.onPendingRequest = false;
-					this.snackBar.open("Creazione utente fallita");
+					this.snackBar.open("Autenticazione utente fallita", "", { panelClass: "snack-error" });
 				},
 			});
 	}

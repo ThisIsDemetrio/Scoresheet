@@ -1,5 +1,5 @@
-from backend.models.game_models import Game
-from backend.database import games_collection
+from models.game_models import Game
+from database import games_collection
 from bson.objectid import ObjectId
 
 

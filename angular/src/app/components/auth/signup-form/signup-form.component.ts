@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { LoginModel } from "src/app/models/auth.model";
-import { Player } from "src/app/models/player.model";
+import { PlayerModel } from "src/app/models/player.model";
 import { AuthService } from "../../../providers/auth.service";
 
 @Component({
@@ -11,6 +11,7 @@ import { AuthService } from "../../../providers/auth.service";
 	styleUrls: ["./signup-form.component.scss"],
 })
 export class SignupFormComponent {
+	// TODO: Just for fun, transform it in a Reactive Form
 	username: string = "";
 	password: string = "";
 	repeatedPassword: string = "";
@@ -39,7 +40,7 @@ export class SignupFormComponent {
 			password: this.password,
 		};
 
-		const player: Player = {
+		const player: PlayerModel = {
 			id: "",
 			groups: [],
 			// TODO: Allow user to select the name and the avatar
@@ -55,7 +56,7 @@ export class SignupFormComponent {
 				next: () => this.router.navigate(["/home"]),
 				error: () => {
 					this.onPendingRequest = false;
-					this.snackBar.open("Creazione utente fallita");
+					this.snackBar.open("Creazione utente fallita", "", { panelClass: "snack-error" });
 				},
 			});
 	}

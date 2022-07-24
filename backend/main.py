@@ -1,12 +1,13 @@
 import uvicorn
-from backend.models.auth_models import Settings
-from backend.routers import auth_router, game_router, group_router, player_router
 from decouple import config
 from fastapi import FastAPI, Request
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+
+from models.auth_models import Settings
+from routers import auth_router, game_router, group_router, player_router
 
 app = FastAPI()
 origins = [config("ORIGIN")]

@@ -1,0 +1,58 @@
+@import "../../../../styles.scss";
+
+$avatarSize: 48px;
+$marginSize: 4px;
+
+:host {
+	display: flex;
+	min-height: 64px;
+
+	.current-avatar,
+	.no-avatar {
+		width: $avatarSize;
+		height: $avatarSize;
+	}
+
+	.no-avatar {
+		border: 1px solid $gray;
+		border-radius: 10px;
+		font-size: 32px;
+		margin: 4px;
+		color: $gray;
+
+		&:after {
+			content: "?";
+			line-height: $avatarSize;
+			margin: 16px;
+		}
+	}
+}
+
+.avatar-dialog {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.title {
+		font-size: 22px;
+	}
+
+	.avatars {
+		display: inline-block;
+
+		.avatar {
+			width: calc($avatarSize + 2 * $marginSize);
+			height: calc($avatarSize + 2 * $marginSize);
+			padding: $marginSize;
+
+			&:hover {
+				background-color: lighter($blue, 0.5);
+			}
+
+			&.selected {
+				border: 1px solid lighter($blue, 0.5);
+				border-radius: 10px;
+			}
+		}
+	}
+}

@@ -1,6 +1,4 @@
 import { NgModule } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatInputModule } from "@angular/material/input";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./components/home/home.component";
@@ -13,25 +11,36 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InterceptorService } from "./providers/interceptor.service";
 import { environment } from "src/environments/environment";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { UserOptionsComponent } from "./components/user/user-options/user-options.component";
+import { ANGULAR_MATERIAL_IMPORTS } from "./imports";
+import { AvatarComponent } from "./components/shared/avatar/avatar.component";
+import { FromAssetsPipe } from "./components/pipes/from-assets.pipe";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
+import { SideDrawerComponent } from "./components/shared/sidedrawer/sidedrawer.component";
+import { MatDialogRef } from "@angular/material/dialog";
 
 @NgModule({
 	bootstrap: [AppComponent],
-	imports: [
-		AppRoutingModule,
-		BrowserAnimationsModule,
-		FormsModule,
-		HttpClientModule,
-		MatButtonModule,
-		MatInputModule,
-		MatSnackBarModule,
+	imports: [AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ...ANGULAR_MATERIAL_IMPORTS],
+	declarations: [
+		AppComponent,
+		AvatarComponent,
+		HomeComponent,
+		LoginComponent,
+		LoginFormComponent,
+		SideDrawerComponent,
+		SignupFormComponent,
+		UserOptionsComponent,
+		// Pipes
+		FromAssetsPipe,
 	],
-	declarations: [AppComponent, HomeComponent, LoginComponent, LoginFormComponent, SignupFormComponent],
 	providers: [
 		// TODO: This value must be moved to environment.prod.ts and applied only while deploying
 		{ provide: ENDPOINT_URL, useValue: environment.endpoint },
 		{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
 		{ provide: MOCK_MODE, useValue: false },
+		{ provide: MatDialogRef, useValue: {} },
+		{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
 	],
 })
 export class AppModule {}

@@ -1,0 +1,45 @@
+<div class="header">
+	<mat-icon class="menu-icon" (click)="openSidedrawer()">menu</mat-icon>
+	<span class="title">Opzioni</span>
+</div>
+
+<div class="card avatar">
+	<div class="card-title">Informazioni</div>
+	<div class="card-content">
+		<mat-form-field class="username-field">
+			<mat-label>Nome</mat-label>
+			<input matInput type="text" required class="name" name="name" [(ngModel)]="currentUser.name" />
+		</mat-form-field>
+		<app-avatar name="avatar" [(ngModel)]="currentUser.avatar"></app-avatar>
+		<button mat-button class="full-width-btn" [disabled]="!canChangeUserInfo()" (click)="updateUserInfo()">
+			Salva
+		</button>
+	</div>
+</div>
+
+<div class="card password">
+	<div class="card-title">Cambia password</div>
+	<div class="card-content">
+		<mat-form-field class="old-password-field">
+			<mat-label>Ripeti la password</mat-label>
+			<input matInput type="password" required name="old_password" class="password" [(ngModel)]="oldPassword" />
+		</mat-form-field>
+		<mat-form-field class="password-field">
+			<mat-label>Password</mat-label>
+			<input matInput type="password" required name="password" class="password" [(ngModel)]="password" />
+		</mat-form-field>
+		<mat-form-field class="repeat-password-field">
+			<mat-label>Ripeti la password</mat-label>
+			<input
+				matInput
+				type="password"
+				required
+				name="repeated_password"
+				class="password"
+				[(ngModel)]="repeatedPassword" />
+		</mat-form-field>
+		<button mat-button class="full-width-btn" [disabled]="!canChangePassword()" (click)="changePassword()">
+			Cambia password
+		</button>
+	</div>
+</div>

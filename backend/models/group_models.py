@@ -12,7 +12,7 @@ class Group(BaseModel):
     name: str
     creatorId: str
     password: str
-    avatarUrl: str
+    avatar: str
     participants: list[GroupParticipant]
 
     class Config:

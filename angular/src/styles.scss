@@ -1,5 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
+$white: #fbfbfb;
+$black: black;
+$blue: #3e989b;
+$green: #6db465;
+$yellow: #f2c14e;
+$red: #f78154;
+$gray: gray;
+$shadowColor: rgba(0, 0, 0, 0.5);
+
 html,
 body {
 	height: 100vh;
@@ -7,5 +16,30 @@ body {
 }
 body {
 	margin: 0;
-	font-family: Roboto, "Helvetica Neue", sans-serif;
+	font-family: "Capriola", sans-serif;
+}
+
+.no-padding,
+.no-padding .mat-dialog-container {
+	padding: 0 !important;
+}
+
+.snack {
+	background-color: $blue;
+	color: $black;
+
+	&-success {
+		background-color: $green;
+		color: $black;
+	}
+
+	&-error {
+		background-color: $red;
+		color: $white;
+	}
+
+	&-warning {
+		background-color: $yellow;
+		color: $black;
+	}
 }

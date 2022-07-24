@@ -5,7 +5,7 @@ from bson.objectid import ObjectId
 class PlayerModel(BaseModel):
     id: str
     name: str
-    avatarUrl: str | None = None
+    avatar: str | None = None
     groups: list[str]
 
     class Config:

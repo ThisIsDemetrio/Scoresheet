@@ -9,7 +9,7 @@ import { AuthService } from "./auth.service";
 	providedIn: "root",
 })
 export class InterceptorService implements HttpInterceptor {
-	constructor(private router: Router, private _auth: AuthService) {}
+	constructor(private _auth: AuthService) {}
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 		if (!request.headers.has("Content-Type")) {
@@ -17,7 +17,7 @@ export class InterceptorService implements HttpInterceptor {
 		}
 
 		const accessToken = this._auth.accessToken;
-		if (accessToken?.length > 0)
+		if (accessToken && accessToken.length > 0)
 			request = request.clone({ headers: request.headers.set("Accept", "application/json") }).clone({
 				setHeaders: {
 					Authorization: `Bearer ${accessToken}`,
