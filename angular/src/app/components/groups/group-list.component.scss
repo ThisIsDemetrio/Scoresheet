@@ -1,3 +1,16 @@
 :host {
 	display: block;
+
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	app-header {
+		flex: 0 0 56px;
+	}
+
+	.content {
+		flex: 1 1 auto;
+		overflow-y: auto;
+	}
 }
