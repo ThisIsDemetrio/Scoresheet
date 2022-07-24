@@ -27,21 +27,13 @@ export class UserOptionsComponent implements OnInit {
 	password = "";
 	repeatedPassword = "";
 
-	constructor(
-		private readonly authService: AuthService,
-		private readonly matSnackBar: MatSnackBar,
-		private readonly sidedrawerService: SideDrawerService
-	) {}
+	constructor(private readonly authService: AuthService, private readonly matSnackBar: MatSnackBar) {}
 
 	ngOnInit(): void {
 		if (!!this.authService.currentUser) {
 			this.currentUser = { ...this.authService.currentUser };
 			this.originalUser = { ...this.currentUser };
 		}
-	}
-
-	openSidedrawer(): void {
-		this.sidedrawerService.openSidedrawer();
 	}
 
 	canChangeUserInfo(): boolean {

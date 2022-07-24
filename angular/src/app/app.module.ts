@@ -22,6 +22,7 @@ import { GroupListComponent } from "./components/groups/group-list.component";
 import { JoinGroupComponent } from "./components/groups/join-group/join-group.component";
 import { GroupInfoComponent } from "./components/groups/group-info/group-info.component";
 import { CreateGroupComponent } from "./components/groups/create-group/create-group.component";
+import { HeaderComponent } from "./components/shared/header/header.component";
 
 @NgModule({
 	bootstrap: [AppComponent],
@@ -42,6 +43,7 @@ import { CreateGroupComponent } from "./components/groups/create-group/create-gr
 		UserOptionsComponent,
 		// Shared
 		AvatarComponent,
+		HeaderComponent,
 		SideDrawerComponent,
 		// Pipes
 		FromAssetsPipe,
