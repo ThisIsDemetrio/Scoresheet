@@ -1,6 +1,6 @@
 import uuid
 from models.operation_response import OperationReasonCode, OperationResponseModel
-from models.group_models import Group, GroupParticipant
+from models.group_models import GroupModel, GroupParticipantModel
 from BL import player_logic
 from database import groups_collection
 from bson.objectid import ObjectId
@@ -10,7 +10,7 @@ from models.player_models import PlayerModel
 from utils.utils import hashString
 
 # TODO: Create DB connection
-groups: list[Group] = [
+groups: list[GroupModel] = [
     {
         "id": "group01",
         "name": "Scrabble Group",
@@ -29,7 +29,7 @@ async def get_group_by_id(id: str) -> PlayerModel:
     return await groups_collection.find_one({"_id": ObjectId(id)})
 
 
-async def create_group(group: Group, password: str) -> None:
+async def create_group(group: GroupModel, password: str) -> None:
     if (group.id is not None):
         await update_group(group)
 
@@ -37,7 +37,7 @@ async def create_group(group: Group, password: str) -> None:
     await groups_collection.insert_one(group)
 
 
-async def update_group(id: str, groupToUpdate: Group, password: str) -> None:
+async def update_group(id: str, groupToUpdate: GroupModel, password: str) -> None:
     if (len(groupToUpdate) < 1):
         raise Exception("Data not valid")
 
@@ -51,7 +51,7 @@ async def update_group(id: str, groupToUpdate: Group, password: str) -> None:
 
 
 async def get_players_in_group(id: str) -> list[PlayerModel]:
-    group: Group = groups_collection.find_one({"_id": ObjectId(id)})
+    group: GroupModel = groups_collection.find_one({"_id": ObjectId(id)})
     playerIds: list[str] = []
     for participant in group.participants:
         playerIds.append(participant.playerId)
@@ -67,7 +67,7 @@ async def join_group(playerId: str, groupId: str, password: str) -> None:
     playerInGroup = pydash.find(
         groupToJoin.participants, lambda player: player.id == playerId)
     if (playerInGroup is None):
-        participant = GroupParticipant()
+        participant = GroupParticipantModel()
         participant.playerId = playerId
         participant.isActive = True
         groupToJoin.participants.append(participant)

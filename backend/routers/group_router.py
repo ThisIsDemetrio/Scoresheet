@@ -1,7 +1,7 @@
 from tokenize import group
 from fastapi import APIRouter
 from models.operation_response import OperationResponseModel
-from models.group_models import Group
+from models.group_models import GroupModel
 from models.player_models import PlayerModel
 import BL.group_logic as GroupLogic
 
@@ -9,12 +9,12 @@ router = APIRouter(prefix="/Group")
 
 
 @router.post("/Add", tags=["Group management"])
-async def create_group(group: Group, password: str) -> None:
+async def create_group(group: GroupModel, password: str) -> None:
     return GroupLogic.create_group(group, password)
 
 
 @router.put("/update/{id}", tags=["Group management"])
-async def update_group(id: str, group: Group, password: str) -> None:
+async def update_group(id: str, group: GroupModel, password: str) -> None:
     return GroupLogic.update_group(id, group, password)
 
 
