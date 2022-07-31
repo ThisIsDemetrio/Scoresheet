@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { Group } from "../models/group.model";
+import { GroupModel } from "../models/group.model";
 import { PlayerModel } from "../models/player.model";
 import { MOCK_PLAYERS } from "./player.service.mock";
 
-export const MOCK_GROUPS: Group[] = [
+export const MOCK_GROUPS: GroupModel[] = [
 	{
 		id: "group01",
 		name: "Scrabble Group",
@@ -22,7 +22,7 @@ export const MOCK_GROUPS: Group[] = [
 
 @Injectable()
 export class GroupMockService {
-	getUserGroup(userId: string): Observable<Group[]> {
+	getUserGroup(userId: string): Observable<GroupModel[]> {
 		const result = MOCK_GROUPS.filter(group =>
 			group.participants.some(participant => participant.isActive && participant.playerId === userId)
 		);
@@ -41,7 +41,7 @@ export class GroupMockService {
 		return of(players);
 	}
 
-	createGroup(group: Group, password: string): Observable<boolean> {
+	createGroup(group: GroupModel, password: string): Observable<boolean> {
 		group.password = password;
 		group.id = `${MOCK_GROUPS.length}`;
 		MOCK_GROUPS.push(group);
@@ -79,7 +79,7 @@ export class GroupMockService {
 		}
 	}
 
-	updateGroup(group: Group, password: string): Observable<boolean> {
+	updateGroup(group: GroupModel, password: string): Observable<boolean> {
 		const index = MOCK_GROUPS.findIndex(g => g.id === group.id && g.password === group.password);
 		if (index < 0) return of(false);
 

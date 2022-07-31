@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ENDPOINT_URL } from "./tokens";
-import { CreateGroupData, Group } from "../models/group.model";
+import { CreateGroupData, GroupModel } from "../models/group.model";
 import { PlayerModel } from "../models/player.model";
 import { LoginModel } from "../models/auth.model";
 
@@ -15,15 +15,15 @@ export class GroupService {
 	}
 	constructor(@Inject(ENDPOINT_URL) private readonly baseUrl: string, private readonly httpClient: HttpClient) {}
 
-	getUserGroup(userId: string): Observable<Group[]> {
-		return this.httpClient.get<Group[]>(`${this.endpoint}GetByUserId/${userId}`);
+	getUserGroup(userId: string): Observable<GroupModel[]> {
+		return this.httpClient.get<GroupModel[]>(`${this.endpoint}GetByUserId/${userId}`);
 	}
 
 	getPlayersInGroup(groupId: string): Observable<PlayerModel[]> {
 		return this.httpClient.get<PlayerModel[]>(`${this.endpoint}/GetPlayers/${groupId}`);
 	}
 
-	createGroup(group: Group, password: string): Observable<boolean> {
+	createGroup(group: GroupModel, password: string): Observable<boolean> {
 		const body: CreateGroupData = { group, password };
 		return this.httpClient.post<boolean>(`${this.endpoint}/Add`, body);
 	}
@@ -39,7 +39,7 @@ export class GroupService {
 		});
 	}
 
-	updateGroup(group: Group, password: string): Observable<boolean> {
+	updateGroup(group: GroupModel, password: string): Observable<boolean> {
 		const body: CreateGroupData = { group, password };
 		return this.httpClient.put<boolean>(`${this.endpoint}/Update/${group.id}`, body);
 	}

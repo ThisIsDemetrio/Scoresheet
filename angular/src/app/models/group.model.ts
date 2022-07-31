@@ -1,18 +1,18 @@
-export interface Group {
+export interface GroupModel {
 	id: string;
 	name: string;
 	creatorId: string;
 	password: string;
 	avatar: string;
-	participants: GroupParticipant[];
+	participants: GroupParticipantModel[];
 }
 
-export interface GroupParticipant {
+export interface GroupParticipantModel {
 	playerId: string;
 	isActive: boolean;
 }
 
 export interface CreateGroupData {
-	group: Group;
+	group: GroupModel;
 	password: string;
 }

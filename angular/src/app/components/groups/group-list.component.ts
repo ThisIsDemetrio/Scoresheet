@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { Group } from "src/app/models/group.model";
+import { GroupModel } from "src/app/models/group.model";
 import { PlayerModel } from "src/app/models/player.model";
 import { AuthService } from "src/app/providers/auth.service";
 import { GroupService } from "../../providers/group.service";
@@ -15,7 +15,7 @@ export class GroupListComponent implements OnInit {
 	// TODO: Styling missing
 
 	currentUser: PlayerModel | null = null;
-	groups: Group[] = [];
+	groups: GroupModel[] = [];
 	loading: boolean = false;
 	errorWhileLoading = false;
 
@@ -46,7 +46,7 @@ export class GroupListComponent implements OnInit {
 		});
 	}
 
-	isGroupAdmin(group: Group): boolean {
+	isGroupAdmin(group: GroupModel): boolean {
 		return group.creatorId === this.authService.currentUser?.id;
 	}
 
