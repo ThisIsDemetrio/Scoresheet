@@ -1,3 +1,5 @@
+@import "../../../styles.scss";
+
 :host {
 	display: block;
 
@@ -11,6 +13,56 @@
 
 	.content {
 		flex: 1 1 auto;
+		display: flex;
 		overflow-y: auto;
+		flex-direction: column;
+
+		.group {
+			width: 100%;
+			padding: 8px 16px;
+			min-height: 40px;
+			font-size: 24px;
+
+			.icon {
+				margin: 4px;
+			}
+
+			.text {
+				font-weight: 500;
+				word-wrap: break-word;
+			}
+
+			.check {
+				margin: 4px;
+				color: $green;
+			}
+		}
+
+		.no-groups {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			width: 100%;
+			align-items: center;
+			justify-content: center;
+
+			.icon {
+				color: $red;
+				font-size: 48px;
+				height: 48px;
+				width: 48px;
+				margin-bottom: 1rem;
+			}
+
+			.text {
+				font-size: 20px;
+			}
+		}
+
+		.btns {
+			display: flex;
+			margin-top: 1rem;
+			justify-content: space-around;
+		}
 	}
 }

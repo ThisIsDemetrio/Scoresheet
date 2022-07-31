@@ -3,10 +3,12 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ENDPOINT_URL } from "./tokens";
 import { CreateGroupData, Group } from "../models/group.model";
-import { LoginModel } from "../models/shared.model";
 import { PlayerModel } from "../models/player.model";
+import { LoginModel } from "../models/auth.model";
 
-@Injectable()
+@Injectable({
+	providedIn: "root",
+})
 export class GroupService {
 	private get endpoint(): string {
 		return `${this.baseUrl}/Group/`;
