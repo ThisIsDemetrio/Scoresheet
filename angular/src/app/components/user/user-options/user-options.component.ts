@@ -3,7 +3,6 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { OperationReasonCode } from "src/app/models/operation-response.model";
 import { PlayerModel } from "src/app/models/player.model";
 import { AuthService } from "src/app/providers/auth.service";
-import { SideDrawerService } from "src/app/providers/side-drawer.service";
 
 const getEmptyPlayer = (): PlayerModel => {
 	return {
@@ -19,6 +18,7 @@ const getEmptyPlayer = (): PlayerModel => {
 })
 export class UserOptionsComponent implements OnInit {
 	// TODO: Just for fun, transform it in two Reactive Forms
+	// TODO: Loading and Error management in UI
 
 	originalUser: PlayerModel = getEmptyPlayer();
 	currentUser: PlayerModel = getEmptyPlayer();

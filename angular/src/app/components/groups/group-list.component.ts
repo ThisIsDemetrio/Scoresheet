@@ -12,8 +12,7 @@ import { JoinGroupComponent } from "./join-group/join-group.component";
 	styleUrls: ["./group-list.component.scss"],
 })
 export class GroupListComponent implements OnInit {
-	// TODO: Styling missing
-
+	// TODO: Loading and Error management in UI
 	currentUser: PlayerModel | null = null;
 	groups: GroupModel[] = [];
 	loading: boolean = false;
