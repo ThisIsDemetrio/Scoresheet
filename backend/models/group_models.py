@@ -8,7 +8,7 @@ class GroupParticipantModel(BaseModel):
 
 
 class GroupModel(BaseModel):
-    _id: ObjectId
+    id: str
     name: str
     creatorId: str
     password: str

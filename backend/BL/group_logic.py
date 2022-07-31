@@ -1,4 +1,4 @@
-import uuid
+from mapping.group_mapping import map_to_GroupModel, map_from_GroupModel
 from models.operation_response import OperationReasonCode, OperationResponseModel
 from models.group_models import GroupModel, GroupParticipantModel
 from BL import player_logic
@@ -24,9 +24,12 @@ groups: list[GroupModel] = [
     }
 ]
 
+# TODO: Add mappings
+
 
 async def get_group_by_id(id: str) -> PlayerModel:
-    return await groups_collection.find_one({"_id": ObjectId(id)})
+    group: dict = await groups_collection.find_one({"id": id})
+    return map_to_GroupModel(group)
 
 
 async def create_group(group: GroupModel, password: str) -> None:
@@ -34,28 +37,21 @@ async def create_group(group: GroupModel, password: str) -> None:
         await update_group(group)
 
     group.password = hashString(password)
-    await groups_collection.insert_one(group)
+    await groups_collection.insert_one(map_from_GroupModel(group))
 
 
 async def update_group(id: str, groupToUpdate: GroupModel, password: str) -> None:
-    if (len(groupToUpdate) < 1):
-        raise Exception("Data not valid")
+    groupDb = await get_group_by_id(id)
+    group: GroupModel = map_to_GroupModel(groupDb)
 
-    group = await get_group_by_id(id)
     if (group.password != hashString(password)):
         raise Exception("Password not valid")
 
     if (groupToUpdate.password == ""):
         groupToUpdate.password = group.password
-    await groups_collection.update_one({"_id": ObjectId(id)}, {"$set": group})
 
-
-async def get_players_in_group(id: str) -> list[PlayerModel]:
-    group: GroupModel = groups_collection.find_one({"_id": ObjectId(id)})
-    playerIds: list[str] = []
-    for participant in group.participants:
-        playerIds.append(participant.playerId)
-    return await player_logic.get_players_by_name(playerIds)
+    groupToSave = map_from_GroupModel(groupToUpdate)
+    await groups_collection.update_one({"id": id}, {"$set": groupToSave})
 
 
 async def join_group(playerId: str, groupId: str, password: str) -> None:
@@ -69,12 +65,11 @@ async def join_group(playerId: str, groupId: str, password: str) -> None:
     if (playerInGroup is None):
         participant = GroupParticipantModel()
         participant.playerId = playerId
-        participant.isActive = True
         groupToJoin.participants.append(participant)
-    else:
         playerInGroup.isActive = True
 
-    await groups_collection.update_one({"_id": groupToJoin._id}, {"$set": groupToJoin})
+    playerInGroup.isActive = True
+    await groups_collection.update_one({"id": groupToJoin.id}, {"$set": map_to_GroupModel(groupToJoin)})
 
 
 async def leave_group(playerId: str, groupId: str) -> None:
@@ -85,7 +80,7 @@ async def leave_group(playerId: str, groupId: str) -> None:
     playerInGroup = pydash.find(
         groupToLeave.participants, lambda player: player.id == playerId)
     playerInGroup.isActive = False
-    await groups_collection.update_one({"_id": groupToLeave._id}, {"$set": groupToLeave})
+    await groups_collection.update_one({"id": groupToLeave.id}, {"$set": map_to_GroupModel(groupToLeave)})
 
 
 async def delete_group(playerId: str, groupId: str) -> OperationResponseModel:
@@ -99,7 +94,7 @@ async def delete_group(playerId: str, groupId: str) -> OperationResponseModel:
         result.success = False
         result.reasonCode = OperationReasonCode.GroupNotEmpty
     else:
-        groups_collection.delete_one({"_id": ObjectId(groupId)})
+        groups_collection.delete_one({"id": groupId})
         result.success = True
         result.reasonCode = OperationReasonCode.Success
 

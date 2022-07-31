@@ -18,11 +18,6 @@ async def update_group(id: str, group: GroupModel, password: str) -> None:
     return GroupLogic.update_group(id, group, password)
 
 
-@router.get("/GetPlayers/{id}", tags=["Group management"])
-async def get_players_in_group(id: str) -> list[PlayerModel]:
-    return GroupLogic.get_players_in_group(id)
-
-
 @router.post("/Join/{groupId}", tags=["Group management"])
 async def join_group(groupId: str, playerId: str, password: str) -> None:
     return GroupLogic.join_group(playerId, groupId, password)
