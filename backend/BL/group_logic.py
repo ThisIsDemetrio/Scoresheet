@@ -24,6 +24,8 @@ groups: list[GroupModel] = [
     }
 ]
 
+# TODO: Password should never be returned
+
 
 async def get_group_by_id(id: str) -> PlayerModel:
     group: dict = await groups_collection.find_one({"id": id})

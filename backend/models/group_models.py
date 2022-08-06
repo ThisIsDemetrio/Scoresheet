@@ -28,6 +28,11 @@ class GroupModel(BaseModel):
         }
 
 
+class UpdateGroupModel(BaseModel):
+    group: GroupModel
+    password: str
+
+
 class JoinGroupModel(BaseModel):
     playerId: str
     groupId: str
