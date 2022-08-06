@@ -4,7 +4,6 @@ import { Observable } from "rxjs";
 import { ENDPOINT_URL } from "./tokens";
 import { CreateGroupData, GroupModel, JoinGroupData } from "../models/group.model";
 import { PlayerModel } from "../models/player.model";
-import { LoginModel } from "../models/auth.model";
 import { OperationResponseModel } from "../models/operation-response.model";
 
 @Injectable({
@@ -24,9 +23,8 @@ export class GroupService {
 		return this.httpClient.get<PlayerModel[]>(`${this.endpoint}/GetPlayers/${groupId}`);
 	}
 
-	createGroup(group: GroupModel, password: string): Observable<OperationResponseModel> {
-		const body: CreateGroupData = { group, password };
-		return this.httpClient.post<OperationResponseModel>(`${this.endpoint}/Add`, body);
+	createGroup(data: CreateGroupData): Observable<OperationResponseModel> {
+		return this.httpClient.post<OperationResponseModel>(`${this.endpoint}/Add`, data);
 	}
 
 	joinGroup(data: JoinGroupData): Observable<OperationResponseModel> {

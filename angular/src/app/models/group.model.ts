@@ -1,9 +1,10 @@
+import { Optional } from "./types";
+
 export interface GroupModel {
-	id: string;
+	id: Optional<string>;
 	name: string;
 	creatorId: string;
-	password: string;
-	avatar: string;
+	avatar?: string;
 	participants: GroupParticipantModel[];
 }
 

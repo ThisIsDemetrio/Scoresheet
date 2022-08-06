@@ -7,9 +7,8 @@ import { MOCK_PLAYERS } from "./player.service.mock";
 export const MOCK_GROUPS: GroupModel[] = [
 	{
 		id: "group01",
-		name: "Scrabble Group",
+		name: "Scrabble GroupModel",
 		creatorId: "1",
-		password: "password",
 		avatar: "scrabble",
 		participants: [
 			{ playerId: "1", isActive: true },
@@ -42,7 +41,6 @@ export class GroupMockService {
 	}
 
 	createGroup(group: GroupModel, password: string): Observable<boolean> {
-		group.password = password;
 		group.id = `${MOCK_GROUPS.length}`;
 		MOCK_GROUPS.push(group);
 
@@ -50,7 +48,7 @@ export class GroupMockService {
 	}
 
 	joinGroup(groupId: string, userId: string, password: string): Observable<boolean> {
-		const groupToJoin = MOCK_GROUPS.find(group => group.id === groupId && group.password === password);
+		const groupToJoin = MOCK_GROUPS.find(group => group.id === groupId);
 		if (!groupToJoin) return of(false);
 
 		const index = groupToJoin.participants.findIndex(participant => participant.playerId === userId);
@@ -80,7 +78,7 @@ export class GroupMockService {
 	}
 
 	updateGroup(group: GroupModel, password: string): Observable<boolean> {
-		const index = MOCK_GROUPS.findIndex(g => g.id === group.id && g.password === group.password);
+		const index = MOCK_GROUPS.findIndex(g => g.id === group.id);
 		if (index < 0) return of(false);
 
 		MOCK_GROUPS.splice(index, 1, group);
