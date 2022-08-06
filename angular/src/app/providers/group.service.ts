@@ -2,9 +2,10 @@ import { Inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ENDPOINT_URL } from "./tokens";
-import { CreateGroupData, GroupModel } from "../models/group.model";
+import { CreateGroupData, GroupModel, JoinGroupData } from "../models/group.model";
 import { PlayerModel } from "../models/player.model";
 import { LoginModel } from "../models/auth.model";
+import { OperationResponseModel } from "../models/operation-response.model";
 
 @Injectable({
 	providedIn: "root",
@@ -23,14 +24,13 @@ export class GroupService {
 		return this.httpClient.get<PlayerModel[]>(`${this.endpoint}/GetPlayers/${groupId}`);
 	}
 
-	createGroup(group: GroupModel, password: string): Observable<boolean> {
+	createGroup(group: GroupModel, password: string): Observable<OperationResponseModel> {
 		const body: CreateGroupData = { group, password };
-		return this.httpClient.post<boolean>(`${this.endpoint}/Add`, body);
+		return this.httpClient.post<OperationResponseModel>(`${this.endpoint}/Add`, body);
 	}
 
-	joinGroup(groupId: string, username: string, password: string): Observable<boolean> {
-		const body: LoginModel = { username, password };
-		return this.httpClient.post<boolean>(`${this.baseUrl}/Join/${groupId}`, body);
+	joinGroup(data: JoinGroupData): Observable<OperationResponseModel> {
+		return this.httpClient.post<OperationResponseModel>(`${this.baseUrl}/Join`, data);
 	}
 
 	leaveGroup(groupId: string, userId: string): Observable<boolean> {

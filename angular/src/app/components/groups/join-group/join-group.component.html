@@ -1,0 +1,13 @@
+<div class="wrapper">
+	<div class="title">Unisciti a un gruppo</div>
+	<!-- TODO: Transform this into an autocomplete -->
+	<mat-form-field class="group-name">
+		<mat-label>Nome gruppo</mat-label>
+		<input matInput name="group name" type="string" required [(ngModel)]="groupId" />
+	</mat-form-field>
+	<mat-form-field class="password">
+		<mat-label>Password</mat-label>
+		<input matInput name="password" type="password" required [(ngModel)]="password" />
+	</mat-form-field>
+	<button mat-stroked-button class="join-btn" color="primary" (click)="joinGroup()">Unisciti</button>
+</div>

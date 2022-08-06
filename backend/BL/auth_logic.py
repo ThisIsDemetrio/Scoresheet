@@ -80,7 +80,7 @@ async def changePassword(playerId: str, passwordModel: ChangePasswordModel) -> O
     hashedOldPassword = hashString(passwordModel.oldPassword)
     if (hashedOldPassword != user.password):
         result.success = False
-        result.reasonCode = OperationReasonCode.OldPasswordNotValid
+        result.reasonCode = OperationReasonCode.PasswordNotValid
         return result
 
     user.password = hashString(passwordModel.newPassword)

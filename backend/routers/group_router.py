@@ -1,7 +1,7 @@
 from tokenize import group
 from fastapi import APIRouter
 from models.operation_response import OperationResponseModel
-from models.group_models import GroupModel
+from models.group_models import GroupModel, JoinGroupModel
 from models.player_models import PlayerModel
 import BL.group_logic as GroupLogic
 
@@ -19,8 +19,8 @@ async def update_group(id: str, group: GroupModel, password: str) -> None:
 
 
 @router.post("/Join/{groupId}", tags=["Group management"])
-async def join_group(groupId: str, playerId: str, password: str) -> None:
-    return GroupLogic.join_group(playerId, groupId, password)
+async def join_group(data: JoinGroupModel) -> OperationResponseModel:
+    return GroupLogic.join_group(data.playerId, data.groupId, data.password)
 
 
 @router.post("/Leave/{groupId}", tags=["Group management"])

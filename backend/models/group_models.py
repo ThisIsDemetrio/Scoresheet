@@ -26,3 +26,9 @@ class GroupModel(BaseModel):
                 "participants": [{"playerId": "1", "isActive": True}]
             }
         }
+
+
+class JoinGroupModel(BaseModel):
+    playerId: str
+    groupId: str
+    password: str

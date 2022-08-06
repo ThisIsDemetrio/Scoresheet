@@ -24,8 +24,6 @@ groups: list[GroupModel] = [
     }
 ]
 
-# TODO: Add mappings
-
 
 async def get_group_by_id(id: str) -> PlayerModel:
     group: dict = await groups_collection.find_one({"id": id})
@@ -33,6 +31,7 @@ async def get_group_by_id(id: str) -> PlayerModel:
 
 
 async def create_group(group: GroupModel, password: str) -> None:
+    # TODO: Add logic to avoid two groups with the same name (methods to find )
     if (group.id is not None):
         await update_group(group)
 
@@ -54,22 +53,29 @@ async def update_group(id: str, groupToUpdate: GroupModel, password: str) -> Non
     await groups_collection.update_one({"id": id}, {"$set": groupToSave})
 
 
-async def join_group(playerId: str, groupId: str, password: str) -> None:
+async def join_group(playerId: str, groupId: str, password: str) -> OperationResponseModel:
+    response = OperationResponseModel()
     # index = groups.index(group for group in groups if group.id == id)
     groupToJoin = await get_group_by_id(groupId)
     if (groupToJoin.password != hashString(password)):
-        raise Exception("Password not valid")
+        response.success = False
+        response.reasonCode = OperationReasonCode.PasswordNotValid
+        return response
 
     playerInGroup = pydash.find(
         groupToJoin.participants, lambda player: player.id == playerId)
     if (playerInGroup is None):
-        participant = GroupParticipantModel()
-        participant.playerId = playerId
-        groupToJoin.participants.append(participant)
-        playerInGroup.isActive = True
+        playerInGroup = GroupParticipantModel()
+        playerInGroup.playerId = playerId
+        groupToJoin.participants.append(playerInGroup)
 
     playerInGroup.isActive = True
     await groups_collection.update_one({"id": groupToJoin.id}, {"$set": map_to_GroupModel(groupToJoin)})
+
+    response.success = True
+    response.reasonCode = OperationReasonCode.Success
+
+    return response
 
 
 async def leave_group(playerId: str, groupId: str) -> None:

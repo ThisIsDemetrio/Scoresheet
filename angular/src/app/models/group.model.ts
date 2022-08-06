@@ -16,3 +16,9 @@ export interface CreateGroupData {
 	group: GroupModel;
 	password: string;
 }
+
+export interface JoinGroupData {
+	playerId: string;
+	groupId: string;
+	password: string;
+}

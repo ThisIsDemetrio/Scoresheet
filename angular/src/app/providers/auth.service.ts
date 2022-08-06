@@ -5,6 +5,7 @@ import { Observable, tap } from "rxjs";
 import { AuthenticatedUserModel, LoginModel, SignupModel } from "../models/auth.model";
 import { OperationResponseModel } from "../models/operation-response.model";
 import { PlayerModel } from "../models/player.model";
+import { Nil, Optional } from "../models/types";
 import { BrowserStorageService } from "./browser-storage.service";
 import { ENDPOINT_URL } from "./tokens";
 
@@ -12,7 +13,7 @@ import { ENDPOINT_URL } from "./tokens";
 	providedIn: "root",
 })
 export class AuthService {
-	get accessToken(): string | undefined {
+	get accessToken(): Optional<string> {
 		return this.browserStorage.getFromStorage()?.accessToken;
 	}
 
@@ -20,7 +21,7 @@ export class AuthService {
 		return !!this.browserStorage.getFromStorage()?.accessToken;
 	}
 
-	get currentUser(): PlayerModel | undefined {
+	get currentUser(): Optional<PlayerModel> {
 		return this.browserStorage.getFromStorage()?.userData;
 	}
 

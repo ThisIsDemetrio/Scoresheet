@@ -49,6 +49,10 @@ export class GroupListComponent implements OnInit {
 		return group.creatorId === this.authService.currentUser?.id;
 	}
 
+	openGroupDetails(groupId: string): void {
+		// TODO: Create Group Details page
+	}
+
 	joinGroup(): void {
 		this.matDialog.open(JoinGroupComponent, { data: {}, hasBackdrop: true });
 	}
