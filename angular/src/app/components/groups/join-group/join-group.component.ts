@@ -55,8 +55,8 @@ export class JoinGroupComponent {
 		};
 
 		this.service.joinGroup(data).subscribe({
-			next: result => (result.success ? this.onSuccess() : this.onFailure()),
-			error: this.onWrongPassword,
+			next: result => (result.success ? this.onSuccess() : this.onWrongPassword()),
+			error: this.onFailure,
 		});
 	}
 }

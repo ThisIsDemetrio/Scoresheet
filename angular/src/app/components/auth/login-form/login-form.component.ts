@@ -10,6 +10,7 @@ import { AuthService } from "../../../providers/auth.service";
 })
 export class LoginFormComponent {
 	// TODO: Just for fun, transform it in a Reactive Form
+	// TODO: Handle loading
 	username: string = "";
 	password: string = "";
 

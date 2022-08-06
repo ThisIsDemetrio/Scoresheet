@@ -54,7 +54,8 @@ export class GroupListComponent implements OnInit {
 	}
 
 	joinGroup(): void {
-		this.matDialog.open(JoinGroupComponent, { data: {}, hasBackdrop: true });
+		const matDialogRef = this.matDialog.open(JoinGroupComponent, { data: {}, hasBackdrop: true });
+		matDialogRef.afterClosed().subscribe(refresh => refresh && this.getUserGroups());
 	}
 
 	createGroup(): void {

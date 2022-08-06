@@ -12,6 +12,7 @@ import { AuthService } from "../../../providers/auth.service";
 })
 export class SignupFormComponent {
 	// TODO: Just for fun, transform it in a Reactive Form
+	// TODO: Handle loading
 	username: string = "";
 	password: string = "";
 	repeatedPassword: string = "";
