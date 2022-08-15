@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from bson.objectid import ObjectId
 
 
 class GroupParticipantModel(BaseModel):
@@ -8,11 +7,10 @@ class GroupParticipantModel(BaseModel):
 
 
 class GroupModel(BaseModel):
-    id: str
+    id: str | None
     name: str
     creatorId: str
-    password: str
-    avatar: str
+    avatar: str | None
     participants: list[GroupParticipantModel]
 
     class Config:
@@ -26,6 +24,10 @@ class GroupModel(BaseModel):
                 "participants": [{"playerId": "1", "isActive": True}]
             }
         }
+
+
+class GroupWithPasswordModel(GroupModel):
+    password: str
 
 
 class UpdateGroupModel(BaseModel):

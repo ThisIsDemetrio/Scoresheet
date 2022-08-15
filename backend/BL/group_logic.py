@@ -1,33 +1,15 @@
-from mapping.group_mapping import map_to_GroupModel, map_from_GroupModel
+from mapping.group_mapping import map_from_GroupModel_and_password, map_to_GroupModel, map_from_GroupModel, map_to_GroupWithPasswordModel
 from models.operation_response import OperationReasonCode, OperationResponseModel
-from models.group_models import GroupModel, GroupParticipantModel
-from BL import player_logic
+from models.group_models import GroupModel, GroupWithPasswordModel, GroupParticipantModel
 from database import groups_collection
-from bson.objectid import ObjectId
-import pydash
-
-from models.player_models import PlayerModel
 from utils.utils import hashString
 
-# TODO: Create DB connection
-groups: list[GroupModel] = [
-    {
-        "id": "group01",
-        "name": "Scrabble Group",
-        "avatarUrl": "scrabble",
-        "participants": [
-            {"id": "1", "isActive": True},
-            {"id": "2", "isActive": True},
-            {"id": "3", "isActive": True},
-            {"id": "4", "isActive": True}
-        ]
-    }
-]
 
-# TODO: Password should never be returned
+# TODO: Add method to change password
+# TODO: Add method to search groups by name
 
 
-async def get_group_by_id(id: str) -> PlayerModel:
+async def get_group_by_id(id: str) -> GroupModel:
     group: dict = await groups_collection.find_one({"id": id})
     return map_to_GroupModel(group)
 
@@ -35,7 +17,7 @@ async def get_group_by_id(id: str) -> PlayerModel:
 async def create_group(group: GroupModel, password: str) -> None:
     # TODO: Add logic to avoid two groups with the same name (methods to find )
     if (group.id is not None):
-        await update_group(group)
+        await update_group(group.id, group, password)
 
     group.password = hashString(password)
     await groups_collection.insert_one(map_from_GroupModel(group))
@@ -43,29 +25,35 @@ async def create_group(group: GroupModel, password: str) -> None:
 
 async def update_group(id: str, groupToUpdate: GroupModel, password: str) -> None:
     groupDb = await get_group_by_id(id)
-    group: GroupModel = map_to_GroupModel(groupDb)
+    group: GroupWithPasswordModel = map_to_GroupWithPasswordModel(groupDb)
 
     if (group.password != hashString(password)):
         raise Exception("Password not valid")
 
-    if (groupToUpdate.password == ""):
-        groupToUpdate.password = group.password
-
-    groupToSave = map_from_GroupModel(groupToUpdate)
+    passwordToUpdate = hashString(
+        groupToUpdate.password) if groupToUpdate.password else group.password
+    groupToSave = map_from_GroupModel_and_password(
+        groupToUpdate, passwordToUpdate)
     await groups_collection.update_one({"id": id}, {"$set": groupToSave})
 
 
 async def join_group(playerId: str, groupId: str, password: str) -> OperationResponseModel:
     response = OperationResponseModel()
-    # index = groups.index(group for group in groups if group.id == id)
+    response.success = False
+
     groupToJoin = await get_group_by_id(groupId)
+
+    if (groupToJoin is None):
+        response.reasonCode = OperationReasonCode.GroupNotFound
+        return response
+
     if (groupToJoin.password != hashString(password)):
-        response.success = False
         response.reasonCode = OperationReasonCode.PasswordNotValid
         return response
 
-    playerInGroup = pydash.find(
-        groupToJoin.participants, lambda player: player.id == playerId)
+    playerInGroup = next(
+        (participant for participant in groupToJoin.participants if participant.id == playerId), None)
+
     if (playerInGroup is None):
         playerInGroup = GroupParticipantModel()
         playerInGroup.playerId = playerId
@@ -83,22 +71,25 @@ async def join_group(playerId: str, groupId: str, password: str) -> OperationRes
 async def leave_group(playerId: str, groupId: str) -> None:
     groupToLeave = await get_group_by_id(groupId)
     if (groupToLeave.creatorId == playerId):
-        raise Exception("You can leave the group you created")
+        # TODO: Should this an handled failure?
+        raise Exception("You cannot request to leave the group you created")
 
-    playerInGroup = pydash.find(
-        groupToLeave.participants, lambda player: player.id == playerId)
+    playerInGroup = next(
+        (participant for participant in groupToJoin.participants if participant.id == playerId), None)
     playerInGroup.isActive = False
     await groups_collection.update_one({"id": groupToLeave.id}, {"$set": map_to_GroupModel(groupToLeave)})
 
 
 async def delete_group(playerId: str, groupId: str) -> OperationResponseModel:
     groupToRemove = await get_group_by_id(groupId)
+    if (groupToRemove.creatorId != playerId):
+        # TODO: Should this an handled failure?
+        raise Exception(
+            "You cannot request to delete a group you didn't created")
 
     result = OperationResponseModel()
-    canDelete = len(
-        groupToRemove.participants) == 1 and groupToRemove.creatorId == playerId
 
-    if (not canDelete):
+    if (len(groupToRemove.participants) > 1):
         result.success = False
         result.reasonCode = OperationReasonCode.GroupNotEmpty
     else:
