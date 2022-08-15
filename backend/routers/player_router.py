@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 import BL.player_logic as PlayerLogic
 from models.player_models import PlayerModel
+from models.shared_models import IdTextModel
 
 router = APIRouter(prefix="/Players")
 
@@ -15,8 +16,8 @@ async def get_player_by_id(id: str) -> PlayerModel:
     return await PlayerLogic.get_player_by_id(id)
 
 
-@router.get("/FilterPlayers/{name}", tags=["Player management"])
-async def filter_players(name: str) -> list[PlayerModel]:
+@router.get("/GetGroupsByName/{name}", tags=["Player management"])
+async def get_players_by_name(name: str) -> list[IdTextModel]:
     return await PlayerLogic.get_players_by_name(name)
 
 

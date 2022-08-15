@@ -1,4 +1,5 @@
 from models.group_models import GroupModel, GroupParticipantModel, GroupWithPasswordModel
+from models.shared_models import IdTextModel
 
 
 def map_from_GroupModel(group: GroupModel) -> dict:
@@ -42,3 +43,10 @@ def map_from_GroupParticipantModel(participant: GroupParticipantModel) -> dict:
 
 def map_to_GroupParticipantModel(participant: dict) -> GroupParticipantModel:
     return GroupParticipantModel(playerId=participant["playerId"], isActive=participant["isActive"])
+
+
+def map_to_IdTextModel(group: dict) -> IdTextModel:
+    return IdTextModel(
+        id=group["id"],
+        text=group["name"]
+    )

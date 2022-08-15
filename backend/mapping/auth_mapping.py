@@ -9,5 +9,5 @@ def map_from_UserModel(player: UserModel) -> dict:
     }
 
 
-def map_To_UserModel(player: dict) -> UserModel:
+def map_to_UserModel(player: dict) -> UserModel:
     return UserModel(username=player["username"], password=player["password"], playerId=player["playerId"])

@@ -1,6 +1,7 @@
-from mapping.group_mapping import map_from_GroupModel_and_password, map_to_GroupModel, map_from_GroupModel, map_to_GroupWithPasswordModel
-from models.operation_response import OperationReasonCode, OperationResponseModel
+from mapping.group_mapping import map_from_GroupModel_and_password, map_to_GroupModel, map_from_GroupModel, map_to_GroupWithPasswordModel, map_to_IdTextModel
 from models.group_models import GroupModel, GroupWithPasswordModel, GroupParticipantModel
+from models.operation_response import OperationReasonCode, OperationResponseModel
+from models.shared_models import IdTextModel
 from database import groups_collection
 from utils.utils import hashString
 
@@ -35,6 +36,32 @@ async def update_group(id: str, groupToUpdate: GroupModel, password: str) -> Non
     groupToSave = map_from_GroupModel_and_password(
         groupToUpdate, passwordToUpdate)
     await groups_collection.update_one({"id": id}, {"$set": groupToSave})
+
+
+async def delete_group(playerId: str, groupId: str) -> OperationResponseModel:
+    groupToRemove = await get_group_by_id(groupId)
+    if (groupToRemove.creatorId != playerId):
+        # TODO: Should this an handled failure?
+        raise Exception(
+            "You cannot request to delete a group you didn't created")
+
+    result = OperationResponseModel()
+
+    if (len(groupToRemove.participants) > 1):
+        result.success = False
+        result.reasonCode = OperationReasonCode.GroupNotEmpty
+    else:
+        groups_collection.delete_one({"id": groupId})
+        result.success = True
+        result.reasonCode = OperationReasonCode.Success
+
+    return result
+
+
+async def get_groups_by_name(text: str) -> list[IdTextModel]:
+    # TODO: Index must be present to search by text or this might not work
+    groupsDB = await groups_collection.find({"$text": {"$search": text}})
+    return map(map_to_IdTextModel, groupsDB)
 
 
 async def join_group(playerId: str, groupId: str, password: str) -> OperationResponseModel:
@@ -75,26 +102,6 @@ async def leave_group(playerId: str, groupId: str) -> None:
         raise Exception("You cannot request to leave the group you created")
 
     playerInGroup = next(
-        (participant for participant in groupToJoin.participants if participant.id == playerId), None)
+        (participant for participant in groupToLeave.participants if participant.id == playerId), None)
     playerInGroup.isActive = False
     await groups_collection.update_one({"id": groupToLeave.id}, {"$set": map_to_GroupModel(groupToLeave)})
-
-
-async def delete_group(playerId: str, groupId: str) -> OperationResponseModel:
-    groupToRemove = await get_group_by_id(groupId)
-    if (groupToRemove.creatorId != playerId):
-        # TODO: Should this an handled failure?
-        raise Exception(
-            "You cannot request to delete a group you didn't created")
-
-    result = OperationResponseModel()
-
-    if (len(groupToRemove.participants) > 1):
-        result.success = False
-        result.reasonCode = OperationReasonCode.GroupNotEmpty
-    else:
-        groups_collection.delete_one({"id": groupId})
-        result.success = True
-        result.reasonCode = OperationReasonCode.Success
-
-    return result

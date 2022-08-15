@@ -17,14 +17,14 @@ export class PlayerService {
 	}
 
 	getPlayersByName(name: string): Observable<IdTextModel[]> {
-		return this.httpClient.get<IdTextModel[]>(`${this.endpoint}/GetPlayersByName/${name}`);
+		return this.httpClient.get<IdTextModel[]>(`${this.endpoint}GetPlayersByName/${name}`);
 	}
 
 	updatePlayer(player: PlayerModel): Observable<boolean> {
-		return this.httpClient.put<boolean>(`${this.endpoint}/Update/${player.id}`, { player });
+		return this.httpClient.put<boolean>(`${this.endpoint}Update/${player.id}`, { player });
 	}
 
 	deletePlayer(playerId: string): Observable<boolean> {
-		return this.httpClient.delete<boolean>(`${this.endpoint}/Delete/${playerId}`);
+		return this.httpClient.delete<boolean>(`${this.endpoint}Delete/${playerId}`);
 	}
 }
