@@ -1,7 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { GroupModel } from "../models/group.model";
+import { CreateGroupData, GroupModel, JoinGroupData } from "../models/group.model";
+import { OperationReasonCode, OperationResponseModel } from "../models/operation-response.model";
 import { PlayerModel } from "../models/player.model";
+import { Variables } from "../models/types";
+import { GroupService } from "./group.service";
 import { MOCK_PLAYERS } from "./player.service.mock";
 
 export const MOCK_GROUPS: GroupModel[] = [
@@ -20,7 +23,7 @@ export const MOCK_GROUPS: GroupModel[] = [
 ];
 
 @Injectable()
-export class GroupMockService {
+export class GroupMockService implements Variables<GroupService> {
 	getUserGroup(userId: string): Observable<GroupModel[]> {
 		const result = MOCK_GROUPS.filter(group =>
 			group.participants.some(participant => participant.isActive && participant.playerId === userId)
@@ -40,28 +43,31 @@ export class GroupMockService {
 		return of(players);
 	}
 
-	createGroup(group: GroupModel, password: string): Observable<boolean> {
-		group.id = `${MOCK_GROUPS.length}`;
-		MOCK_GROUPS.push(group);
+	createGroup(data: CreateGroupData) {
+		data.group.id = `${MOCK_GROUPS.length}`;
+		MOCK_GROUPS.push(data.group);
 
-		return of(true);
+		return of();
 	}
 
-	joinGroup(groupId: string, userId: string, password: string): Observable<boolean> {
-		const groupToJoin = MOCK_GROUPS.find(group => group.id === groupId);
-		if (!groupToJoin) return of(false);
+	joinGroup(data: JoinGroupData): Observable<OperationResponseModel> {
+		const groupToJoin = MOCK_GROUPS.find(group => group.id === data.groupId);
+		if (!groupToJoin) return of({ success: false, reasonCode: OperationReasonCode.GroupNotFound });
 
-		const index = groupToJoin.participants.findIndex(participant => participant.playerId === userId);
+		const index = groupToJoin.participants.findIndex(participant => participant.playerId === data.playerId);
 		if (index > 0) {
 			groupToJoin.participants[index].isActive = true;
 		} else {
 			groupToJoin.participants.push({
-				playerId: userId,
+				playerId: data.playerId,
 				isActive: true,
 			});
 		}
 
-		return of(true);
+		return of({
+			success: true,
+			reasonCode: OperationReasonCode.Success,
+		});
 	}
 
 	leaveGroup(groupId: string, userId: string): Observable<boolean> {
