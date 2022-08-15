@@ -10,6 +10,7 @@ import { Avatar, AVATAR_LIST } from "./utils";
 	providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => AvatarComponent), multi: true }],
 })
 export class AvatarComponent implements ControlValueAccessor {
+	// TODO: Use Optional<Avatar> instead of Avatar | null
 	@ViewChild("avatarSelector") avatarSelector: any;
 	matDialogRef: MatDialogRef<unknown, never> | null = null;
 	avatarList = AVATAR_LIST;

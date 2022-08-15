@@ -36,7 +36,7 @@ export class GroupListComponent implements OnInit {
 		this.loading = false;
 
 		const userId = this.authService.currentUser?.id || "";
-		this.service.getUserGroup(userId).subscribe({
+		this.service.getUserGroups(userId).subscribe({
 			next: result => (this.groups = result),
 			error: () => {
 				this.errorWhileLoading = true;

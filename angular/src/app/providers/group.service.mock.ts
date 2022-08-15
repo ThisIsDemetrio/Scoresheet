@@ -3,6 +3,7 @@ import { Observable, of } from "rxjs";
 import { CreateGroupData, GroupModel, JoinGroupData } from "../models/group.model";
 import { OperationReasonCode, OperationResponseModel } from "../models/operation-response.model";
 import { PlayerModel } from "../models/player.model";
+import { IdTextModel } from "../models/shared.model";
 import { Variables } from "../models/types";
 import { GroupService } from "./group.service";
 import { MOCK_PLAYERS } from "./player.service.mock";
@@ -24,7 +25,7 @@ export const MOCK_GROUPS: GroupModel[] = [
 
 @Injectable()
 export class GroupMockService implements Variables<GroupService> {
-	getUserGroup(userId: string): Observable<GroupModel[]> {
+	getUserGroups(userId: string): Observable<GroupModel[]> {
 		const result = MOCK_GROUPS.filter(group =>
 			group.participants.some(participant => participant.isActive && participant.playerId === userId)
 		);
@@ -48,6 +49,32 @@ export class GroupMockService implements Variables<GroupService> {
 		MOCK_GROUPS.push(data.group);
 
 		return of();
+	}
+
+	updateGroup(group: GroupModel, password: string): Observable<boolean> {
+		const index = MOCK_GROUPS.findIndex(g => g.id === group.id);
+		if (index < 0) return of(false);
+
+		MOCK_GROUPS.splice(index, 1, group);
+		return of(true);
+	}
+
+	deleteGroup(groupId: string, userId: string): Observable<boolean> {
+		const index = MOCK_GROUPS.findIndex(group => group.id === group.id);
+		if (MOCK_GROUPS[index].creatorId !== userId) return of(false);
+
+		MOCK_GROUPS.slice(index, 0);
+		return of(true);
+	}
+
+	getGroupsByName(text: string): Observable<IdTextModel[]> {
+		// TYPESCRIPT: id of GroupModel is optional
+		return of(
+			MOCK_GROUPS.filter(group => !!group.id && group.name.includes(text)).map(group => ({
+				id: group.id || "",
+				text: group.name,
+			}))
+		);
 	}
 
 	joinGroup(data: JoinGroupData): Observable<OperationResponseModel> {
@@ -81,21 +108,5 @@ export class GroupMockService implements Variables<GroupService> {
 		} else {
 			return of(false);
 		}
-	}
-
-	updateGroup(group: GroupModel, password: string): Observable<boolean> {
-		const index = MOCK_GROUPS.findIndex(g => g.id === group.id);
-		if (index < 0) return of(false);
-
-		MOCK_GROUPS.splice(index, 1, group);
-		return of(true);
-	}
-
-	deleteGroup(groupId: string, userId: string): Observable<boolean> {
-		const index = MOCK_GROUPS.findIndex(group => group.id === group.id);
-		if (MOCK_GROUPS[index].creatorId !== userId) return of(false);
-
-		MOCK_GROUPS.slice(index, 0);
-		return of(true);
 	}
 }

@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LoginComponent } from "./components/auth/login/login.component";
 import { LoginFormComponent } from "./components/auth/login-form/login-form.component";
 import { SignupFormComponent } from "./components/auth/signup-form/signup-form.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InterceptorService } from "./providers/interceptor.service";
 import { environment } from "src/environments/environment";
@@ -23,10 +23,18 @@ import { JoinGroupComponent } from "./components/groups/join-group/join-group.co
 import { GroupInfoComponent } from "./components/groups/group-info/group-info.component";
 import { CreateGroupComponent } from "./components/groups/create-group/create-group.component";
 import { HeaderComponent } from "./components/shared/header/header.component";
+import { SearchGroupComponent } from "./components/shared/search-group/search-group.component";
 
 @NgModule({
 	bootstrap: [AppComponent],
-	imports: [AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ...ANGULAR_MATERIAL_IMPORTS],
+	imports: [
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		FormsModule,
+		HttpClientModule,
+		ReactiveFormsModule,
+		...ANGULAR_MATERIAL_IMPORTS,
+	],
 	declarations: [
 		AppComponent,
 		HomeComponent,
@@ -44,6 +52,7 @@ import { HeaderComponent } from "./components/shared/header/header.component";
 		// Shared
 		AvatarComponent,
 		HeaderComponent,
+		SearchGroupComponent,
 		SideDrawerComponent,
 		// Pipes
 		FromAssetsPipe,
