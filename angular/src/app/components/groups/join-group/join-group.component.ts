@@ -2,6 +2,8 @@ import { Component } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { JoinGroupData } from "src/app/models/group.model";
+import { OperationReasonCode } from "src/app/models/operation-response.model";
+import { OperationResponseHandlerMap } from "src/app/models/types";
 import { AuthService } from "src/app/providers/auth.service";
 import { GroupService } from "src/app/providers/group.service";
 
@@ -18,27 +20,32 @@ export class JoinGroupComponent {
 	// TODO: Handle loading
 	isLoading = false;
 
+	operationResponseHandler: OperationResponseHandlerMap = {
+		[OperationReasonCode.Success]: () => {
+			this.snackBar.open("Gruppo creato!", "", { panelClass: "snack-success" });
+			this.matDialogRef.close(true);
+		},
+		[OperationReasonCode.UnhandledFailure]: () => {
+			this.snackBar.open("Errore nella richiesta. Riprovare o verificare la connessione.", "", {
+				panelClass: "snack-error",
+			});
+			this.isLoading = false;
+		},
+		[OperationReasonCode.PasswordNotValid]: () => {
+			this.snackBar.open("Password errata", "", { panelClass: "snack-error" });
+			this.isLoading = false;
+		},
+		[OperationReasonCode.GroupNotFound]: () => {
+			this.snackBar.open("Questo gruppo non esiste", "", { panelClass: "snack-error" });
+		},
+	};
+
 	constructor(
 		private readonly authService: AuthService,
 		private readonly matDialogRef: MatDialogRef<JoinGroupComponent>,
 		private readonly service: GroupService,
 		private readonly snackBar: MatSnackBar
 	) {}
-
-	private onSuccess = () => {
-		this.snackBar.open("Gruppo creato!", "", { panelClass: "snack-success" });
-		this.matDialogRef.close(true);
-	};
-
-	private onFailure = () => {
-		this.snackBar.open("Errore nella richiesta. Riprovare o verificare la connessione.");
-		this.isLoading = false;
-	};
-
-	private onWrongPassword = () => {
-		this.snackBar.open("Password errata");
-		this.isLoading = false;
-	};
 
 	joinGroup(): void {
 		this.isLoading = false;
@@ -55,8 +62,8 @@ export class JoinGroupComponent {
 		};
 
 		this.service.joinGroup(data).subscribe({
-			next: result => (result.success ? this.onSuccess() : this.onWrongPassword()),
-			error: this.onFailure,
+			next: result => this.operationResponseHandler[result.reasonCode],
+			error: this.operationResponseHandler[OperationReasonCode.UnhandledFailure],
 		});
 	}
 }

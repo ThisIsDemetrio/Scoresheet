@@ -4,6 +4,7 @@ import { GroupModel } from "src/app/models/group.model";
 import { PlayerModel } from "src/app/models/player.model";
 import { AuthService } from "src/app/providers/auth.service";
 import { GroupService } from "../../providers/group.service";
+import { CreateGroupComponent } from "./create-group/create-group.component";
 import { JoinGroupComponent } from "./join-group/join-group.component";
 
 @Component({
@@ -59,6 +60,7 @@ export class GroupListComponent implements OnInit {
 	}
 
 	createGroup(): void {
-		// TODO: Create the CreateGroupComponent
+		const matDialogRef = this.matDialog.open(CreateGroupComponent, { data: {}, hasBackdrop: true });
+		matDialogRef.afterClosed().subscribe(refresh => refresh && this.getUserGroups());
 	}
 }

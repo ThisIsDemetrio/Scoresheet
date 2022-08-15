@@ -1,7 +1,9 @@
 export enum OperationReasonCode {
+	UnhandledFailure = 0,
 	Success = 1,
 	GroupNotEmpty,
-	OldPasswordNotValid,
+	PasswordNotValid,
+	GroupNotFound,
 }
 
 export interface OperationResponseModel {

@@ -20,29 +20,29 @@ export class GroupService {
 	}
 
 	getPlayersInGroup(groupId: string): Observable<PlayerModel[]> {
-		return this.httpClient.get<PlayerModel[]>(`${this.endpoint}/GetPlayers/${groupId}`);
+		return this.httpClient.get<PlayerModel[]>(`${this.endpoint}GetPlayers/${groupId}`);
 	}
 
-	createGroup(data: CreateGroupData): Observable<OperationResponseModel> {
-		return this.httpClient.post<OperationResponseModel>(`${this.endpoint}/Add`, data);
+	createGroup(data: CreateGroupData): Observable<void> {
+		return this.httpClient.post<void>(`${this.endpoint}Add`, data);
 	}
 
 	joinGroup(data: JoinGroupData): Observable<OperationResponseModel> {
-		return this.httpClient.post<OperationResponseModel>(`${this.baseUrl}/Join`, data);
+		return this.httpClient.post<OperationResponseModel>(`${this.endpoint}Join`, data);
 	}
 
 	leaveGroup(groupId: string, userId: string): Observable<boolean> {
-		return this.httpClient.post<boolean>(`${this.baseUrl}/Leave/${groupId}`, {
+		return this.httpClient.post<boolean>(`${this.endpoint}Leave/${groupId}`, {
 			userId,
 		});
 	}
 
 	updateGroup(group: GroupModel, password: string): Observable<boolean> {
 		const body: CreateGroupData = { group, password };
-		return this.httpClient.put<boolean>(`${this.endpoint}/Update/${group.id}`, body);
+		return this.httpClient.put<boolean>(`${this.endpoint}Update/${group.id}`, body);
 	}
 
 	deleteGroup(groupId: string, userId: string): Observable<boolean> {
-		return this.httpClient.delete<boolean>(`${this.endpoint}/Delete/${userId}/${groupId}`);
+		return this.httpClient.delete<boolean>(`${this.endpoint}Delete/${userId}/${groupId}`);
 	}
 }
