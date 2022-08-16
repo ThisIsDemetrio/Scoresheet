@@ -16,7 +16,8 @@ async def get_group_by_id(id: str) -> GroupModel:
 
 
 async def get_groups_by_playerId(playerId: str) -> list[GroupModel]:
-    cursor = groups_collection.find({"participants": playerId})
+    cursor = groups_collection.find(
+        {"participants": {"$elemMatch": {"playerId": playerId, "isActive": True}}})
     groupsDB: list[dict] = await asyncList(cursor)
     return list(map(map_to_GroupModel, groupsDB))
 
@@ -26,8 +27,10 @@ async def create_group(group: GroupModel, password: str) -> None:
     if (group.id is not None):
         await update_group(group.id, group, password)
     else:
+        group.id = str(generateUuid4())
+        group.participants.append(GroupParticipantModel(
+            playerId=group.creatorId, isActive=True))
         hashedPassword = hashString(password)
-        groupToInsert.id = str(generateUuid4())
         groupToInsert = map_from_GroupModel_and_password(group, hashedPassword)
         await groups_collection.insert_one(groupToInsert)
 
