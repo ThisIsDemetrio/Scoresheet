@@ -12,7 +12,7 @@ import { JoinGroupComponent } from "../join-group/join-group.component";
 	styleUrls: ["./create-group.component.scss"],
 })
 export class CreateGroupComponent {
-	// TODO: Just for fun, transform it in a Reactive Form
+	// REACTIVE: Just for fun, transform it in a Reactive Form
 	groupName: string = "";
 	password: string = "";
 	repeatedPassword: string = "";

@@ -17,8 +17,9 @@ const getEmptyPlayer = (): PlayerModel => {
 	styleUrls: ["./user-options.component.scss"],
 })
 export class UserOptionsComponent implements OnInit {
-	// TODO: Just for fun, transform it in two Reactive Forms
-	// TODO: Loading and Error management in UI
+	// REACTIVE: Just for fun, transform it in two Reactive Forms
+	// LOADER: Loading management in UI
+	// ERROR: Error management in UI
 
 	originalUser: PlayerModel = getEmptyPlayer();
 	currentUser: PlayerModel = getEmptyPlayer();

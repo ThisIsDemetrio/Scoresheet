@@ -36,11 +36,11 @@ async def changePassword(playerId: str, passwordModel: ChangePasswordModel) -> O
     return await auth_logic.changePassword(playerId, passwordModel)
 
 
-# TODO: Is this needed?
-@router.get('/test-jwt')
-async def user(Authorize: AuthJWT = Depends()):
+# # DEPRECATED: Is this needed?
+# @router.get('/test-jwt')
+# async def user(Authorize: AuthJWT = Depends()):
 
-    Authorize.jwt_required()
-    return {"user": 123124124, 'data': 'jwt test works'}
-    #current_user = Authorize.get_jwt_subject()
-    # return {"user": current_user, 'data': 'jwt test works'}
+#     Authorize.jwt_required()
+#     return {"user": 123124124, 'data': 'jwt test works'}
+#     #current_user = Authorize.get_jwt_subject()
+#     # return {"user": current_user, 'data': 'jwt test works'}

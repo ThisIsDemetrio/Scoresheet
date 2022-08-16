@@ -53,7 +53,6 @@ export class AuthService {
 	}
 
 	logout(): void {
-		// TODO: BE Logout implementation missing
 		this.browserStorage.clearStorage();
 		this.router.navigate(["./login"]);
 	}

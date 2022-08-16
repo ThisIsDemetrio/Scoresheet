@@ -60,8 +60,7 @@ import { SearchPlayersComponent } from "./components/shared/search-players/searc
 		FromAssetsPipe,
 	],
 	providers: [
-		// TODO: This value must be moved to environment.prod.ts and applied only while deploying
-		{ provide: ENDPOINT_URL, useValue: environment.endpoint },
+ss		{ provide: ENDPOINT_URL, useValue: environment.endpoint },
 		{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
 		{ provide: MOCK_MODE, useValue: false },
 		{ provide: MatDialogRef, useValue: {} },

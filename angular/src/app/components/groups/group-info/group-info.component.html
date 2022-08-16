@@ -3,9 +3,6 @@
 	<div class="title">{{ group?.name }}</div>
 </div>
 
-<!-- TODO: Lista partecipanti -->
-<!-- TODO: Per gli admin, possibilità di cancellare partecipanti -->
-
 <ng-container *ngIf="!isAdmin; else adminTemplate">
 	<div class="card leave-group">
 		<div class="card-title">Abbandona gruppo</div>
@@ -22,8 +19,6 @@
 </ng-container>
 
 <ng-template #adminTemplate>
-	<!-- TODO: Cambio nome del gruppo -->
-	<!-- TODO: Cambio password del gruppo -->
 	<div class="card delete-group">
 		<div class="card-title">Elimina gruppo</div>
 		<div class="card-content">

@@ -7,9 +7,6 @@ from utils.utils import generateUuid4, hashString
 from asyncstdlib import list as asyncList
 
 
-# TODO: Add method to change password
-
-
 async def get_group_by_id(id: str) -> GroupWithPasswordModel:
     group: dict = await groups_collection.find_one({"id": id})
     return map_to_GroupWithPasswordModel(group)
@@ -23,7 +20,6 @@ async def get_groups_by_playerId(playerId: str) -> list[GroupModel]:
 
 
 async def create_group(group: GroupModel, password: str) -> None:
-    # TODO: Add logic to avoid two groups with the same name (methods to find )
     if (group.id is not None):
         await update_group(group.id, group, password)
     else:
@@ -53,7 +49,6 @@ async def update_group(id: str, groupToUpdate: GroupModel, password: str) -> Non
 async def delete_group(playerId: str, groupId: str) -> OperationResponseModel:
     groupToRemove = await get_group_by_id(groupId)
     if (groupToRemove.creatorId != playerId):
-        # TODO: Should this an handled failure?
         raise Exception(
             "You cannot request to delete a group you didn't created")
 
@@ -71,7 +66,6 @@ async def delete_group(playerId: str, groupId: str) -> OperationResponseModel:
 
 
 async def get_groups_by_name(text: str) -> list[IdTextModel]:
-    # TODO: Index must be present to search by text or this might not work
     groupsDB = await asyncList(groups_collection.find({"name": {"$regex": text}}))
     return list(map(map_to_IdTextModel, groupsDB or []))
 
@@ -111,7 +105,6 @@ async def join_group(playerId: str, groupId: str, password: str) -> OperationRes
 async def leave_group(playerId: str, groupId: str) -> None:
     groupToLeave = await get_group_by_id(groupId)
     if (groupToLeave.creatorId == playerId):
-        # TODO: Should this an handled failure?
         raise Exception("You cannot request to leave the group you created")
 
     playerInGroup = next(

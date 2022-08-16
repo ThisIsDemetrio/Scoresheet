@@ -13,7 +13,6 @@ const routes: Routes = [
 	{ path: "home", component: HomeComponent, canActivate: [AuthGuard] },
 	{ path: "options", component: UserOptionsComponent, canActivate: [AuthGuard] },
 	{ path: "groups", component: GroupListComponent, canActivate: [AuthGuard] },
-	// TODO: The following :D
 	{ path: "game", component: HomeComponent, canActivate: [AuthGuard] },
 	{ path: "history", component: HomeComponent, canActivate: [AuthGuard] },
 ];

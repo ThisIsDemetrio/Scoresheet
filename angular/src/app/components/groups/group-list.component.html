@@ -1,7 +1,7 @@
 <app-header name="Gruppi"></app-header>
 
 <ng-container *ngIf="!selectedGroup; else selectedGroupTemplate">
-	<!-- TODO: Handle error on request -->
+	<!-- ERROR: Handle error on request -->
 	<div class="content">
 		<ng-container *ngIf="groups.length > 0; else noGroupsTemplate">
 			<ng-container *ngTemplateOutlet="actions"></ng-container>
@@ -23,7 +23,7 @@
 
 	<ng-template #actions>
 		<div class="btns">
-			<!-- TODO: Handle loading -->
+			<!-- LOADER: Handle loading -->
 			<button mat-button color="primary" (click)="joinGroup()">Unisciti a un gruppo</button>
 			<button mat-button color="primary" (click)="createGroup()">Crea un gruppo</button>
 		</div>

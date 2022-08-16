@@ -14,7 +14,8 @@ import { JoinGroupComponent } from "./join-group/join-group.component";
 	styleUrls: ["./group-list.component.scss"],
 })
 export class GroupListComponent implements OnInit {
-	// TODO: Loading and Error management in UI
+	// LOADER: Loading management in UI
+	// ERROR: Error management in UI
 	currentUser: PlayerModel | null = null;
 	selectedGroup: Optional<GroupModel> = null;
 	groups: GroupModel[] = [];

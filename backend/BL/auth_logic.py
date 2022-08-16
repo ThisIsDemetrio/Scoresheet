@@ -92,5 +92,4 @@ async def changePassword(playerId: str, passwordModel: ChangePasswordModel) -> O
 
 
 async def logout(username: str) -> None:
-    # TODO: Do something here plz
     return None

@@ -9,8 +9,8 @@ import { AuthService } from "../../../providers/auth.service";
 	styleUrls: ["./login-form.component.scss"],
 })
 export class LoginFormComponent {
-	// TODO: Just for fun, transform it in a Reactive Form
-	// TODO: Handle loading
+	// REACTIVE: Just for fun, transform it in a Reactive Form
+	// LOADER: Handle loading
 	username: string = "";
 	password: string = "";
 

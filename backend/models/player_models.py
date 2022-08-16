@@ -5,7 +5,6 @@ class PlayerModel(BaseModel):
     id: str
     name: str
     avatar: str | None = None
-    # TODO: Is this necessary? There's no logic that populates this
     groups: list[str]
 
     class Config:

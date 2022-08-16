@@ -13,11 +13,11 @@ import { GroupService } from "src/app/providers/group.service";
 	styleUrls: ["./join-group.component.scss"],
 })
 export class JoinGroupComponent {
-	// TODO: Just for fun, transform it in a Reactive Form
+	// REACTIVE: Just for fun, transform it in a Reactive Form
 	groupId: string = "";
 	password: string = "";
 
-	// TODO: Handle loading
+	// LOADER: Handle loading
 	isLoading = false;
 
 	operationResponseHandler: OperationResponseHandlerMap = {

@@ -24,7 +24,6 @@ async def get_players_by_id(ids: list[str]) -> list[PlayerModel]:
 
 
 async def get_players_by_name(text: str) -> list[IdTextModel]:
-    # TODO: Index must be present to search by text or this might not work
     groupsDB = await players_collection.find({"$text": {"$search": text}})
     return list(map(map_to_IdTextModel, groupsDB or []))
 

@@ -6,9 +6,6 @@ import BL.group_logic as GroupLogic
 
 router = APIRouter(prefix="/Group")
 
-# TODO: Add method to change password
-# TODO: Add method to search group by name
-
 
 @router.post("/Add", tags=["Group management"])
 async def create_group(data: UpdateGroupModel) -> None:

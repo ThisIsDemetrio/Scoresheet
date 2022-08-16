@@ -1,21 +1,17 @@
 <div class="wrapper">
 	<div class="title">Crea il tuo gruppo</div>
-	<!-- TODO: Add validation on name (already taken) -->
 	<mat-form-field class="group-name">
 		<mat-label>Nome gruppo</mat-label>
 		<input matInput name="group name" type="string" required [(ngModel)]="groupName" />
 	</mat-form-field>
-	<!-- TODO: Group avatar (how?) -->
-	<!-- TODO: Players list -->
 	<mat-form-field class="password">
 		<mat-label>Password</mat-label>
 		<input matInput name="password" type="password" required [(ngModel)]="password" />
 	</mat-form-field>
-	<!-- TODO: Add validation on password (not equal) -->
 	<mat-form-field class="password">
 		<mat-label>Ripeti la password</mat-label>
 		<input matInput type="password" required class="password" [(ngModel)]="repeatedPassword" />
 	</mat-form-field>
-	<!-- TODO: Handle loading status -->
+	<!-- LOADER: Handle loading status -->
 	<button mat-stroked-button class="join-btn" color="primary" (click)="createGroup()">Crea</button>
 </div>
