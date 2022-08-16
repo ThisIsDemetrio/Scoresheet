@@ -3,7 +3,7 @@ from models.group_models import GroupModel, GroupWithPasswordModel, GroupPartici
 from models.operation_response import OperationReasonCode, OperationResponseModel
 from models.shared_models import IdTextModel
 from database import groups_collection
-from utils.utils import hashString
+from utils.utils import generateUuid4, hashString
 from asyncstdlib import list as asyncList
 
 
@@ -18,9 +18,6 @@ async def get_group_by_id(id: str) -> GroupModel:
 async def get_groups_by_playerId(playerId: str) -> list[GroupModel]:
     cursor = groups_collection.find({"participants": playerId})
     groupsDB: list[dict] = await asyncList(cursor)
-    # groupsDB: list[dict] = []
-    # for doc in asyncEnumerate(cursor):
-    #     groupsDB.push(doc)
     return list(map(map_to_GroupModel, groupsDB))
 
 
@@ -30,6 +27,7 @@ async def create_group(group: GroupModel, password: str) -> None:
         await update_group(group.id, group, password)
     else:
         hashedPassword = hashString(password)
+        groupToInsert.id = str(generateUuid4())
         groupToInsert = map_from_GroupModel_and_password(group, hashedPassword)
         await groups_collection.insert_one(groupToInsert)
 
@@ -71,8 +69,8 @@ async def delete_group(playerId: str, groupId: str) -> OperationResponseModel:
 
 async def get_groups_by_name(text: str) -> list[IdTextModel]:
     # TODO: Index must be present to search by text or this might not work
-    groupsDB = await groups_collection.find({"$text": {"$search": text}})
-    return map(map_to_IdTextModel, groupsDB)
+    groupsDB = await asyncList(groups_collection.find({"name": {"$regex": text}}))
+    return list(map(map_to_IdTextModel, groupsDB or []))
 
 
 async def join_group(playerId: str, groupId: str, password: str) -> OperationResponseModel:

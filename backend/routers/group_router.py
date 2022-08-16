@@ -30,7 +30,7 @@ async def get_groups_by_playerId(playerId: str) -> list[GroupModel]:
     return await GroupLogic.get_groups_by_playerId(playerId)
 
 
-@router.get("/GetGroupsByName", tags=["Group management"])
+@router.get("/GetGroupsByName/{text}", tags=["Group management"])
 async def get_groups_by_name(text: str) -> list[IdTextModel]:
     return await GroupLogic.get_groups_by_name(text)
 
