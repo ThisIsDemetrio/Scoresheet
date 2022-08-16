@@ -1,5 +1,5 @@
 from models.player_models import PlayerModel
-from ..models.shared_models import IdTextModel
+from models.shared_models import IdTextModel
 
 
 def map_from_PlayerModel(player: PlayerModel) -> dict:

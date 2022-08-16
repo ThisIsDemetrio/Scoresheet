@@ -1,4 +1,4 @@
-from mapping.group_mapping import map_from_GroupModel_and_password, map_to_GroupModel, map_from_GroupModel, map_to_GroupWithPasswordModel, map_to_IdTextModel
+from mapping.group_mapping import map_from_GroupModel_and_password, map_to_GroupModel, map_to_GroupWithPasswordModel, map_to_IdTextModel
 from models.group_models import GroupModel, GroupWithPasswordModel, GroupParticipantModel
 from models.operation_response import OperationReasonCode, OperationResponseModel
 from models.shared_models import IdTextModel
@@ -7,7 +7,6 @@ from utils.utils import hashString
 
 
 # TODO: Add method to change password
-# TODO: Add method to search groups by name
 
 
 async def get_group_by_id(id: str) -> GroupModel:
@@ -19,20 +18,22 @@ async def create_group(group: GroupModel, password: str) -> None:
     # TODO: Add logic to avoid two groups with the same name (methods to find )
     if (group.id is not None):
         await update_group(group.id, group, password)
-
-    group.password = hashString(password)
-    await groups_collection.insert_one(map_from_GroupModel(group))
+    else:
+        hashedPassword = hashString(password)
+        groupToInsert = map_from_GroupModel_and_password(group, hashedPassword)
+        await groups_collection.insert_one(groupToInsert)
 
 
 async def update_group(id: str, groupToUpdate: GroupModel, password: str) -> None:
     groupDb = await get_group_by_id(id)
-    group: GroupWithPasswordModel = map_to_GroupWithPasswordModel(groupDb)
+    groupWithPassword: GroupWithPasswordModel = map_to_GroupWithPasswordModel(
+        groupDb)
 
-    if (group.password != hashString(password)):
+    if (groupWithPassword.password != hashString(password)):
         raise Exception("Password not valid")
 
     passwordToUpdate = hashString(
-        groupToUpdate.password) if groupToUpdate.password else group.password
+        groupToUpdate.password) if groupToUpdate.password else groupWithPassword.password
     groupToSave = map_from_GroupModel_and_password(
         groupToUpdate, passwordToUpdate)
     await groups_collection.update_one({"id": id}, {"$set": groupToSave})

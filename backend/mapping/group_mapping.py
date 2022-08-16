@@ -2,23 +2,14 @@ from models.group_models import GroupModel, GroupParticipantModel, GroupWithPass
 from models.shared_models import IdTextModel
 
 
-def map_from_GroupModel(group: GroupModel) -> dict:
-    return {
-        "id": group.id,
-        "name": group.name,
-        "creatorId": group.creatorId,
-        "avatar": group.avatar,
-        "participants": map_from_GroupParticipantModel(group.participants),
-    }
-
-
 def map_to_GroupModel(group: dict) -> GroupModel:
     return GroupModel(
         id=group["id"],
         name=group["name"],
         creatorId=group["creatorId"],
         avatar=group["avatar"],
-        participants=map_to_GroupParticipantModel(group["participants"]),
+        participants=list(map(map_to_GroupParticipantModel,
+                              group["participants"] or [])),
     )
 
 
@@ -29,9 +20,14 @@ def map_to_GroupWithPasswordModel(group: dict) -> GroupWithPasswordModel:
 
 
 def map_from_GroupModel_and_password(group: GroupModel, password: str) -> dict:
-    result = map_from_GroupModel(group)
-    result["password"] = password
-    return result
+    return {
+        "id": group.id,
+        "name": group.name,
+        "password": password,
+        "creatorId": group.creatorId,
+        "avatar": group.avatar,
+        "participants": list(map(map_from_GroupParticipantModel, group.participants or []))
+    }
 
 
 def map_from_GroupParticipantModel(participant: GroupParticipantModel) -> dict:

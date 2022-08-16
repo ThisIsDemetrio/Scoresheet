@@ -4,14 +4,6 @@ from models.player_models import PlayerModel
 from database import players_collection
 from bson.objectid import ObjectId
 
-# TODO: Create DB connection
-players: list[PlayerModel] = [
-    {"id": "1", "name": "Erica"},
-    {"id": "2", "name": "Sabrina"},
-    {"id": "3", "name": "Chiara"},
-    {"id": "4", "name": "Gabriella"}
-]
-
 
 async def get_all() -> list[PlayerModel]:
     result = []
