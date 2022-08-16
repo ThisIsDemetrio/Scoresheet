@@ -4,6 +4,7 @@ from models.operation_response import OperationReasonCode, OperationResponseMode
 from models.shared_models import IdTextModel
 from database import groups_collection
 from utils.utils import hashString
+from asyncstdlib import list as asyncList
 
 
 # TODO: Add method to change password
@@ -12,6 +13,15 @@ from utils.utils import hashString
 async def get_group_by_id(id: str) -> GroupModel:
     group: dict = await groups_collection.find_one({"id": id})
     return map_to_GroupModel(group)
+
+
+async def get_groups_by_playerId(playerId: str) -> list[GroupModel]:
+    cursor = groups_collection.find({"participants": playerId})
+    groupsDB: list[dict] = await asyncList(cursor)
+    # groupsDB: list[dict] = []
+    # for doc in asyncEnumerate(cursor):
+    #     groupsDB.push(doc)
+    return list(map(map_to_GroupModel, groupsDB))
 
 
 async def create_group(group: GroupModel, password: str) -> None:

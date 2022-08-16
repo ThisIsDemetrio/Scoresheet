@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.group_models import JoinGroupModel, UpdateGroupModel
+from models.group_models import GroupModel, JoinGroupModel, UpdateGroupModel
 from models.operation_response import OperationResponseModel
 from models.shared_models import IdTextModel
 import BL.group_logic as GroupLogic
@@ -15,14 +15,19 @@ async def create_group(data: UpdateGroupModel) -> None:
     return await GroupLogic.create_group(data.group, data.password)
 
 
-@router.put("/update/{id}", tags=["Group management"])
+@router.put("/Update/{id}", tags=["Group management"])
 async def update_group(id: str, group: UpdateGroupModel, password: str) -> None:
     return await GroupLogic.update_group(id, group, password)
 
 
-@router.delete("/delete/{groupId}", tags=["Group management"])
+@router.delete("/Delete/{groupId}", tags=["Group management"])
 async def delete_group(groupId: str, playerId: str) -> OperationResponseModel:
     return await GroupLogic.delete_group(playerId, groupId)
+
+
+@router.get("/GetGroupsByPlayerId/{playerId}", tags=["Group management"])
+async def get_groups_by_playerId(playerId: str) -> list[GroupModel]:
+    return await GroupLogic.get_groups_by_playerId(playerId)
 
 
 @router.get("/GetGroupsByName", tags=["Group management"])
