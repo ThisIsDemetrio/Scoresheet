@@ -17,7 +17,7 @@ export class GroupService {
 	constructor(@Inject(ENDPOINT_URL) private readonly baseUrl: string, private readonly httpClient: HttpClient) {}
 
 	getUserGroups(userId: string): Observable<GroupModel[]> {
-		return this.httpClient.get<GroupModel[]>(`${this.endpoint}GetByUserId/${userId}`);
+		return this.httpClient.get<GroupModel[]>(`${this.endpoint}GetGroupsByPlayerId/${userId}`);
 	}
 
 	getPlayersInGroup(groupId: string): Observable<PlayerModel[]> {
