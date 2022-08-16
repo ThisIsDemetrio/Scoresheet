@@ -24,7 +24,7 @@ import { GroupInfoComponent } from "./components/groups/group-info/group-info.co
 import { CreateGroupComponent } from "./components/groups/create-group/create-group.component";
 import { HeaderComponent } from "./components/shared/header/header.component";
 import { SearchGroupComponent } from "./components/shared/search-group/search-group.component";
-import { SearchPlayersComponent } from "./components/shared/search-users/search-players.component";
+import { SearchPlayersComponent } from "./components/shared/search-players/search-players.component";
 
 @NgModule({
 	bootstrap: [AppComponent],

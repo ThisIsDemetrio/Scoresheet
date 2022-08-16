@@ -1,4 +1,4 @@
-import { Component, forwardRef, OnDestroy, OnInit } from "@angular/core";
+import { Component, forwardRef, OnInit } from "@angular/core";
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { IdTextModel } from "src/app/models/shared.model";
