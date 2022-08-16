@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { GroupModel } from "src/app/models/group.model";
 import { PlayerModel } from "src/app/models/player.model";
+import { Optional } from "src/app/models/types";
 import { AuthService } from "src/app/providers/auth.service";
 import { GroupService } from "../../providers/group.service";
 import { CreateGroupComponent } from "./create-group/create-group.component";
@@ -15,6 +16,7 @@ import { JoinGroupComponent } from "./join-group/join-group.component";
 export class GroupListComponent implements OnInit {
 	// TODO: Loading and Error management in UI
 	currentUser: PlayerModel | null = null;
+	selectedGroup: Optional<GroupModel> = null;
 	groups: GroupModel[] = [];
 	loading: boolean = false;
 	errorWhileLoading = false;
@@ -50,9 +52,8 @@ export class GroupListComponent implements OnInit {
 		return group.creatorId === this.authService.currentUser?.id;
 	}
 
-	openGroupDetails(groupId: string): void {
-		// TODO: Create Group Details page
-	}
+	openGroupDetails = (group: GroupModel) => (this.selectedGroup = group);
+	closeGroupDetails = () => (this.selectedGroup = null);
 
 	joinGroup(): void {
 		const matDialogRef = this.matDialog.open(JoinGroupComponent, { data: {}, hasBackdrop: true });

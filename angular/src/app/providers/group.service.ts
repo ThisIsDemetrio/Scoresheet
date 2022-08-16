@@ -34,20 +34,21 @@ export class GroupService {
 		return this.httpClient.put<boolean>(`${this.endpoint}Update/${group.id}`, body);
 	}
 
-	deleteGroup(groupId: string, userId: string): Observable<boolean> {
-		return this.httpClient.delete<boolean>(`${this.endpoint}Delete/${userId}/${groupId}`);
+	deleteGroup(groupId: string, userId: string): Observable<OperationResponseModel> {
+		return this.httpClient.delete<OperationResponseModel>(`${this.endpoint}Delete/${userId}/${groupId}`);
 	}
 	//#endregion
 
 	getGroupsByName(text: string): Observable<IdTextModel[]> {
 		return this.httpClient.get<IdTextModel[]>(`${this.endpoint}GetGroupsByName/${text}`);
 	}
+
 	joinGroup(data: JoinGroupData): Observable<OperationResponseModel> {
 		return this.httpClient.post<OperationResponseModel>(`${this.endpoint}Join`, data);
 	}
 
-	leaveGroup(groupId: string, userId: string): Observable<boolean> {
-		return this.httpClient.post<boolean>(`${this.endpoint}Leave/${groupId}`, {
+	leaveGroup(groupId: string, userId: string): Observable<void> {
+		return this.httpClient.post<void>(`${this.endpoint}Leave/${groupId}`, {
 			userId,
 		});
 	}

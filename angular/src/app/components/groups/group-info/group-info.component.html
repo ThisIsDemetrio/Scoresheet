@@ -1,0 +1,44 @@
+<div class="header">
+	<mat-icon class="go-back-icon" (click)="goBack()">arrow_back</mat-icon>
+	<div class="title">{{ group?.name }}</div>
+</div>
+
+<!-- TODO: Lista partecipanti -->
+<!-- TODO: Per gli admin, possibilità di cancellare partecipanti -->
+
+<ng-container *ngIf="!isAdmin; else adminTemplate">
+	<div class="card leave-group">
+		<div class="card-title">Abbandona gruppo</div>
+		<div class="card-content">
+			<p class="description">
+				Se decidi di abbandonare il gruppo, le partite attive saranno ancora visibili, ma i tuoi amici non
+				potranno più invitarti a nuove partite.
+			</p>
+			<button mat-stroked-button class="full-width-btn" color="warn" (click)="leaveGroup()">
+				Abbandona gruppo
+			</button>
+		</div>
+	</div>
+</ng-container>
+
+<ng-template #adminTemplate>
+	<!-- TODO: Cambio nome del gruppo -->
+	<!-- TODO: Cambio password del gruppo -->
+	<div class="card delete-group">
+		<div class="card-title">Elimina gruppo</div>
+		<div class="card-content">
+			<p class="description">
+				La cancellazione è definitiva: perderai tutte lo storico delle partite. Ne sei proprio sicuro?
+			</p>
+			<button
+				mat-stroked-button
+				class="full-width-btn"
+				color="warn"
+				[disabled]="canDeleteGroup"
+				(click)="deleteGroup()">
+				Elimina gruppo
+			</button>
+			<small *ngIf="canDeleteGroup">Non puoi cancellare il gruppo se ci sono ancora dei partecipanti.</small>
+		</div>
+	</div>
+</ng-template>

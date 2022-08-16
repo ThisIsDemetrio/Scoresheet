@@ -18,8 +18,12 @@
 		flex-direction: column;
 
 		.group {
-			width: 100%;
+			display: flex;
+			align-items: center;
 			padding: 8px 16px;
+			margin: 4px;
+			border: 1px solid $gray;
+			border-radius: 10px;
 			min-height: 40px;
 			font-size: 24px;
 
@@ -32,9 +36,14 @@
 				word-wrap: break-word;
 			}
 
-			.check {
+			.admin {
 				margin: 4px;
 				color: $green;
+			}
+
+			&:hover {
+				cursor: pointer;
+				background-color: lighten($color: $gray, $amount: 0.1);
 			}
 		}
 

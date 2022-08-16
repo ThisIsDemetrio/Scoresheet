@@ -1,29 +1,35 @@
 <app-header name="Gruppi"></app-header>
 
-<!-- TODO: Handle error on request -->
-<div class="content">
-	<ng-container *ngIf="groups.length > 0; else noGroupsTemplate">
-		<ng-container *ngTemplateOutlet="actions"></ng-container>
-		<div class="group" *ngFor="let group of groups" click="openGroupDetails(group.id)">
+<ng-container *ngIf="!selectedGroup; else selectedGroupTemplate">
+	<!-- TODO: Handle error on request -->
+	<div class="content">
+		<ng-container *ngIf="groups.length > 0; else noGroupsTemplate">
+			<ng-container *ngTemplateOutlet="actions"></ng-container>
+			<div class="group" *ngFor="let group of groups" (click)="openGroupDetails(group)">
+				<mat-icon class="icon">group</mat-icon>
+				<div class="text">{{ group.name }}</div>
+				<mat-icon class="admin" *ngIf="isGroupAdmin(group)">check</mat-icon>
+			</div>
+		</ng-container>
+	</div>
+
+	<ng-template #noGroupsTemplate>
+		<div class="no-groups" *ngIf="groups?.length === 0">
 			<mat-icon class="icon">group</mat-icon>
-			<div class="text">{{ group.name }}</div>
-			<mat-icon class="admin" *ngIf="isGroupAdmin(group)">check</mat-icon>
+			<div class="text">Non sei iscritto a nessun gruppo</div>
+			<ng-container *ngTemplateOutlet="actions"></ng-container>
 		</div>
-	</ng-container>
-</div>
+	</ng-template>
 
-<ng-template #noGroupsTemplate>
-	<div class="no-groups" *ngIf="groups?.length === 0">
-		<mat-icon class="icon">group</mat-icon>
-		<div class="text">Non sei iscritto a nessun gruppo</div>
-		<ng-container *ngTemplateOutlet="actions"></ng-container>
-	</div>
-</ng-template>
+	<ng-template #actions>
+		<div class="btns">
+			<!-- TODO: Handle loading -->
+			<button mat-button color="primary" (click)="joinGroup()">Unisciti a un gruppo</button>
+			<button mat-button color="primary" (click)="createGroup()">Crea un gruppo</button>
+		</div>
+	</ng-template>
+</ng-container>
 
-<ng-template #actions>
-	<div class="btns">
-		<!-- TODO: Handle loading -->
-		<button mat-button color="primary" (click)="joinGroup()">Unisciti a un gruppo</button>
-		<button mat-button color="primary" (click)="createGroup()">Crea un gruppo</button>
-	</div>
+<ng-template #selectedGroupTemplate>
+	<app-group-info [group]="selectedGroup" (goBackClick)="closeGroupDetails()"></app-group-info>
 </ng-template>

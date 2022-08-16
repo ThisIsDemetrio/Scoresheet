@@ -22,7 +22,7 @@ export class JoinGroupComponent {
 
 	operationResponseHandler: OperationResponseHandlerMap = {
 		[OperationReasonCode.Success]: () => {
-			this.snackBar.open("Gruppo creato!", "", { panelClass: "snack-success" });
+			this.snackBar.open("Ti sei unito al gruppo!", "", { panelClass: "snack-success" });
 			this.matDialogRef.close(true);
 		},
 		[OperationReasonCode.UnhandledFailure]: () => {
@@ -62,7 +62,7 @@ export class JoinGroupComponent {
 		};
 
 		this.service.joinGroup(data).subscribe({
-			next: result => this.operationResponseHandler[result.reasonCode],
+			next: result => this.operationResponseHandler[result.reasonCode]!(),
 			error: this.operationResponseHandler[OperationReasonCode.UnhandledFailure],
 		});
 	}
