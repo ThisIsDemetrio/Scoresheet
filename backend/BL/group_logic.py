@@ -10,9 +10,9 @@ from asyncstdlib import list as asyncList
 # TODO: Add method to change password
 
 
-async def get_group_by_id(id: str) -> GroupModel:
+async def get_group_by_id(id: str) -> GroupWithPasswordModel:
     group: dict = await groups_collection.find_one({"id": id})
-    return map_to_GroupModel(group)
+    return map_to_GroupWithPasswordModel(group)
 
 
 async def get_groups_by_playerId(playerId: str) -> list[GroupModel]:
@@ -94,12 +94,13 @@ async def join_group(playerId: str, groupId: str, password: str) -> OperationRes
         (participant for participant in groupToJoin.participants if participant.id == playerId), None)
 
     if (playerInGroup is None):
-        playerInGroup = GroupParticipantModel()
+        playerInGroup = GroupParticipantModel(playerId=playerId, isActive=True)
         playerInGroup.playerId = playerId
         groupToJoin.participants.append(playerInGroup)
+    else:
+        playerInGroup.isActive = True
 
-    playerInGroup.isActive = True
-    await groups_collection.update_one({"id": groupToJoin.id}, {"$set": map_to_GroupModel(groupToJoin)})
+    await groups_collection.update_one({"id": groupToJoin.id}, {"$set": map_from_GroupModel_and_password(groupToJoin, groupToJoin.password)})
 
     response.success = True
     response.reasonCode = OperationReasonCode.Success

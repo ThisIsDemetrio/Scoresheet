@@ -14,9 +14,15 @@ def map_to_GroupModel(group: dict) -> GroupModel:
 
 
 def map_to_GroupWithPasswordModel(group: dict) -> GroupWithPasswordModel:
-    result = map_to_GroupModel(group)
-    result.password = group["password"]
-    return result
+    return GroupWithPasswordModel(
+        id=group["id"],
+        name=group["name"],
+        password=group["password"],
+        creatorId=group["creatorId"],
+        avatar=group["avatar"],
+        participants=list(map(map_to_GroupParticipantModel,
+                              group["participants"] or [])),
+    )
 
 
 def map_from_GroupModel_and_password(group: GroupModel, password: str) -> dict:
