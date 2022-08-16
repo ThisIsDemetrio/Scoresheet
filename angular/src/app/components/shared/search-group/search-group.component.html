@@ -1,9 +1,9 @@
 <mat-form-field class="wrapper">
-	<mat-label>Cerca gruppo...</mat-label>
+	<mat-label>Nome gruppo</mat-label>
 	<input type="text" matInput [formControl]="groupFormControl" [matAutocomplete]="auto" />
-	<mat-autocomplete #auto="matAutocomplete">
-		<mat-option *ngIf="hasNoResults" class="no-group-found"> Nessun gruppo trovato</mat-option>
-		<mat-option *ngFor="let group of groups | async" [value]="group.id">{{ group.text }}</mat-option>
-		<mat-progress-bar mode="indeterminate" class="loader-bar"></mat-progress-bar>
+	<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onGroupSelected($event)">
+		<mat-option *ngIf="hasNoResults" class="no-group-found">Nessun gruppo trovato</mat-option>
+		<mat-option *ngFor="let group of groups | async" [value]="group">{{ group.text }}</mat-option>
 	</mat-autocomplete>
+	<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="loader-bar"></mat-progress-bar>
 </mat-form-field>

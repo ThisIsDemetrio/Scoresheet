@@ -5,6 +5,7 @@ import { IdTextModel } from "src/app/models/shared.model";
 import { Optional } from "src/app/models/types";
 import { GroupService } from "src/app/providers/group.service";
 import { debounceTime, distinctUntilChanged, startWith, map, tap, switchMap, catchError, filter } from "rxjs/operators";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 
 @Component({
 	selector: "app-search-group",
@@ -20,9 +21,10 @@ export class SearchGroupComponent implements ControlValueAccessor, OnInit {
 	hasNoResults = false;
 	isLoading = false;
 
-	private innerValue: Optional<IdTextModel> = null;
+	private selectedValue: Optional<string> = null;
+	private innerValue: Optional<string> = null;
 
-	set value(value: Optional<IdTextModel>) {
+	set value(value: Optional<string>) {
 		this.onTouch(value);
 		if (value === this.innerValue) return;
 
@@ -43,7 +45,8 @@ export class SearchGroupComponent implements ControlValueAccessor, OnInit {
 			filter(text => text?.length > 3),
 			distinctUntilChanged(),
 			tap(__ => {
-				this.isLoading = false;
+				this.hasNoResults = false;
+				this.isLoading = true;
 				this.errorWhileLoading = false;
 			}),
 			switchMap(text => this.service.getGroupsByName(text)),
@@ -52,24 +55,31 @@ export class SearchGroupComponent implements ControlValueAccessor, OnInit {
 				return of([]);
 			}),
 			tap(groups => {
-				this.hasNoResults = !this.errorWhileLoading && groups.length > 0;
+				this.hasNoResults = !this.errorWhileLoading && groups.length === 0;
 				this.isLoading = false;
 			})
 		);
 	}
 
-	writeValue(value: Optional<IdTextModel>): void {
+	onGroupSelected(event: MatAutocompleteSelectedEvent): void {
+		this.selectedValue = event.option.value ?? null;
+		this.value = event.option.value?.id;
+
+		this.groupFormControl.patchValue(event.option.value?.text, { emitEvent: false });
+	}
+
+	writeValue(value: Optional<string>): void {
 		// We assume we always start will null values
 		this.innerValue = null;
 	}
 
-	onChange: (arg: Optional<IdTextModel>) => void = (arg: Optional<IdTextModel>) => {};
-	onTouch: (arg: Optional<IdTextModel>) => void = (arg: Optional<IdTextModel>) => {};
+	onChange: (arg: Optional<string>) => void = (arg: Optional<string>) => {};
+	onTouch: (arg: Optional<string>) => void = (arg: Optional<string>) => {};
 
-	registerOnChange(fn: (newValue: Optional<IdTextModel>) => void): void {
+	registerOnChange(fn: (newValue: Optional<string>) => void): void {
 		this.onChange = fn;
 	}
-	registerOnTouched(fn: (newValue: Optional<IdTextModel>) => void): void {
+	registerOnTouched(fn: (newValue: Optional<string>) => void): void {
 		this.onTouch = fn;
 	}
 }
