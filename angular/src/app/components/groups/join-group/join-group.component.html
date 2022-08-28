@@ -1,0 +1,10 @@
+<div class="wrapper">
+	<div class="title">Unisciti a un gruppo</div>
+	<app-search-group class="group-name" [(ngModel)]="groupId"></app-search-group>
+	<mat-form-field class="password">
+		<mat-label>Password</mat-label>
+		<input matInput name="password" type="password" required [(ngModel)]="password" />
+	</mat-form-field>
+	<!-- LOADER: Handle loading status -->
+	<button mat-stroked-button class="join-btn" color="primary" (click)="joinGroup()">Unisciti</button>
+</div>

@@ -4,7 +4,8 @@ import enum
 class OperationReasonCode(enum.Enum):
     Success = 1
     GroupNotEmpty = 2
-    OldPasswordNotValid = 3
+    PasswordNotValid = 3
+    GroupNotFound = 4
 
 
 class OperationResponseModel:

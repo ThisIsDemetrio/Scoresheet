@@ -1,19 +1,17 @@
 from pydantic import BaseModel
-from bson.objectid import ObjectId
 
 
-class GroupParticipant(BaseModel):
+class GroupParticipantModel(BaseModel):
     playerId: str
     isActive: bool
 
 
-class Group(BaseModel):
-    _id: ObjectId
+class GroupModel(BaseModel):
+    id: str | None
     name: str
     creatorId: str
-    password: str
-    avatar: str
-    participants: list[GroupParticipant]
+    avatar: str | None
+    participants: list[GroupParticipantModel]
 
     class Config:
         schema_extra = {
@@ -26,3 +24,18 @@ class Group(BaseModel):
                 "participants": [{"playerId": "1", "isActive": True}]
             }
         }
+
+
+class GroupWithPasswordModel(GroupModel):
+    password: str
+
+
+class UpdateGroupModel(BaseModel):
+    group: GroupModel
+    password: str
+
+
+class JoinGroupModel(BaseModel):
+    playerId: str
+    groupId: str
+    password: str

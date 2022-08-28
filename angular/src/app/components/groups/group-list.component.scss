@@ -1,0 +1,77 @@
+@import "../../../styles.scss";
+
+:host {
+	display: block;
+
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	app-header {
+		flex: 0 0 56px;
+	}
+
+	.content {
+		flex: 1 1 auto;
+		display: flex;
+		overflow-y: auto;
+		flex-direction: column;
+
+		.group {
+			display: flex;
+			align-items: center;
+			padding: 8px 16px;
+			margin: 4px;
+			border: 1px solid $gray;
+			border-radius: 10px;
+			min-height: 40px;
+			font-size: 24px;
+
+			.icon {
+				margin: 4px;
+			}
+
+			.text {
+				font-weight: 500;
+				word-wrap: break-word;
+			}
+
+			.admin {
+				margin: 4px;
+				color: $green;
+			}
+
+			&:hover {
+				cursor: pointer;
+				background-color: lighten($color: $gray, $amount: 0.1);
+			}
+		}
+
+		.no-groups {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			width: 100%;
+			align-items: center;
+			justify-content: center;
+
+			.icon {
+				color: $red;
+				font-size: 48px;
+				height: 48px;
+				width: 48px;
+				margin-bottom: 1rem;
+			}
+
+			.text {
+				font-size: 20px;
+			}
+		}
+
+		.btns {
+			display: flex;
+			margin-top: 1rem;
+			justify-content: space-around;
+		}
+	}
+}

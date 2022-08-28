@@ -1,0 +1,25 @@
+:host {
+	display: block;
+
+	.wrapper {
+		height: 100%;
+		width: 100%;
+
+		.title {
+			font-size: 24px;
+			font-weight: 500;
+			padding: 1rem 0.5rem;
+		}
+
+		.group-name,
+		.password {
+			margin: 0.5rem;
+			width: 100%;
+		}
+
+		.join-btn {
+			margin-top: 1rem;
+			width: 100%;
+		}
+	}
+}

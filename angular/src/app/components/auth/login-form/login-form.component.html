@@ -9,6 +9,7 @@
 		<input matInput type="password" required class="password" [(ngModel)]="password" />
 	</mat-form-field>
 	<p class="signup-note" (click)="changeToSignupPage()">Non sei iscritto? Clicca qui per registrarti!</p>
+	<!-- LOADER: Handle loading status -->
 	<button mat-raised-button class="login-btn" color="primary" [disabled]="!canLogin()" (click)="login()">
 		Entra
 	</button>

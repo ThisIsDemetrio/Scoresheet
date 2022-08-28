@@ -1,0 +1,9 @@
+<div class="menu-icon" [ngSwitch]="icon">
+	<ng-container *ngSwitchCase="'menu'">
+		<mat-icon (click)="openSidedrawer()">menu</mat-icon>
+	</ng-container>
+	<ng-container *ngSwitchDefault>
+		<mat-icon (click)="onIconClick()">{{ icon }}</mat-icon>
+	</ng-container>
+</div>
+<span class="title">{{ name }}</span>

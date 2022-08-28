@@ -1,0 +1,10 @@
+<mat-form-field class="wrapper">
+	<mat-label>Cerca giocatore...</mat-label>
+	<input type="text" matInput [formControl]="playerFormControl" [matAutocomplete]="auto" />
+	<!-- ERROR: Handle error state -->
+	<mat-autocomplete #auto="matAutocomplete">
+		<mat-option *ngIf="hasNoResults" class="no-players-found"> Nessun giocatore trovato</mat-option>
+		<mat-option *ngFor="let player of players | async" [value]="player.id">{{ player.text }}</mat-option>
+		<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="loader-bar"></mat-progress-bar>
+	</mat-autocomplete>
+</mat-form-field>

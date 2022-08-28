@@ -1,14 +1,8 @@
+from mapping.player_mapping import map_to_IdTextModel
+from models.shared_models import IdTextModel
 from models.player_models import PlayerModel
 from database import players_collection
 from bson.objectid import ObjectId
-
-# TODO: Create DB connection
-players: list[PlayerModel] = [
-    {"id": "1", "name": "Erica"},
-    {"id": "2", "name": "Sabrina"},
-    {"id": "3", "name": "Chiara"},
-    {"id": "4", "name": "Gabriella"}
-]
 
 
 async def get_all() -> list[PlayerModel]:
@@ -29,8 +23,9 @@ async def get_players_by_id(ids: list[str]) -> list[PlayerModel]:
     return await players_collection.find({"_id": {"$in": objectIds}})
 
 
-async def get_players_by_name(name: str) -> list[PlayerModel]:
-    return await players_collection.find({"name": name})
+async def get_players_by_name(text: str) -> list[IdTextModel]:
+    groupsDB = await players_collection.find({"$text": {"$search": text}})
+    return list(map(map_to_IdTextModel, groupsDB or []))
 
 
 async def update_player(playerId: str, player: PlayerModel) -> None:

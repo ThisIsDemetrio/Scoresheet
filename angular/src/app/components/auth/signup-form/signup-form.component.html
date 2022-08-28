@@ -13,5 +13,6 @@
 		<input matInput type="password" required class="password" [(ngModel)]="repeatedPassword" />
 	</mat-form-field>
 	<p class="signup-note" (click)="changeToLoginPage()">Sei già iscritto? Clicca qui per collegarti!</p>
+	<!-- LOADER: Handle loading status -->
 	<button mat-button class="signup-btn" [disabled]="!canSignup()" (click)="signup()">Registrati</button>
 </div>

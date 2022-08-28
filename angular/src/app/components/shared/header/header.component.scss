@@ -1,0 +1,17 @@
+@import "../../../../styles.scss";
+
+:host {
+	padding: 0;
+	background-color: $red;
+	display: flex;
+	align-items: center;
+
+	.menu-icon {
+		padding: 1rem;
+	}
+
+	.title {
+		font-size: 24px;
+		font-weight: 500;
+	}
+}

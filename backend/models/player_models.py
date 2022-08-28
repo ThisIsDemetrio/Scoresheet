@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from bson.objectid import ObjectId
 
 
 class PlayerModel(BaseModel):

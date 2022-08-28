@@ -1,5 +1,5 @@
-from mapping.auth_mapping import map_To_UserModel, map_from_UserModel
-from mapping.player_mapping import map_To_PlayerModel, map_from_PlayerModel
+from mapping.auth_mapping import map_to_UserModel, map_from_UserModel
+from mapping.player_mapping import map_to_PlayerModel, map_from_PlayerModel
 from models.auth_models import AuthenticatedUserModel, ChangePasswordModel, UserModel, LoginModel, SignupModel
 from fastapi import Depends, HTTPException
 from fastapi_jwt_auth import AuthJWT
@@ -16,7 +16,7 @@ async def isUsernameAvailable(username: str) -> bool:
 
 async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> AuthenticatedUserModel:
     userDB = await auth_collection.find_one({"username": loginData.username})
-    user = map_To_UserModel(userDB)
+    user = map_to_UserModel(userDB)
 
     if (user is None):
         raise HTTPException(404, "User not found")
@@ -26,7 +26,7 @@ async def login(loginData: LoginModel, Authorize: AuthJWT = Depends()) -> Authen
         raise HTTPException(401, "Password not valid")
 
     playerDB = await players_collection.find_one({"id": user.playerId})
-    player = map_To_PlayerModel(playerDB)
+    player = map_to_PlayerModel(playerDB)
     if (player is None):
         raise HTTPException(404, "Player not found")
 
@@ -61,7 +61,7 @@ async def update(playerId: str, playerModel: PlayerModel) -> bool:
     if (playerDB is None):
         raise HTTPException(400, "Player with this Id not found")
 
-    player = map_To_PlayerModel(playerDB)
+    player = map_to_PlayerModel(playerDB)
     player.avatar = playerModel.avatar
     player.name = playerModel.name
 
@@ -74,13 +74,13 @@ async def changePassword(playerId: str, passwordModel: ChangePasswordModel) -> O
     if (userDB is None):
         raise HTTPException(400, "User with this playerId not found")
 
-    user = map_To_UserModel(userDB)
+    user = map_to_UserModel(userDB)
     result = OperationResponseModel()
 
     hashedOldPassword = hashString(passwordModel.oldPassword)
     if (hashedOldPassword != user.password):
         result.success = False
-        result.reasonCode = OperationReasonCode.OldPasswordNotValid
+        result.reasonCode = OperationReasonCode.PasswordNotValid
         return result
 
     user.password = hashString(passwordModel.newPassword)
@@ -92,5 +92,4 @@ async def changePassword(playerId: str, passwordModel: ChangePasswordModel) -> O
 
 
 async def logout(username: str) -> None:
-    # TODO: Do something here plz
     return None

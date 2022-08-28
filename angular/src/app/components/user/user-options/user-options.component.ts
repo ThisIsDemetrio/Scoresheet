@@ -3,7 +3,6 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { OperationReasonCode } from "src/app/models/operation-response.model";
 import { PlayerModel } from "src/app/models/player.model";
 import { AuthService } from "src/app/providers/auth.service";
-import { SideDrawerService } from "src/app/providers/side-drawer.service";
 
 const getEmptyPlayer = (): PlayerModel => {
 	return {
@@ -18,7 +17,9 @@ const getEmptyPlayer = (): PlayerModel => {
 	styleUrls: ["./user-options.component.scss"],
 })
 export class UserOptionsComponent implements OnInit {
-	// TODO: Just for fun, transform it in two Reactive Forms
+	// REACTIVE: Just for fun, transform it in two Reactive Forms
+	// LOADER: Loading management in UI
+	// ERROR: Error management in UI
 
 	originalUser: PlayerModel = getEmptyPlayer();
 	currentUser: PlayerModel = getEmptyPlayer();
@@ -27,21 +28,13 @@ export class UserOptionsComponent implements OnInit {
 	password = "";
 	repeatedPassword = "";
 
-	constructor(
-		private readonly authService: AuthService,
-		private readonly matSnackBar: MatSnackBar,
-		private readonly sidedrawerService: SideDrawerService
-	) {}
+	constructor(private readonly authService: AuthService, private readonly matSnackBar: MatSnackBar) {}
 
 	ngOnInit(): void {
 		if (!!this.authService.currentUser) {
 			this.currentUser = { ...this.authService.currentUser };
 			this.originalUser = { ...this.currentUser };
 		}
-	}
-
-	openSidedrawer(): void {
-		this.sidedrawerService.openSidedrawer();
 	}
 
 	canChangeUserInfo(): boolean {

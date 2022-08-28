@@ -11,7 +11,8 @@ import { AuthService } from "../../../providers/auth.service";
 	styleUrls: ["./signup-form.component.scss"],
 })
 export class SignupFormComponent {
-	// TODO: Just for fun, transform it in a Reactive Form
+	// REACTIVE: Just for fun, transform it in a Reactive Form
+	// LOADER: Handle loading
 	username: string = "";
 	password: string = "";
 	repeatedPassword: string = "";
@@ -43,7 +44,6 @@ export class SignupFormComponent {
 		const player: PlayerModel = {
 			id: "",
 			groups: [],
-			// TODO: Allow user to select the name and the avatar
 			name: this.username,
 		};
 

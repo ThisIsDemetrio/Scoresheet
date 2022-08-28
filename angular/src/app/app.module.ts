@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LoginComponent } from "./components/auth/login/login.component";
 import { LoginFormComponent } from "./components/auth/login-form/login-form.component";
 import { SignupFormComponent } from "./components/auth/signup-form/signup-form.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { InterceptorService } from "./providers/interceptor.service";
 import { environment } from "src/environments/environment";
@@ -18,25 +18,49 @@ import { FromAssetsPipe } from "./components/pipes/from-assets.pipe";
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 import { SideDrawerComponent } from "./components/shared/sidedrawer/sidedrawer.component";
 import { MatDialogRef } from "@angular/material/dialog";
+import { GroupListComponent } from "./components/groups/group-list.component";
+import { JoinGroupComponent } from "./components/groups/join-group/join-group.component";
+import { GroupInfoComponent } from "./components/groups/group-info/group-info.component";
+import { CreateGroupComponent } from "./components/groups/create-group/create-group.component";
+import { HeaderComponent } from "./components/shared/header/header.component";
+import { SearchGroupComponent } from "./components/shared/search-group/search-group.component";
+import { SearchPlayersComponent } from "./components/shared/search-players/search-players.component";
 
 @NgModule({
 	bootstrap: [AppComponent],
-	imports: [AppRoutingModule, BrowserAnimationsModule, FormsModule, HttpClientModule, ...ANGULAR_MATERIAL_IMPORTS],
+	imports: [
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		FormsModule,
+		HttpClientModule,
+		ReactiveFormsModule,
+		...ANGULAR_MATERIAL_IMPORTS,
+	],
 	declarations: [
 		AppComponent,
-		AvatarComponent,
 		HomeComponent,
+		// Group section
+		GroupListComponent,
+		JoinGroupComponent,
+		GroupInfoComponent,
+		CreateGroupComponent,
+		// Login section
 		LoginComponent,
 		LoginFormComponent,
-		SideDrawerComponent,
 		SignupFormComponent,
+		// Options section
 		UserOptionsComponent,
+		// Shared
+		AvatarComponent,
+		HeaderComponent,
+		SearchGroupComponent,
+		SearchPlayersComponent,
+		SideDrawerComponent,
 		// Pipes
 		FromAssetsPipe,
 	],
 	providers: [
-		// TODO: This value must be moved to environment.prod.ts and applied only while deploying
-		{ provide: ENDPOINT_URL, useValue: environment.endpoint },
+ss		{ provide: ENDPOINT_URL, useValue: environment.endpoint },
 		{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
 		{ provide: MOCK_MODE, useValue: false },
 		{ provide: MatDialogRef, useValue: {} },
