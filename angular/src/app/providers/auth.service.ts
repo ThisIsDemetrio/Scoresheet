@@ -5,7 +5,7 @@ import { Observable, tap } from "rxjs";
 import { AuthenticatedUserModel, LoginModel, SignupModel } from "../models/auth.model";
 import { OperationResponseModel } from "../models/operation-response.model";
 import { PlayerModel } from "../models/player.model";
-import { Nil, Optional } from "../models/types";
+import { Optional } from "../models/types";
 import { BrowserStorageService } from "./browser-storage.service";
 import { ENDPOINT_URL } from "./tokens";
 
