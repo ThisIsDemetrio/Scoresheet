@@ -16,7 +16,7 @@ export class InterceptorService implements HttpInterceptor {
 		}
 
 		const accessToken = this._auth.accessToken;
-		if (accessToken && accessToken.length > 0)
+		if (accessToken?.length)
 			request = request.clone({ headers: request.headers.set("Accept", "application/json") }).clone({
 				setHeaders: {
 					Authorization: `Bearer ${accessToken}`,
